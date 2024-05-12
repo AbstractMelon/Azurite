@@ -1,3 +1,33 @@
-*{
-    font-family:Arial, Helvetica, sans-serif;
+@import url('https://fonts.googleapis.com/css2?family=Kumbh+Sans:wght@100..900&display=swap');
+* {
+    font-family: "Kumbh Sans", Arial, Helvetica, sans-serif;
+}
+
+body {
+    padding: 0px;
+    margin: 0px;
+}
+
+header {
+    padding: 10px;
+    padding-left: 30px;
+    background-color: #1c1f3d;
+    color: white;
+    display: flex;
+    display: flex;
+    align-items: center;
+    position: fixed;
+    width: 100%;
+}
+
+.padding {
+    padding: 5px;
+}
+
+a, a:visited {
+    color: inherit;
+    text-decoration: underline;
+}
+a:hover, a:active {
+    text-decoration: none;
 }
