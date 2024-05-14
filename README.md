@@ -2,7 +2,8 @@
 
 # Azurite
 
-[![Version](https://img.shields.io/badge/Version-v0.3.1-blue)](https://github.com/AbstractMelon/Azurite/releases)
+[![Version](https://img.shields.io/badge/Version-v0.3.1-blue)](https://github.com/AbstractMelon/Azurite/)
+[![Contributers](https://img.shields.io/badge/Contributers-3-red)](https://github.com/AbstractMelon/Azurite/)
 [![Total lines of code in master](https://tokei.rs/b1/github/AbstractMelon/Azurite?category=lines)](https://github.com/AbstractMelon/Azurite)
 [![GitHub issues](https://img.shields.io/github/issues/AbstractMelon/Azurite)](https://github.com/AbstractMelon/Azurite/issues)
 [![GitHub commits](https://img.shields.io/github/commit-activity/m/AbstractMelon/Azurite)](https://github.com/AbstractMelon/Azurite/commits)
