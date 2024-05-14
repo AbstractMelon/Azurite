@@ -1,0 +1,42 @@
+* {
+    font-family: "Kumbh Sans", Arial, Helvetica, sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    padding-top: 60px; 
+    background-color: #222;
+    color: #fff;
+}
+
+header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: #303aba;
+    color: white;
+    padding: 10px 20px;
+    display: flex;
+    align-items: center;
+}
+
+nav {
+    margin-left: auto; 
+}
+
+nav a {
+    margin-right: 10px; 
+    color: white;
+    text-decoration: none;
+}
+
+nav a:hover {
+    text-decoration: underline;
+}
+
+h1 {
+    color: #fff;
+}
