@@ -3,9 +3,81 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Azurite</title>
+    <title>Azurite - Mod Manager</title>
     <link rel="icon" type="image/x-icon" href="./assets/images/icon.ico">
-    <link rel="stylesheet" href="./stylesheets/download.css">
+    <link rel="stylesheet" href="../stylesheets/download.css">
+    <style>
+        .container {
+            max-width: 80%;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #484848;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            margin-top: 0;
+        }
+
+        #search-bar {
+            margin-bottom: 20px;
+        }
+
+        #search {
+            padding: 8px;
+            width: 200px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+        }
+
+        #search:focus {
+            outline: none;
+            border-color: #555;
+        }
+
+        #search-btn {
+            padding: 8px 16px;
+            border: none;
+            background-color: #4CAF50;
+            color: white;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        #search-btn:hover {
+            background-color: #45a049;
+        }
+
+        #mod-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .mod-item {
+            background-color: #f9f9f9;
+            padding: 10px;
+            border-radius: 8px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .mod-item img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 4px;
+        }
+
+        .mod-title {
+            font-weight: bold;
+            margin: 10px 0;
+        }
+
+        .mod-description {
+            color: #666;
+            font-size: 14px;
+        }
+    </style>
 </head>
 <body>
     <header>
@@ -18,5 +90,55 @@
             <a href="/account">Account</a>
         </nav>
     </header>
+
+    <div class="container">
+        <h2>Search mods for {gamename}</h2>
+        <div id="search-bar">
+            <input type="text" id="search" placeholder="Search for mods...">
+            <button id="search-btn" onclick="searchMods()">Search</button>
+        </div>
+        <div id="mod-list">
+        </div>
+    </div>
+
+    <script>
+        function searchMods() {
+            const searchTerm = document.getElementById('search').value.toLowerCase();
+            const modItems = document.querySelectorAll('.mod-item');
+
+            modItems.forEach(modItem => {
+                const title = modItem.querySelector('.mod-title').innerText.toLowerCase();
+                const description = modItem.querySelector('.mod-description').innerText.toLowerCase();
+
+                if (title.includes(searchTerm) || description.includes(searchTerm)) {
+                    modItem.style.display = 'block';
+                } else {
+                    modItem.style.display = 'none';
+                }
+            });
+        }
+
+        const mods = [
+            { title: 'Mod 1', description: 'Description for Mod 1', image: './assets/mods/mod1.jpg', downloadLink: '#' },
+            { title: 'Mod 2', description: 'Description for Mod 2', image: './assets/mods/mod2.jpg', downloadLink: '#' },
+            { title: 'Mod 3', description: 'Description for Mod 3', image: './assets/mods/mod3.jpg', downloadLink: '#' },
+            { title: 'Mod 4', description: 'Description for Mod 4', image: './assets/mods/mod4.jpg', downloadLink: '#' },
+            { title: 'Mod 5', description: 'Description for Mod 5', image: './assets/mods/mod5.jpg', downloadLink: '#' },
+            { title: 'Mod 6', description: 'Description for Mod 6', image: './assets/mods/mod6.jpg', downloadLink: '#' },
+        ];
+
+        const modList = document.getElementById('mod-list');
+        mods.forEach(mod => {
+            const modItem = document.createElement('div');
+            modItem.classList.add('mod-item');
+            modItem.innerHTML = `
+                <img src="${mod.image}" alt="${mod.title}">
+                <div class="mod-title">${mod.title}</div>
+                <div class="mod-description">${mod.description}</div>
+                <a href="${mod.downloadLink}" class="download-link">Download</a>
+            `;
+            modList.appendChild(modItem);
+        });
+    </script>
 </body>
 </html>
