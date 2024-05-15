@@ -1,7 +1,8 @@
+@import url('https://fonts.googleapis.com/css2?family=Kumbh+Sans:wght@100..900&display=swap');
 body {
     background-color: #1f1f1f;
     color: #ffffff;
-    font-family: Arial, sans-serif;
+    font-family: "Kumbh Sans", Arial, sans-serif;
     text-align: center;
     padding: 50px;
     margin: 0;
@@ -25,10 +26,12 @@ p {
 a {
     color: #ffffff;
     text-decoration: none;
-    border-bottom: 1px dashed #ffffff;
-    transition: border-bottom 0.3s ease;
+    border-bottom: 1px solid #ffffff;
+    box-shadow: inset 0px 0px 0px 0px white;
+    transition: box-shadow 0.3s, color 0.3s;
 }
 
 a:hover {
-    border-bottom: 1px solid #ffffff;
+    box-shadow: inset 0px -100px 0px 0px white;
+    color: #1f1f1f;
 }

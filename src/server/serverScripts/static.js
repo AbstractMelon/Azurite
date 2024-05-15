@@ -30,4 +30,7 @@ module.exports = (app) => {
         res.sendFile(path.resolve("./src/public/html/library.html"));
     });
 
+    app.get("/logo/azuritelogo.png", (req, res) => {
+        res.sendFile(path.resolve("./src/public/assets/images/azuritelogo.png"));
+    });
 };

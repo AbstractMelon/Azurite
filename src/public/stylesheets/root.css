@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Kumbh+Sans:wght@100..900&display=swap');
 * {
     font-family: "Kumbh Sans", Arial, Helvetica, sans-serif;
     margin: 0;
@@ -27,9 +28,18 @@ nav {
     margin-left: auto; 
 }
 
-nav a {
+nav a, nav a:visited {
     margin-right: 10px; 
     color: white;
+    text-decoration: none;
+}
+
+header a, header a:visited {
+    color: white;
+    text-decoration: underline;
+}
+
+header a:hover, header a:active {
     text-decoration: none;
 }
 
@@ -39,6 +49,8 @@ nav a:hover {
 
 h1 {
     color: #fff;
+    border: none !important;
+    box-shadow: none;
 }
 
 .welcome-section {
