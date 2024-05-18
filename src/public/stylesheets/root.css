@@ -1,4 +1,23 @@
 @import url('https://fonts.googleapis.com/css2?family=Kumbh+Sans:wght@100..900&display=swap');
+@media (prefers-color-scheme: dark) {
+    :root {
+        --accent: #303aba;
+        --bgcol: #292929;
+        --bgcol2: #222222;
+        --textcol: #ffffff;
+        --textcol2: #ffffff;
+    }
+}
+
+@media (prefers-color-scheme: light) {
+    :root {
+        --accent: #303aba;
+        --bgcol: #ffffff;
+        --bgcol2: #d4d4d4;
+        --textcol: #000000;
+        --textcol2: #ffffff;
+    }
+}
 * {
     font-family: "Kumbh Sans", Arial, Helvetica, sans-serif;
     margin: 0;
@@ -7,18 +26,14 @@
 }
 
 body {
-    padding-top: 60px; 
-    background-color: #292929;
-    color: #fff;
+    background-color: var(--bgcol);
+    color: var(--textcol);
 }
 
 header {
-    position: absolute;
-    top: 0;
-    left: 0;
     width: 100%;
-    background-color: #303aba;
-    color: white;
+    background-color: var(--accent);
+    color: var(--textcol2);
     padding: 10px 20px;
     display: flex;
     align-items: center;
@@ -30,12 +45,13 @@ nav {
 
 nav a, nav a:visited {
     margin-right: 10px; 
-    color: white;
+    color: var(--textcol2);
     text-decoration: none;
+    font-size: 20px;
 }
 
 header a, header a:visited {
-    color: white;
+    color: var(--textcol2);
     text-decoration: underline;
 }
 
@@ -48,31 +64,31 @@ nav a:hover {
 }
 
 h1 {
-    color: #fff;
+    color: var(--textcol);
     border: none !important;
     box-shadow: none;
 }
 
 .welcome-section {
-    background-color: #292929;
+    background-color: var(--bgcol);
     padding: 50px;
     text-align: center;
 }
 
 .welcome-section h2 {
     font-size: 36px;
-    color: #fff;
+    color: var(--textcol);
 }
 
 .welcome-section p {
     font-size: 18px;
-    color: #ccc;
+    color: var(--textcol);
     margin-bottom: 20px;
 }
 
 .features-section {
     padding: 50px 0;
-    background-color: #222;
+    background-color: var(--bgcol2);
     text-align: center;
 }
 
@@ -85,37 +101,37 @@ h1 {
 
 .feature i {
     font-size: 50px;
-    color: #007bff;
+    color: var(--accent);
     margin-bottom: 20px;
 }
 
 .feature h3 {
     font-size: 24px;
-    color: #fff;
+    color: var(--textcol);
 }
 
 .feature p {
     font-size: 16px;
-    color: #ccc;
+    color: var(--textcol);
 }
 
 .get-started-section {
-    background-color: #292929;
+    background-color: var(--bgcol);
     padding: 50px 0;
     text-align: center;
 }
 
 .get-started-section h2 {
     font-size: 32px;
-    color: #fff;
+    color: var(--textcol);
     margin-bottom: 20px;
 }
 
 .get-started-button {
     display: inline-block;
     padding: 10px 20px;
-    background-color: #007bff;
-    color: #fff;
+    background-color: var(--accent); /* #007bff */
+    color: var(--textcol2);
     text-decoration: none;
     font-size: 18px;
     border-radius: 5px;
@@ -123,5 +139,5 @@ h1 {
 }
 
 .get-started-button:hover {
-    background-color: #0056b3;
+    background-color: var(--accent);
 }
