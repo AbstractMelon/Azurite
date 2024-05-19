@@ -15,7 +15,7 @@ module.exports = (app) => {
 
 
     app.get("/downloads", (req, res) => {
-        res.sendFile(path.resolve("./src/public/html/download.html"));
+        res.sendFile(path.resolve("./src/public/html/downloads/download.html"));
     });
 
     app.get("/account", (req, res) => {
