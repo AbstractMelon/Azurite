@@ -5,7 +5,13 @@
   "main": "index.js",
   "scripts": {
     "test": "nodemon index.js",
-    "dev": "nodemon ./src/server/server.js --ignore *.json"
+    "dev": "nodemon ./src/server/server.js --ignore *.json",
+    "start": "pm2 start ./src/server/server.js --name azurite",
+    "stop": "pm2 stop azurite",
+    "restart": "pm2 restart azurite",
+    "lint": "eslint './src/**/*.js'",
+    "format": "prettier --write './src/**/*.js'",
+    "clean": "rm -rf ./dist"
   },
   "author": "",
   "license": "ISC",
@@ -15,6 +21,11 @@
     "helmet": "^7.1.0",
     "mongoose": "^8.3.4",
     "morgan": "^1.10.0",
-    "nodemon": "^3.1.0"
+    "nodemon": "^3.1.0",
+    "pm2": "^5.2.0"
+  },
+  "devDependencies": {
+    "eslint": "^8.39.0",
+    "prettier": "^3.0.0"
   }
 }
