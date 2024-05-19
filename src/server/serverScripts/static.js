@@ -23,7 +23,7 @@ module.exports = (app) => {
     });
 
     app.get("/games", (req, res) => {
-        res.sendFile(path.resolve("./src/public/html/games.html"));
+        res.sendFile(path.resolve("./src/public/html/games/games.html"));
     });
 
     app.get("/library", (req, res) => {

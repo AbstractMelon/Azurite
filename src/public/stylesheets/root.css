@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Kumbh+Sans:wght@100..900&display=swap');
+
 * {
     font-family: "Kumbh Sans", Arial, Helvetica, sans-serif;
     margin: 0;
@@ -22,65 +23,66 @@ header {
     padding: 10px 20px;
     display: flex;
     align-items: center;
+    z-index: 1000;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
-
 nav {
-    margin-left: auto; 
+    margin-left: auto;
 }
-
 nav a, nav a:visited {
-    margin-right: 10px; 
+    margin-right: 20px;
     color: white;
     text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s ease, text-decoration 0.3s ease;
+    font-size: 16px;
 }
-
 header a, header a:visited {
     color: white;
     text-decoration: underline;
+    transition: text-decoration 0.3s ease;
 }
-
-header a:hover, header a:active {
+header a:hover, header a:active, nav a:hover {
     text-decoration: none;
+    color: #ffd700;
+}
+header img {
+    height: 50px;
+    margin-right: 20px;
 }
 
-nav a:hover {
-    text-decoration: underline;
-}
-
-h1 {
+h1, h2, h3 {
     color: #fff;
-    border: none !important;
-    box-shadow: none;
+    margin-bottom: 20px;
 }
 
 .welcome-section {
     background-color: #292929;
-    padding: 50px;
+    padding: 100px 50px;
     text-align: center;
 }
 
 .welcome-section h2 {
     font-size: 36px;
-    color: #fff;
 }
 
 .welcome-section p {
     font-size: 18px;
     color: #ccc;
-    margin-bottom: 20px;
 }
 
 .features-section {
-    padding: 50px 0;
+    padding: 50px 20px;
     background-color: #222;
     text-align: center;
 }
 
 .feature {
     display: inline-block;
-    width: 30%;
-    margin: 0 2%;
+    width: calc(33.333% - 40px);
+    margin: 20px;
     vertical-align: top;
+    text-align: center;
 }
 
 .feature i {
@@ -91,7 +93,6 @@ h1 {
 
 .feature h3 {
     font-size: 24px;
-    color: #fff;
 }
 
 .feature p {
@@ -101,14 +102,8 @@ h1 {
 
 .get-started-section {
     background-color: #292929;
-    padding: 50px 0;
+    padding: 50px 20px;
     text-align: center;
-}
-
-.get-started-section h2 {
-    font-size: 32px;
-    color: #fff;
-    margin-bottom: 20px;
 }
 
 .get-started-button {
