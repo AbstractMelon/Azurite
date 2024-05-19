@@ -12,6 +12,7 @@ main {
 .game-card {
     background-color: #383838;
     border-radius: 10px;
+    cursor: pointer;
     overflow: hidden;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
@@ -24,8 +25,9 @@ main {
 
 .game-card img {
     width: 100%;
-    height: auto;
+    height: auto; 
 }
+
 
 .game-card h2 {
     font-size: 1.5em;
@@ -36,4 +38,10 @@ main {
     font-size: 1em;
     margin: 10px;
     color: #ccc;
+}
+
+.game-card a {
+    display: block;
+    text-decoration: none;
+    color: inherit;
 }

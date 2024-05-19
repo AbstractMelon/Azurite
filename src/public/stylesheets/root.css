@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Kumbh+Sans:wght@100..900&display=swap');
 @media (prefers-color-scheme: dark) {
     :root {
-        --accent: #303aba;
+        --accent: #3975e5;
         --bgcol: #292929;
         --bgcol2: #222222;
         --textcol: #ffffff;
@@ -11,7 +11,7 @@
 
 @media (prefers-color-scheme: light) {
     :root {
-        --accent: #303aba;
+        --accent: #00fffb;
         --bgcol: #ffffff;
         --bgcol2: #d4d4d4;
         --textcol: #000000;
