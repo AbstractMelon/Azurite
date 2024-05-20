@@ -1,6 +1,6 @@
 .mod-manager-section {
     max-width: 800px;
-    margin: 50px auto;
+    margin: 20px auto;
     padding: 20px;
     background-color: var(--bgcol2);
     border-radius: 10px;
@@ -37,5 +37,5 @@
 }
 
 .download-button:hover {
-    background-color: #3030ba; 
+    background-color: #48ddff; 
 }
