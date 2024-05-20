@@ -1,7 +1,6 @@
 const express = require("express");
 const path = require("path");
 
-
 const gameNames = ["bopl-battle", "game2", "game3"];
 
 /**
