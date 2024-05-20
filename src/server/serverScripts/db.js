@@ -1,33 +1,24 @@
+const fs = require("fs")
+const path = require("path")
+const fsUtils = require("../../utils/file.js")
+const dbPath = path.resolve("./src/database")
+
+
+function generateGame(name="Joe",description="Even better than Joe Classic!",id="joe",image="../../assets/images/games/joe.png"){
+    fsUtils.makeDir(path.join(dbPath,"games/"+id))
+    fsUtils.makeFile(path.join(dbPath,"games/"+id,"/manifest.json"),{
+        name,description,id,image
+    })
+}
+
 /**
  * 
  * @param {express.Application} app 
  */
 module.exports = (app) => {
-    // app.use(express.static(path.resolve("./src/public")));
+    fsUtils.makeDir(dbPath)
+    fsUtils.makeDir(path.join(dbPath,"users"))
+    fsUtils.makeDir(path.join(dbPath,"games"))
 
-    // // Route for /mod-manager
-    // app.get("/mod-manager", (req, res) => {
-    //     res.sendFile(path.resolve("./src/public/html/modmanager.html"));
-    // });
-
-
-    // app.get("/downloads", (req, res) => {
-    //     res.sendFile(path.resolve("./src/public/html/downloads/download.html"));
-    // });
-
-    // app.get("/account", (req, res) => {
-    //     res.sendFile(path.resolve("./src/public/html/account/index.html"));
-    // });
-
-    // app.get("/games", (req, res) => {
-    //     res.sendFile(path.resolve("./src/public/html/games/games.html"));
-    // });
-
-    // app.get("/library", (req, res) => {
-    //     res.sendFile(path.resolve("./src/public/html/library.html"));
-    // });
-
-    // app.get("/logo/azuritelogo.png", (req, res) => {
-    //     res.sendFile(path.resolve("./src/public/assets/images/azuritelogo.png"));
-    // });
+    generateGame()
 };
