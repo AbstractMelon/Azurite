@@ -1,6 +1,6 @@
 (async()=>{
     const gameListEl = document.getElementById("games-list-main")
-    function addGame(name="Joe",description="Even better than Joe Classic!",id="joe",image="../../assets/images/games/boplbattle.png"){
+    function addGame(name="Joe",description="Even better than Joe Classic!",id="joe",image="../../assets/images/games/joe.png"){
         var gameCard = document.createElement("div")
         gameCard.innerHTML = `<a href="/games/bopl-battle">
             <img src="../../assets/images/games/boplbattle.png" alt="Bopl Battle">
