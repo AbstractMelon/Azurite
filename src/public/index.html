@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Azurite - Your Ultimate Modding Destination</title>
+    <title>Azurite - Homepage</title>
     <link rel="icon" type="image/x-icon" href="./assets/images/icon.ico">
     <link rel="stylesheet" href="./stylesheets/homepage.css">
     <link rel="stylesheet" href="./stylesheets/root.css">
@@ -19,6 +19,18 @@
             <a href="/mod-manager">Mod Manager</a>
             <a href="/account">Account</a>
         </nav>
+        <div class="hamburger" onclick="toggleMobileNav()">
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+        <div class="mobile-nav" id="mobile-nav">
+            <a href="/">Home</a>
+            <a href="/games">Games</a>
+            <a href="/library">Library</a>
+            <a href="/mod-manager">Mod Manager</a>
+            <a href="/account">Account</a>
+        </div>
     </header>
     <div style="padding-top: 5px;">
 
@@ -56,32 +68,13 @@
         </div>
     </section>
 
-    <!--
-    <section class="mod-box-section">
-        <div class="container">
-            <h2>Featured Mods</h2>
-            <div class="mod-box">
-                <div class="mod-item">
-                    <img src="./assets/images/mod1.jpg" alt="Mod 1">
-                    <h4>Mod 1</h4>
-                    <p>Description of Mod 1</p>
-                </div>
-                <div class="mod-item">
-                    <img src="./assets/images/mod2.jpg" alt="Mod 2">
-                    <h4>Mod 2</h4>
-                    <p>Description of Mod 2</p>
-                </div>
-                <div class="mod-item">
-                    <img src="./assets/images/mod3.jpg" alt="Mod 3">
-                    <h4>Mod 3</h4>
-                    <p>Description of Mod 3</p>
-                </div>
-            </div>
-        </div>
-    </section>
-    -->
-
     <!-- Font Awesome -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/js/all.min.js"></script>
+    <script>
+        function toggleMobileNav() {
+            document.getElementById('mobile-nav').classList.toggle('show');
+            document.querySelector('.hamburger').classList.toggle('active');
+        }
+    </script>
 </body>
 </html>
