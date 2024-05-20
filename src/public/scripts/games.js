@@ -3,14 +3,17 @@
     function addGame(name="Joe",description="Even better than Joe Classic!",id="joe",image="../../assets/images/games/boplbattle.png"){
         var gameCard = document.createElement("div")
         gameCard.innerHTML = `<a href="/games/bopl-battle">
-        <img src="../../assets/images/games/boplbattle.png" alt="Bopl Battle">
-        <h2>Bopl Battle</h2>
-        <p>Bopl Battle is a couch/online platform fighter game focused around battling your friends and combining unique and wild abilities together. </p>
-    </a>`
-    gameCard.querySelector("img").src = image
-    gameCard.querySelector("a").href = "/games/"+id
-    gameCard.querySelector("h2").textContent = name
-    gameCard.querySelector("p").textContent = description
+            <img src="../../assets/images/games/boplbattle.png" alt="Bopl Battle">
+            <h2>Bopl Battle</h2>
+            <p>Bopl Battle is a couch/online platform fighter game focused around battling your friends and combining unique and wild abilities together. </p>
+        </a>`
+        gameCard.classList.add("game-card")
+        gameCard.querySelector("img").src = image
+        gameCard.querySelector("a").href = "/games/"+id
+        gameCard.querySelector("h2").textContent = name
+        gameCard.querySelector("p").textContent = description
+
+        gameListEl.appendChild(gameCard)
     }
     addGame()
 })()
