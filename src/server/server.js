@@ -20,7 +20,15 @@ const headerHTML = `
 `;
 
 app.use(morgan('dev'));
-app.use(helmet());
+
+app.use(helmet({
+    contentSecurityPolicy: {
+        directives: {
+            defaultSrc: ["'self'"],
+            scriptSrc: ["'self'", "'unsafe-inline'"],
+        },
+    },
+}));
 
 app.use((req, res, next) => {
     res.injectHeader = (content) => {

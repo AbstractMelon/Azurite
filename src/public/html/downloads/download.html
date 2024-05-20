@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Azurite - Mod Manager</title>
-    <link rel="icon" type="image/x-icon" href="./assets/images/icon.ico">
+    <title>Azurite - Downloads</title>
+    <link rel="icon" type="image/x-icon" href="/assets/images/icon.ico">
     <link rel="stylesheet" href="../stylesheets/download.css">
     <link rel="stylesheet" href="../stylesheets/root.css">
 </head>
@@ -19,90 +19,47 @@
             <a href="/account">Account</a>
         </nav>
     </header>
-    <div class="container">
-        <h1>Download Mods</h1>
-        <div class="mod-list">
-            <div class="mod-item">
-                <img src="../../assets/images/mod1.png" alt="Mod Image">
-                <div class="mod-info">
-                    <h2>Mod Title 1</h2>
-                    <p>A brief description of what Mod 1 does. Highlight its main features and benefits.</p>
-                    <a href="./downloads/mod1.zip" class="download-button">Download</a>
-                </div>
-            </div>
-            <div class="mod-item">
-                <img src="../../assets/images/mod2.png" alt="Mod Image">
-                <div class="mod-info">
-                    <h2>Mod Title 2</h2>
-                    <p>A brief description of what Mod 2 does. Highlight its main features and benefits.</p>
-                    <a href="./downloads/mod2.zip" class="download-button">Download</a>
-                </div>
-            </div>
-            <div class="mod-item">
-                <img src="../../assets/images/mod3.png" alt="Mod Image">
-                <div class="mod-info">
-                    <h2>Mod Title 3</h2>
-                    <p>A brief description of what Mod 3 does. Highlight its main features and benefits.</p>
-                    <a href="./downloads/mod3.zip" class="download-button">Download</a>
-                </div>
-            </div>
-            <div class="mod-item">
-                <img src="../../assets/images/mod1.png" alt="Mod Image">
-                <div class="mod-info">
-                    <h2>Mod Title 4</h2>
-                    <p>A brief description of what Mod 1 does. Highlight its main features and benefits.</p>
-                    <a href="./downloads/mod1.zip" class="download-button">Download</a>
-                </div>
-            </div>
-            <div class="mod-item">
-                <img src="../../assets/images/mod1.png" alt="Mod Image">
-                <div class="mod-info">
-                    <h2>Mod Title 5</h2>
-                    <p>A brief description of what Mod 1 does. Highlight its main features and benefits.</p>
-                    <a href="./downloads/mod1.zip" class="download-button">Download</a>
-                </div>
-            </div>
-            <div class="mod-item">
-                <img src="../../assets/images/mod1.png" alt="Mod Image">
-                <div class="mod-info">
-                    <h2>Mod Title 6</h2>
-                    <p>A brief description of what Mod 1 does. Highlight its main features and benefits.</p>
-                    <a href="./downloads/mod1.zip" class="download-button">Download</a>
-                </div>
-            </div>
-            <div class="mod-item">
-                <img src="../../assets/images/mod2.png" alt="Mod Image">
-                <div class="mod-info">
-                    <h2>Mod Title 7</h2>
-                    <p>A brief description of what Mod 2 does. Highlight its main features and benefits.</p>
-                    <a href="./downloads/mod2.zip" class="download-button">Download</a>
-                </div>
-            </div>
-            <div class="mod-item">
-                <img src="../../assets/images/mod3.png" alt="Mod Image">
-                <div class="mod-info">
-                    <h2>Mod Title 8</h2>
-                    <p>A brief description of what Mod 3 does. Highlight its main features and benefits.</p>
-                    <a href="./downloads/mod3.zip" class="download-button">Download</a>
-                </div>
-            </div>
-            <div class="mod-item">
-                <img src="../../assets/images/mod1.png" alt="Mod Image">
-                <div class="mod-info">
-                    <h2>Mod Title 9</h2>
-                    <p>A brief description of what Mod 1 does. Highlight its main features and benefits.</p>
-                    <a href="./downloads/mod1.zip" class="download-button">Download</a>
-                </div>
-            </div>
-            <div class="mod-item">
-                <img src="../../assets/images/mod1.png" alt="Mod Image">
-                <div class="mod-info">
-                    <h2>Mod Title 10</h2>
-                    <p>A brief description of what Mod 1 does. Highlight its main features and benefits.</p>
-                    <a href="./downloads/mod1.zip" class="download-button">Download</a>
-                </div>
+
+    <template id="mod-item-template">
+        <div class="mod-item">
+            <img src="{image}" alt="Mod Image">
+            <div class="mod-info">
+                <h2>{title}</h2>
+                <p>{description}</p>
+                <a href="{downloadLink}" class="download-button">Download</a>
             </div>
         </div>
+    </template>
+
+    <div id="header-container"></div>
+    <div class="container">
+        <h1>Download Mods</h1>
+        <div class="mod-list" id="mod-list"></div>
     </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            loadMods();
+        });
+
+        function loadMods() {
+            const mods = [
+                { image: "../../assets/images/mod1.png", title: "Mod Title 1", description: "A brief description of what Mod 1 does. Highlight its main features and benefits.", downloadLink: "./downloads/mod1.zip" },
+                { image: "../../assets/images/mod2.png", title: "Mod Title 2", description: "A brief description of what Mod 2 does. Highlight its main features and benefits.", downloadLink: "./downloads/mod2.zip" },
+            ];
+
+            mods.forEach(mod => {
+                const modTemplate = document.getElementById('mod-item-template').innerHTML
+                    .replace('{image}', mod.image)
+                    .replace('{title}', mod.title)
+                    .replace('{description}', mod.description)
+                    .replace('{downloadLink}', mod.downloadLink);
+
+                const modElement = document.createElement('div');
+                modElement.innerHTML = modTemplate;
+                document.getElementById('mod-list').appendChild(modElement);
+            });
+        }
+    </script>
 </body>
 </html>
