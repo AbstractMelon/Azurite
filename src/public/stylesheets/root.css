@@ -1,4 +1,13 @@
 @import url('https://fonts.googleapis.com/css2?family=Kumbh+Sans:wght@100..900&display=swap');
+
+:root {
+    --accent: #0055ff;
+    --bgcol: #ffffff;
+    --bgcol2: #d4d4d4;
+    --textcol: #000000;
+    --textcol2: #ffffff;
+}
+
 @media (prefers-color-scheme: dark) {
     :root {
         --accent: #3975e5;
@@ -11,13 +20,14 @@
 
 @media (prefers-color-scheme: light) {
     :root {
-        --accent: #00fffb;
+        --accent: #0055ff;
         --bgcol: #ffffff;
         --bgcol2: #d4d4d4;
         --textcol: #000000;
         --textcol2: #ffffff;
     }
 }
+
 * {
     font-family: "Kumbh Sans", Arial, Helvetica, sans-serif;
     margin: 0;
@@ -37,34 +47,110 @@ header {
     padding: 10px 20px;
     display: flex;
     align-items: center;
+    justify-content: space-between;
     z-index: 1000;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    position: relative;
+    overflow: hidden;
 }
-nav {
-    margin-left: auto;
-}
-nav a, nav a:visited {
-    margin-right: 10px; 
-    color: var(--textcol2);
-    text-decoration: none;
-    font-size: 20px;
-}
-header a, header a:visited {
-    color: var(--textcol2);
-    text-decoration: underline;
-    transition: text-decoration 0.3s ease;
-}
-header a:hover, header a:active, nav a:hover {
-    text-decoration: none;
-    color: #ffd700;
-}
+
 header img {
     height: 50px;
     margin-right: 20px;
+    transition: transform 0.3s ease;
 }
 
-h1 {
+header img:hover {
+    transform: scale(1.1);
+}
+
+nav {
+    display: flex;
+    align-items: center;
+}
+
+nav a, nav a:visited {
+    margin-right: 10px;
+    color: var(--textcol2);
+    text-decoration: none;
+    font-size: 20px;
+    transition: color 0.3s ease;
+}
+
+nav a:hover, nav a:active, header a:hover, header a:active {
+    color: #ffd700;
+    text-decoration: none;
+}
+
+.hamburger {
+    display: none;
+    cursor: pointer;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.hamburger div {
+    width: 25px;
+    height: 3px;
+    background-color: var(--textcol2);
+    margin: 4px 0;
+    transition: 0.4s;
+}
+
+.hamburger.active div:nth-child(1) {
+    transform: rotate(-45deg) translate(-5px, 6px);
+}
+
+.hamburger.active div:nth-child(2) {
+    opacity: 0;
+}
+
+.hamburger.active div:nth-child(3) {
+    transform: rotate(45deg) translate(-5px, -6px);
+}
+
+.mobile-nav {
+    display: none;
+    flex-direction: column;
+    position: absolute;
+    top: 60px;
+    right: 20px;
+    background-color: var(--bgcol);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    padding: 10px;
+    z-index: 1001;
+}
+
+.mobile-nav a {
+    margin: 10px 0;
     color: var(--textcol);
-    border: none !important;
-    box-shadow: none;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.mobile-nav a:hover {
+    color: var(--accent);
+}
+
+.mobile-nav.show {
+    display: flex;
+}
+
+@media (max-width: 768px) {
+    .hamburger {
+        display: flex;
+    }
+
+    nav {
+        display: none;
+    }
+
+    .mobile-nav {
+        display: none;
+    }
+
+    .mobile-nav.show {
+        display: flex;
+    }
 }

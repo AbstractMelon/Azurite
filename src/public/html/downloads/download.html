@@ -18,6 +18,20 @@
             <a href="/mod-manager">Mod Manager</a>
             <a href="/account">Account</a>
         </nav>
+        <div class="hamburger" onclick="toggleMobileNav()">
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+        <!--
+        <div class="mobile-nav" id="mobile-nav">
+            <a href="/">Home</a>
+            <a href="/games">Games</a>
+            <a href="/library">Library</a>
+            <a href="/mod-manager">Mod Manager</a>
+            <a href="/account">Account</a>
+        </div>
+        -->
     </header>
 
     <template id="mod-item-template">
@@ -44,8 +58,8 @@
 
         function loadMods() {
             const mods = [
-                { image: "../../assets/images/mod1.png", title: "Mod Title 1", description: "A brief description of what Mod 1 does. Highlight its main features and benefits.", downloadLink: "./downloads/mod1.zip" },
-                { image: "../../assets/images/mod2.png", title: "Mod Title 2", description: "A brief description of what Mod 2 does. Highlight its main features and benefits.", downloadLink: "./downloads/mod2.zip" },
+                { image: "../../assets/images/mods/notfound.png", title: "Mod Title 1", description: "A brief description of what Mod 1 does. Highlight its main features and benefits.", downloadLink: "./downloads/mod1.zip" },
+                { image: "../../assets/images/mods/notfound.png", title: "Mod Title 2", description: "A brief description of what Mod 2 does. Highlight its main features and benefits.", downloadLink: "./downloads/mod2.zip" },
             ];
 
             mods.forEach(mod => {
@@ -59,6 +73,12 @@
                 modElement.innerHTML = modTemplate;
                 document.getElementById('mod-list').appendChild(modElement);
             });
+        }
+    </script>
+    <script>
+        function toggleMobileNav() {
+            const mobileNav = document.getElementById('mobile-nav');
+            mobileNav.classList.toggle('show');
         }
     </script>
 </body>
