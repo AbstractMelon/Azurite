@@ -16,8 +16,11 @@
         gameListEl.appendChild(gameCard)
     }
     
+    const searchParams = new URLSearchParams(window.location.search);
+    let searchValue = searchParams.get("search")
     let games = await (await fetch("/api/v1/getGames")).json()
+    
     Object.values(games).forEach(game=>{
-        addGame(game)
+        if(game.name.toLowerCase().includes(searchValue.toLowerCase()))addGame(game)
     })
 })()
