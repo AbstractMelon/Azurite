@@ -67,7 +67,6 @@ module.exports = (app) => {
             res.status(404).sendFile(path.join(__dirname, '../public/404.html'));
             return
         }
-        console.log("m")
         res.sendFile(path.resolve("src/public/html/games/game.html"))
     })
 };
