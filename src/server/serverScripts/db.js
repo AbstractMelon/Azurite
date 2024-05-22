@@ -24,8 +24,12 @@ function getGames(){
     var games = files.map(e=>{
         return JSON.parse(fs.readFileSync(path.join(dbPath,"/games/",e,"/manifest.json"),"utf-8"))
     })
+    var gamesObj = {}
+    games.forEach(e=>{
+        gamesObj[e.id] = e
+    })
 
-    return games
+    return gamesObj
 }
 
 /**
@@ -50,5 +54,20 @@ module.exports = (app) => {
 
     app.get("/api/v1/getGames",(req,res)=>{
         res.json(games)
+    })
+
+
+    app.use((req,res,next)=>{
+        if(!req.path.startsWith("/games/")){
+            next()
+            return
+        }
+        let game = req.path.replace("/games/","")
+        if(!games[game]){
+            res.status(404).sendFile(path.join(__dirname, '../public/404.html'));
+            return
+        }
+        console.log("m")
+        res.sendFile(path.resolve("src/public/html/games/game.html"))
     })
 };

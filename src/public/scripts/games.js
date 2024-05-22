@@ -17,7 +17,7 @@
     }
     
     let games = await (await fetch("/api/v1/getGames")).json()
-    games.forEach(game=>{
+    Object.values(games).forEach(game=>{
         addGame(game)
     })
 })()
