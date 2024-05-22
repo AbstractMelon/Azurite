@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Azurite - Homepage</title>
+    <link rel="icon" type="image/x-icon" href="./assets/images/icon.ico">
+    <link rel="stylesheet" href="./stylesheets/homepage.css">
+    <link rel="stylesheet" href="./stylesheets/root.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+<body>
+    <header>
+        <a href="/"><img src="/logo/azuritelogo.png" alt="Azurite Logo"></a>
+        <nav>
+            <a href="/">Home</a>
+            <a href="/games">Games</a>
+            <a href="/library">Library</a>
+            <a href="/mod-manager">Mod Manager</a>
+            <a href="/account">Account</a>
+        </nav>
+        <div class="hamburger" onclick="toggleMobileNav()">
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+        <div class="mobile-nav" id="mobile-nav">
+            <a href="/">Home</a>
+            <a href="/games">Games</a>
+            <a href="/library">Library</a>
+            <a href="/mod-manager">Mod Manager</a>
+            <a href="/account">Account</a>
+        </div>
+    </header>
+    <div style="padding-top: 5px;">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/js/all.min.js"></script>
+    <script>
+        function toggleMobileNav() {
+            document.getElementById('mobile-nav').classList.toggle('show');
+            document.querySelector('.hamburger').classList.toggle('active');
+        }
+    </script>
+</body>
+</html>

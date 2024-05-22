@@ -9,12 +9,13 @@ const morgan = require('morgan');
 app.use(morgan('dev'));
 
 app.use(helmet({
-    contentSecurityPolicy: {
-        directives: {
-            defaultSrc: ["'self'"],
-            scriptSrc: ["'self'", "'unsafe-inline'"],
-        },
-    },
+  contentSecurityPolicy: {
+      directives: {
+          defaultSrc: ["'self'"],
+          scriptSrc: ["'self'", "'unsafe-inline'"],
+          scriptSrcAttr: ["'self'", "'unsafe-inline'"]
+      },
+  },
 }));
 
 var scripts = fs.readdirSync("./src/server/serverScripts").filter(e => e.endsWith(".js"));

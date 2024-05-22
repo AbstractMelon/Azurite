@@ -96,6 +96,7 @@ nav a:hover, nav a:active, header a:hover, header a:active {
     background-color: var(--textcol2);
     margin: 4px 0;
     transition: 0.4s;
+    z-index: 1;
 }
 
 .hamburger.active div:nth-child(1) {
