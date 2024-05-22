@@ -9,6 +9,7 @@ const quickFiles = {
     "/games":path.resolve("./src/public/html/games/games.html"),
     "/library":path.resolve("./src/public/html/library.html"),
     "/testing":path.resolve("./src/public/testing.html"),
+    "/login":path.resolve("./src/public/login.html"),
     "/logo/azuritelogo.png":path.resolve("./src/public/assets/images/azuritelogo.png")
 }
 /**
