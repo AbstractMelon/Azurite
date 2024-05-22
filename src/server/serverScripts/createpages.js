@@ -1,7 +1,7 @@
 const express = require("express");
 const path = require("path");
 
-const gameNames = ["bopl-battle", "game2", "game3"];
+const gameNames = ["game1", "game2", "game3"];
 
 /**
  * @param {express.Application} app

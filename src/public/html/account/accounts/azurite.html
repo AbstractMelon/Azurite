@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Profile Page</title>
+    <title>Mod Maker Profile - Azurite</title>
     <link rel="icon" type="image/x-icon" href="/assets/images/icon.ico">
-    <link rel="stylesheet" href="/stylesheets/profilespage.css">
+    <link rel="stylesheet" href="/stylesheets/profile.css"> <!-- You can create a separate CSS file for profile styles -->
     <link rel="stylesheet" href="/stylesheets/root.css">
 </head>
 <body>
@@ -34,20 +34,21 @@
     </div>
 
     <div class="profile-container">
-        <div class="search-bar">
-            <input type="text" id="search-input" placeholder="Search profiles...">
-            <button onclick="searchProfiles()">Search</button>
+        <div class="profile-header">
+            <img src="../../assets/images/minazuritelogo.png" alt="Profile Picture">
+            <h1>Azurite's Profile</h1>
+            <p>Creator of Awesome Mods and this website!</p>
         </div>
-        <div class="profile-grid">
-            <div class="profile-icon">
-                <img src="/assets/profiles/profile1.jpg" alt="Profile 1">
-            </div>
-            <div class="profile-icon">
-                <img src="/assets/profiles/profile2.jpg" alt="Profile 2">
-            </div>
-            <div class="profile-icon">
-                <img src="/assets/profiles/profile3.jpg" alt="Profile 3">
-            </div>
+        <div class="profile-details">
+            <h2>About Me</h2>
+            <p>Hi, I am azurite. I am the maker of this site! This account represents the team that made azurite!</p>
+            <br>
+            <h2>Credits</h2>
+            <ul>
+                <li>Lead dev: AbstractMelon</li>
+                <li>Backend and secondary dev: UnluckyCrafter</li>
+                <li>CSS and extra help: ReallyBadDev</li>
+            </ul>
         </div>
     </div>
 
@@ -55,11 +56,6 @@
         function toggleMobileNav() {
             const mobileNav = document.getElementById('mobile-nav');
             mobileNav.classList.toggle('show');
-        }
-
-        function searchProfiles() {
-            const searchTerm = document.getElementById('search-input').value;
-            console.log('Searching for:', searchTerm);
         }
     </script>
 </body>
