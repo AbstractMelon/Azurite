@@ -17,7 +17,7 @@
     }
     
     const searchParams = new URLSearchParams(window.location.search);
-    let searchValue = searchParams.get("search")
+    let searchValue = searchParams.get("search")||""
     let games = await (await fetch("/api/v1/getGames")).json()
     
     Object.values(games).forEach(game=>{
