@@ -35,34 +35,89 @@
 
     <div class="profile-container">
         <div class="search-bar">
-            <form id="search-form">
+            <form id="search-form" onsubmit="searchProfiles(event)">
                 <input type="text" id="search-input" name="search" placeholder="Search profiles...">
                 <button type="submit">Search</button>
             </form>
         </div>
-        <div class="profile-grid">
-            <div class="profile-icon">
-                <img src="../../assets/images/abstractpfp.png" alt="Profile 1">
-            </div>
-            <div class="profile-icon">
-                <img src="../../assets/images/minazuritelogo.png" alt="Profile 2">
-            </div>
-            <div class="profile-icon">
-                <img src="../../assets/images/games/joe.png" alt="Profile 3">
-            </div>
+        <div class="profile-grid" id="profile-grid">
         </div>
     </div>
 
     <script>
+        async function fetchAccounts() {
+            try {
+                const response = await fetch('/api/v1/getAccounts');
+                if (!response.ok) {
+                    throw new Error('Failed to fetch accounts');
+                }
+                return await response.json();
+            } catch (error) {
+                console.error('Error fetching accounts:', error.message);
+                return [];
+            }
+        }
+
+        async function displayAccounts() {
+            const accounts = await fetchAccounts();
+            const profileGrid = document.getElementById('profile-grid');
+
+            profileGrid.innerHTML = ''; 
+
+            accounts.forEach(account => {
+                const profileIcon = document.createElement('div');
+                profileIcon.classList.add('profile-icon');
+
+                const profileLink = document.createElement('a');
+                profileLink.href = `/user/${account.username}`;
+                profileLink.title = account.username;
+
+                const profileImage = document.createElement('img');
+                profileImage.src = account.profilePicture;
+                profileImage.alt = account.username;
+
+                profileLink.appendChild(profileImage);
+                profileIcon.appendChild(profileLink);
+                profileGrid.appendChild(profileIcon);
+            });
+        }
+
         function toggleMobileNav() {
             const mobileNav = document.getElementById('mobile-nav');
             mobileNav.classList.toggle('show');
         }
 
-        function searchProfiles() {
-            const searchTerm = document.getElementById('search-input').value;
-            console.log('Searching for:', searchTerm);
+        async function searchProfiles(event) {
+            event.preventDefault();
+            const searchTerm = document.getElementById('search-input').value.toLowerCase();
+            const accounts = await fetchAccounts();
+            const filteredAccounts = accounts.filter(account => account.username.toLowerCase().includes(searchTerm));
+            displayFilteredAccounts(filteredAccounts);
         }
+
+        function displayFilteredAccounts(filteredAccounts) {
+            const profileGrid = document.getElementById('profile-grid');
+            profileGrid.innerHTML = '';
+
+            filteredAccounts.forEach(account => {
+                const profileIcon = document.createElement('div');
+                profileIcon.classList.add('profile-icon');
+
+                const profileLink = document.createElement('a');
+                profileLink.href = `/user/${account.username}`;
+                profileLink.title = account.username;
+
+                const profileImage = document.createElement('img');
+                profileImage.src = account.profilePicture;
+                profileImage.alt = account.username;
+
+                profileLink.appendChild(profileImage);
+                profileIcon.appendChild(profileLink);
+                profileGrid.appendChild(profileIcon);
+            });
+        }
+
+        displayAccounts();
     </script>
 </body>
 </html>

@@ -5,7 +5,7 @@ const fsUtils = require("../../utils/file.js");
 const { createAccount, accountExists } = require("../../utils/accounts.js");
 
 const dbPath = path.resolve("./src/database");
-const accountsPath = path.join(dbPath, "users");
+const accountsPath = path.join(dbPath, "accounts");
 
 function generateGame(gameData) {
     const { name, description, id, image } = gameData;

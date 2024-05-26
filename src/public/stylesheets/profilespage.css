@@ -26,15 +26,20 @@
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.3s ease;
+    margin-left: 10px; 
 }
 
 .search-bar button:hover {
     background-color: #0056b3;
 }
 
+.profile-container {
+    padding: 0 20px; 
+}
+
 .profile-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); 
     grid-gap: 20px;
     justify-items: center;
 }
