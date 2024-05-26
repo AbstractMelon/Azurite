@@ -12,14 +12,27 @@
         gameListEl.appendChild(gameCard);
     }
 
-    const searchParams = new URLSearchParams(window.location.search);
-    let searchValue = searchParams.get("search") || "";
+    const searchInput = document.getElementById("search-input");
+    const searchForm = document.getElementById("search-form");
 
     let games = await (await fetch("/api/v1/getGames")).json();
 
-    Object.values(games).forEach(game => {
-        if (game.name.toLowerCase().includes(searchValue.toLowerCase())) {
-            addGame(game);
-        }
+    function searchGames() {
+        const searchValue = searchInput.value.toLowerCase();
+        gameListEl.innerHTML = ""; 
+        Object.values(games).forEach(game => {
+            if (game.name.toLowerCase().includes(searchValue)) {
+                addGame(game);
+            }
+        });
+    }
+
+    searchGames();
+
+    searchInput.addEventListener("input", searchGames);
+
+    searchForm.addEventListener("submit", (e) => {
+        e.preventDefault();
+        searchGames();
     });
 })();
