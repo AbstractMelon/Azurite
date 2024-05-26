@@ -72,12 +72,48 @@
 </head>
 <body>
   <div class="container">
-    <h1>Azurite login</h1>
-    <form action="#">
-      <input type="text" placeholder="Username" required>
-      <input type="password" placeholder="Password" required>
-      <input type="submit" value="Login">
+    <h1>Create Account</h1>
+    <div id="errorMessage" style="color: red; display: none;"></div>
+    <form id="createAccountForm">
+      <input type="text" id="username" placeholder="Username" required>
+      <input type="password" id="password" placeholder="Password" required>
+      <button type="button" onclick="createAccount()">Create Account</button>
     </form>
   </div>
+
+  <script>
+    async function createAccount() {
+      const username = document.getElementById('username').value;
+      const password = document.getElementById('password').value;
+
+      const jsonData = {
+        username,
+        password
+      };
+
+      try {
+        const response = await fetch('/api/v1/createAccount', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(jsonData)
+        });
+
+        if (!response.ok) {
+          const errorMessage = await response.text();
+          document.getElementById('errorMessage').textContent = errorMessage;
+          document.getElementById('errorMessage').style.display = 'block';
+          return;
+        }
+
+        const successMessage = await response.text();
+        console.log(successMessage);
+        window.location.href = '/';
+      } catch (error) {
+        console.error('Error:', error.message);
+      }
+    }
+  </script>
 </body>
 </html>

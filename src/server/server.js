@@ -7,6 +7,7 @@ const helmet = require('helmet');
 const morgan = require('morgan');
 
 app.use(morgan('dev'));
+app.use(express.json());
 
 app.use(helmet({
   contentSecurityPolicy: {
