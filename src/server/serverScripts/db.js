@@ -92,7 +92,7 @@ module.exports = (app) => {
             return;
         }
 
-        res.sendFile(path.resolve("src/public/html/games/game.html"));
+        res.sendFile(path.resolve("src/public/html/games/downloadpage.html"));
     });
 
     app.post("/api/v1/createAccount", (req, res) => {
