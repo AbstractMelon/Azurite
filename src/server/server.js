@@ -19,10 +19,22 @@ app.use(helmet({
   },
 }));
 
-var scripts = fs.readdirSync("./src/server/serverScripts").filter(e => e.endsWith(".js"));
+const scriptsPath = path.join(__dirname, 'serverScripts');
+
+var scripts = fs.readdirSync(scriptsPath).filter(e => e.endsWith('.js'));
+
+console.log('Found scripts:', scripts);
+
 scripts.forEach(script => {
-    let scr = require("./serverScripts/" + script);
-    scr(app);
+    console.log(`Loading script: ${script}`);
+    let scr = require(path.join(scriptsPath, script));
+
+    if (typeof scr === 'function') {
+        scr(app);
+        console.log(`Successfully executed script: ${script}`);
+    } else {
+        console.warn(`Warning: ${script} does not export app.`);
+    }
 });
 
 // 404
