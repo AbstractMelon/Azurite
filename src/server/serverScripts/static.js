@@ -7,7 +7,7 @@ const quickFiles = {
   "/downloads": path.resolve("./src/public/html/downloads/download.html"),
   "/account": path.resolve("./src/public/html/account/index.html"),
   "/games": path.resolve("./src/public/html/games/games.html"),
-  "/library": path.resolve("./src/public/html/library.html"),
+  "/upload": path.resolve("./src/public/html/upload.html"),
   "/testing": path.resolve("./src/public/testing.html"),
   "/login": path.resolve("./src/public/html/account/login.html"),
   "/logo/azuritelogo.png": path.resolve(

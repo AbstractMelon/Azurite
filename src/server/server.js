@@ -47,8 +47,14 @@ app.use((req, res, next) => {
 // Error handling
 app.use((err, req, res, next) => {
   console.error(err.stack);
-  res.status(500).send("Something broke!");
+
+  if (err instanceof Error && err.statusCode) {
+    res.status(err.statusCode).json({ error: err.message });
+  } else {
+    res.status(500).json({ error: "Internal Server Error" });
+  }
 });
+
 
 app.listen(port, () => {
   console.log(`Azurite listening on port ${port}`);
