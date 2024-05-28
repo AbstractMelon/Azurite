@@ -43,3 +43,38 @@
 #upload-form button:hover {
     background-color: #0056b3;
 }
+
+/* Dropdown Menu Styles */
+#upload-form select {
+    margin-bottom: 15px;
+    padding: 10px;
+    color: #ffffff;
+    border: 2px solid #353535;
+    border-radius: 5px;
+    background-color: #3d3d3d;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+}
+
+#upload-form select:focus {
+    border-color: #007bff;
+    outline: none;
+}
+
+#upload-form select option {
+    background-color: #3d3d3d;
+    color: #ffffff;
+}
+
+#upload-form select {
+    position: relative;
+    background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='5' viewBox='0 0 10 5'%3E%3Cpath fill='%23FFFFFF' d='M0 0l5 5 5-5z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 10px top 50%;
+    background-size: 10px 5px;
+}
+
+#upload-form select::-ms-expand {
+    display: none;
+}

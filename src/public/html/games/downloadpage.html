@@ -17,9 +17,20 @@
     </div>
 
     <div class="container">
-        <div class="mod-list" id="mod-list-container">
-        </div>
+        <h1>Download Mods</h1>
+        <div class="mod-list" id="mod-list"></div>
     </div>
+
+    <template id="mod-item-template">
+        <div class="mod-item">
+            <img src="{image}" alt="Mod Image">
+            <div class="mod-info">
+                <h2>{title}</h2>
+                <p>{description}</p>
+                <a href="{downloadLink}" class="download-button">Download</a>
+            </div>
+        </div>
+    </template>
 
     <script src="/scripts/header.js" defer></script>
     <script>
@@ -28,56 +39,22 @@
         });
 
         function loadMods() {
-            const mods = [
-                { image: "../../assets/images/mods/notfound.png", title: "Worlds best mod!", description: "The best mod ever!", downloadLink: "./downloads/mod1.zip" },
-                { image: "../../assets/images/mods/notfound.png", title: "Not good mod", description: "The mod nobody cares about!", downloadLink: "./downloads/mod2.zip" },
-                { image: "../../assets/images/mods/notfound.png", title: "Another Awesome Mod", description: "You definitely want this one!", downloadLink: "./downloads/mod3.zip" },
-                { image: "../../assets/images/mods/notfound.png", title: "Mediocre Mod", description: "It's okay, could be better.", downloadLink: "./downloads/mod4.zip" },
-                { image: "../../assets/images/mods/notfound.png", title: "Epic Mod", description: "Experience the epicness!", downloadLink: "./downloads/mod5.zip" },
-                { image: "../../assets/images/mods/notfound.png", title: "Useless Mod", description: "Why does this even exist?", downloadLink: "./downloads/mod6.zip" },
-                { image: "../../assets/images/mods/notfound.png", title: "Legendary Mod", description: "This mod is legendary.", downloadLink: "./downloads/mod7.zip" },
-                { image: "../../assets/images/mods/notfound.png", title: "Unremarkable Mod", description: "Nothing special here.", downloadLink: "./downloads/mod8.zip" },
-                { image: "../../assets/images/mods/notfound.png", title: "Fantastic Mod", description: "Absolutely fantastic!", downloadLink: "./downloads/mod9.zip" },
-                { image: "../../assets/images/mods/notfound.png", title: "Terrible Mod", description: "Avoid at all costs.", downloadLink: "./downloads/mod10.zip" }
-            ];
+            fetch("/api/v1/getMods/bopl-battle") 
+                .then(response => response.json())
+                .then(mods => {
+                    mods.forEach(mod => {
+                        const modTemplate = document.getElementById('mod-item-template').innerHTML
+                            .replace('{image}', ("../../database/data/bopl-battle/" + mod.name + "/" + mod.modIcon)) 
+                            .replace('{title}', mod.name) 
+                            .replace('{description}', mod.description) 
+                            .replace('{downloadLink}', `/downloads/${mod.modFile}`);
 
-            const modListContainer = document.getElementById('mod-list-container');
-            mods.forEach(mod => {
-                const modElement = document.createElement('div');
-                modElement.classList.add('mod-item');
-                modElement.innerHTML = `
-                    <img src="${mod.image}" alt="Mod Image">
-                    <div class="mod-info">
-                        <h2>${mod.title}</h2>
-                        <p>${mod.description}</p>
-                        <a href="${mod.downloadLink}" class="download-button">Download</a>
-                    </div>
-                `;
-                modListContainer.appendChild(modElement);
-            });
-        }
-
-        document.getElementById('searchInput').addEventListener('input', function() {
-            searchMods();
-        });
-
-        function searchMods() {
-            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
-            const modItems = document.querySelectorAll('.mod-item');
-            modItems.forEach(item => {
-                const title = item.querySelector('h2').textContent.toLowerCase();
-                const description = item.querySelector('p').textContent.toLowerCase();
-                if (title.includes(searchTerm) || description.includes(searchTerm)) {
-                    item.style.display = 'block';
-                } else {
-                    item.style.display = 'none';
-                }
-            });
-        }
-
-        function toggleMobileNav() {
-            const mobileNav = document.getElementById('mobile-nav');
-            mobileNav.classList.toggle('show');
+                        const modElement = document.createElement('div');
+                        modElement.innerHTML = modTemplate;
+                        document.getElementById('mod-list').appendChild(modElement);
+                    });
+                })
+                .catch(error => console.error("Error fetching mods:", error));
         }
     </script>
 </body>

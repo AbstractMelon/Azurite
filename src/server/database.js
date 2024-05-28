@@ -3,14 +3,16 @@ const path = require("path");
 const fsUtils = require("../utils/file.js");
 
 const dbPath = path.resolve("./src/database");
-const accountsPath = path.join(dbPath, "accounts");
+const accountsPath = path.join(dbPath, "data", "accounts");
 
 function generateGame(gameData) {
   const { name, description, id, image } = gameData;
-  const gameFolderPath = path.join(dbPath, "games", id);
+  const gameFolderPath = path.join(dbPath, "data", "games", id);
+  const gameModFolderPath = path.join(dbPath, "data", "mods", id);
   const manifestPath = path.join(gameFolderPath, "manifest.json");
 
   fsUtils.makeDir(gameFolderPath);
+  fsUtils.makeDir(gameModFolderPath);
   fsUtils.makeFile(manifestPath, {
     name,
     description,
@@ -20,9 +22,15 @@ function generateGame(gameData) {
 }
 
 function getGames() {
-  const files = fs.readdirSync(path.join(dbPath, "games"));
+  const files = fs.readdirSync(path.join(dbPath, "data", "games"));
   const games = files.map((file) => {
-    const manifestPath = path.join(dbPath, "games", file, "manifest.json");
+    const manifestPath = path.join(
+      dbPath,
+      "data",
+      "games",
+      file,
+      "manifest.json",
+    );
     return JSON.parse(fs.readFileSync(manifestPath, "utf-8"));
   });
 
@@ -43,7 +51,7 @@ function getAccounts() {
 function initializeDatabase() {
   fsUtils.makeDir(dbPath);
   fsUtils.makeDir(path.join(dbPath, "users"));
-  fsUtils.makeDir(path.join(dbPath, "games"));
+  fsUtils.makeDir(path.join(dbPath, "data", "games"));
   fsUtils.makeDir(accountsPath);
 
   // Generate sample games

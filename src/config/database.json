@@ -1,1 +1,50 @@
-[]
+{
+    "development": {
+      "database": {
+        "host": "localhost",
+        "port": 3000,
+        "username": "dev_username",
+        "password": "dev_password",
+        "database": "dev_database",
+        "pool": {
+          "max": 5,
+          "min": 0,
+          "acquire": 30000,
+          "idle": 10000
+        },
+        "logging": true,
+        "sync": false
+      }
+    },
+    "testing": {
+      "database": {
+        "storage": ":memory:",
+        "pool": {
+          "max": 5,
+          "min": 0,
+          "acquire": 30000,
+          "idle": 10000
+        },
+        "logging": false,
+        "sync": true
+      }
+    },
+    "production": {
+      "database": {
+        "host": "melons-server",
+        "port": 5432,
+        "username": "prod_username",
+        "password": "prod_password",
+        "database": "prod_database",
+        "pool": {
+          "max": 10,
+          "min": 2,
+          "acquire": 30000,
+          "idle": 10000
+        },
+        "logging": false,
+        "sync": false
+      }
+    }
+  }
+  

@@ -25,11 +25,33 @@
             <input type="file" name="modIcon" accept="image/*" required>
             <p>Mod .dll:</p>
             <input type="file" name="modFile" accept=".dll" required>
+
+            <!-- Dropdown for selecting game -->
+            <label for="gameSelect">Select Game:</label>
+            <select id="gameSelect" name="gameId" required>
+                <option value="" disabled selected>Select a game</option>
+            </select>
+
             <button type="submit">Upload</button>
         </form>
     </div>
 
     <script src="scripts/header.js" defer></script>
     <script src="scripts/upload.js" defer></script>
+
+    <script>
+        fetch("/api/v1/getGames")
+            .then(response => response.json())
+            .then(games => {
+                const gameSelect = document.getElementById("gameSelect");
+                Object.values(games).forEach(game => {
+                    const option = document.createElement("option");
+                    option.value = game.id;
+                    option.textContent = game.name;
+                    gameSelect.appendChild(option);
+                });
+            })
+            .catch(error => console.error("Error fetching games:", error));
+    </script>
 </body>
 </html>

@@ -1,10 +1,14 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable no-undef */
 const express = require("express");
 const app = express();
-const port = 3000;
 const fs = require("fs");
 const path = require("path");
 const helmet = require("helmet");
 const morgan = require("morgan");
+
+// Load configuration from config.json
+const config = require("../config/server.json");
 
 app.use(morgan("dev"));
 app.use(express.json());
@@ -21,7 +25,11 @@ app.use(
   }),
 );
 
-const scriptsPath = path.join(__dirname, "serverScripts");
+// Read scripts path from config
+const scriptsPath = path.join(__dirname, config.scriptsPath);
+
+// Read port from config
+const port = config.port;
 
 var scripts = fs.readdirSync(scriptsPath).filter((e) => e.endsWith(".js"));
 
@@ -54,7 +62,6 @@ app.use((err, req, res, next) => {
     res.status(500).json({ error: "Internal Server Error" });
   }
 });
-
 
 app.listen(port, () => {
   console.log(`Azurite listening on port ${port}`);
