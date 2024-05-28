@@ -9,8 +9,8 @@
     "start": "pm2 start ./src/server/server.js --name azurite",
     "stop": "pm2 stop azurite",
     "restart": "pm2 restart azurite",
-    "lint": "eslint './src/**/*.js'",
-    "format": "prettier --write './src/**/*.js'",
+    "lint": "eslint ./src/**/*.js",
+    "format": "prettier --write ./src/**/*.js",
     "clean": "rm -rf ./dist"
   },
   "author": "",
@@ -19,13 +19,14 @@
     "ejs": "^3.1.10",
     "express": "^4.19.2",
     "helmet": "^7.1.0",
-    "mongoose": "^8.3.4",
     "morgan": "^1.10.0",
     "nodemon": "^3.1.0",
     "pm2": "^5.2.0"
   },
   "devDependencies": {
-    "eslint": "^8.39.0",
+    "@eslint/js": "^9.3.0",
+    "eslint": "^9.3.0",
+    "globals": "^15.3.0",
     "prettier": "^3.0.0"
   }
 }
