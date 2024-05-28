@@ -11,13 +11,14 @@
 <body>
     <div id="header-container"></div>
 
-    <div class="search-bar">
-        <input type="text" id="searchInput" placeholder="Search mods...">
-        <button onclick="searchMods()">Search</button>
-    </div>
-
     <div class="container">
-        <h1>Download Mods</h1>
+        <h1>Download Mods for ${gamename}</h1>
+
+        <div class="search-bar">
+            <input type="text" id="searchInput" placeholder="Search mods...">
+            <button onclick="searchMods()">Search</button>
+        </div>
+
         <div class="mod-list" id="mod-list"></div>
     </div>
 
@@ -39,14 +40,14 @@
         });
 
         function loadMods() {
-            fetch("/api/v1/getMods/bopl-battle") 
+            fetch("/api/v1/getMods/bopl-battle")
                 .then(response => response.json())
                 .then(mods => {
                     mods.forEach(mod => {
                         const modTemplate = document.getElementById('mod-item-template').innerHTML
-                            .replace('{image}', ("../../database/data/bopl-battle/" + mod.name + "/" + mod.modIcon)) 
-                            .replace('{title}', mod.name) 
-                            .replace('{description}', mod.description) 
+                            .replace('{image}', `../../database/data/bopl-battle/${mod.name}/${mod.modIcon}`)
+                            .replace('{title}', mod.name)
+                            .replace('{description}', mod.description)
                             .replace('{downloadLink}', `/downloads/${mod.modFile}`);
 
                         const modElement = document.createElement('div');

@@ -37,7 +37,7 @@
 
 body {
     background-color: var(--bgcol);
-    color: var(--textcol);
+    color: var(--textcol);  
 }
 
 header {
