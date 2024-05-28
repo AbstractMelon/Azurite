@@ -71,3 +71,97 @@
 .get-started-button:hover {
     background-color: var(--accent);
 }
+
+footer {
+    background-color: var(--bgcol2);
+    color: var(--textcol);
+    padding: 40px 20px;
+    padding-left: 20%;
+    padding-right: 20%;
+    text-align: left;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+footer .footer-section {
+    flex: 1 1 100px;
+    margin: 0;
+}
+
+footer .footer-section h3 {
+    color: var(--accent);
+    margin-bottom: 10px;
+    font-size: 18px;
+}
+
+footer .footer-section ul {
+    list-style: none;
+    padding: 0;
+}
+
+footer .footer-section ul li {
+    margin-bottom: 10px;
+}
+
+footer .footer-section ul li a, footer .footer-section ul li a:visited {
+    color: var(--textcol);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+footer .footer-section ul li a:hover, footer .footer-section ul li a:active {
+    color: var(--accent);
+}
+
+footer .footer-section .social-icons {
+    display: flex;
+    gap: 10px;
+}
+
+footer .footer-section .social-icons a {
+    color: var(--textcol);
+    font-size: 20px;
+    transition: color 0.3s ease;
+}
+
+footer .footer-section .social-icons a:hover {
+    color: var(--accent);
+}
+
+footer .newsletter {
+    margin-top: 20px;
+}
+
+footer .newsletter input[type="email"] {
+    padding: 10px;
+    border: 1px solid var(--accent);
+    border-radius: 5px;
+    margin-right: 10px;
+    width: calc(100% - 120px);
+    max-width: 300px;
+}
+
+footer .newsletter button {
+    padding: 10px 20px;
+    background-color: var(--accent);
+    color: var(--textcol2);
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+footer .newsletter button:hover {
+    background-color: darken(var(--accent), 10%);
+}
+
+footer .footer-bottom {
+    width: 100%;
+    text-align: center;
+    margin-top: 20px;
+    border-top: 1px solid var(--textcol);
+    padding-top: 20px;
+    font-size: 14px;
+    color: var(--textcol);
+}
