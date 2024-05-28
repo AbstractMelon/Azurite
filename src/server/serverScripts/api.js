@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 const { getGames, getAccounts, initializeDatabase } = require("../database");
 const path = require("path");
 const fs = require("fs");
@@ -5,132 +6,239 @@ const formidable = require("formidable");
 const fsUtils = require("../../utils/file.js");
 
 module.exports = (app) => {
-    initializeDatabase();
+  initializeDatabase();
 
-    const games = getGames();
+  const games = getGames();
 
-    // Get games
-    app.get("/api/v1/getGames", (req, res) => {
-        res.json(games);
+  // Get games
+  app.get("/api/v1/getGames", (req, res) => {
+    res.json(games);
+  });
+
+  // Handle game requests
+  app.use((req, res, next) => {
+    if (!req.path.startsWith("/games/")) {
+      next();
+      return;
+    }
+
+    const gameId = req.path.replace("/games/", "");
+    if (!games[gameId]) {
+      res.status(404).sendFile(path.join(__dirname, "../../public/404.html"));
+      return;
+    }
+
+    res.sendFile(path.resolve("src/public/html/games/downloadpage.html"));
+  });
+
+  app.post("/api/v1/createAccount", (req, res) => {
+    const {
+      username,
+      password,
+      bio,
+      email,
+      isAdmin,
+      gamesModded,
+      profilePicture,
+      socialLinks,
+      favoriteGames,
+      moddingExperience,
+    } = req.body;
+
+    if (!username || !password) {
+      const errorMessage = `Username and password are required. You sent: ${JSON.stringify(req.body)}`;
+      console.error(errorMessage);
+      res.status(400).send(errorMessage);
+      return;
+    }
+
+    if (accountExists(username)) {
+      const errorMessage = `Username '${username}' already exists.`;
+      console.error(errorMessage);
+      res.status(409).send(errorMessage);
+      return;
+    }
+
+    createAccount(
+      username,
+      password,
+      bio,
+      email,
+      isAdmin,
+      gamesModded,
+      profilePicture,
+      socialLinks,
+      favoriteGames,
+      moddingExperience,
+    );
+
+    const successMessage = "Account created successfully";
+    console.log(successMessage);
+    res.status(201).send(successMessage);
+  });
+
+  // Account system
+  const accounts = getAccounts();
+
+  app.get("/api/v1/getAccounts", (req, res) => {
+    res.json(accounts);
+  });
+
+  app.get("/user/:username", (req, res) => {
+    const { username } = req.params;
+    const account = accounts.find((acc) => acc.username === username);
+    if (!account) {
+      res.status(404).send("Account not found");
+      return;
+    }
+    res.json(account);
+  });
+
+  // Handle mod uploads
+  app.post("/api/v1/uploadMod", (req, res) => {
+    const form = new formidable.IncomingForm();
+
+    // Handle errors
+    form.parse(req, (err, fields, files) => {
+      if (err) {
+        console.error("Error parsing the form", err);
+        res.status(400).send("Error parsing the form");
+        return;
+      }
+
+      // Log data
+      console.log("Fields:", fields);
+      console.log("Files:", files);
+
+      const modName = fields.modName ? fields.modName[0] : undefined;
+      const modDescription = fields.modDescription
+        ? fields.modDescription[0]
+        : undefined;
+      const modVersion = fields.modVersion ? fields.modVersion[0] : undefined;
+      const modFile = files.modFile ? files.modFile[0] : undefined;
+      const modIcon = files.modIcon ? files.modIcon[0] : undefined;
+      const gameId = fields.gameId ? fields.gameId[0] : undefined;
+
+      if (
+        !modName ||
+        typeof modName !== "string" ||
+        !modDescription ||
+        !modFile ||
+        !modIcon ||
+        !gameId
+      ) {
+        const errorMessage = `Mod name, description, mod file, mod icon, and game ID are required. You sent: ${JSON.stringify(fields)}`;
+        console.error(errorMessage);
+        res.status(400).send(errorMessage);
+        return;
+      }
+
+      // Get game info from database or elsewhere
+      const game = games[gameId];
+      if (!game) {
+        const errorMessage = `Game with ID ${gameId} not found`;
+        console.error(errorMessage);
+        res.status(404).send(errorMessage);
+        return;
+      }
+
+      const modId = modName.toLowerCase().replace(/\s+/g, "-");
+      const modFolderPath = path.join(
+        __dirname,
+        "../../database/data/mods",
+        game.id,
+        modId,
+      );
+
+      // Create directory for the mod
+      fsUtils.makeDir(modFolderPath);
+
+      // Save mod file and icon
+      const modFilePath = path.join(modFolderPath, modFile.originalFilename);
+      const modIconPath = path.join(modFolderPath, modIcon.originalFilename);
+
+      // Copy and delete the original file
+      fs.copyFileSync(modFile.filepath, modFilePath);
+      fs.unlinkSync(modFile.filepath);
+      fs.copyFileSync(modIcon.filepath, modIconPath);
+      fs.unlinkSync(modIcon.filepath);
+
+      const manifestData = {
+        name: modName,
+        description: modDescription,
+        id: modId,
+        version: modVersion,
+        modFile: path.basename(modFilePath),
+        modIcon: path.basename(modIconPath),
+      };
+      const manifestPath = path.join(modFolderPath, "manifest.json");
+      fs.writeFileSync(manifestPath, JSON.stringify(manifestData, null, 2));
+
+      const successMessage = "Mod uploaded successfully";
+      console.log(successMessage);
+      res.status(201).send(successMessage);
+    });
+  });
+
+  // Get mods API
+  app.get("/api/v1/getMods/:gamename", (req, res) => {
+    const { gamename } = req.params;
+    const game = Object.values(games).find(
+      (game) => game.id.toLowerCase() === gamename.toLowerCase(),
+    );
+    if (!game) {
+      res.status(404).send(`Game with name '${gamename}' not found`);
+      return;
+    }
+
+    app.get("/api/v1/:communityname/mods/:modname/modicon", (req, res) => {
+      const { communityname, modname } = req.params;
+      const modsFolderPath = path.join(
+        __dirname,
+        `../../database/data/mods/${communityname}/${modname}`,
+      );
+      const manifestPath = path.join(modsFolderPath, "manifest.json");
+
+      console.log("Mods folder path:", modsFolderPath);
+      console.log("Manifest path:", manifestPath);
+
+      try {
+        const manifestData = JSON.parse(fs.readFileSync(manifestPath));
+        const modIconPath = path.join(modsFolderPath, manifestData.modIcon);
+
+        console.log("Mod icon path:", modIconPath);
+
+        res.sendFile(modIconPath);
+      } catch (error) {
+        console.error("Error reading manifest file:", error);
+        res.status(404).send("Mod icon not found");
+      }
     });
 
-    // Handle game requests
-    app.use((req, res, next) => {
-        if (!req.path.startsWith("/games/")) {
-            next();
-            return;
+    const modsFolderPath = path.join(
+      __dirname,
+      "../../database/data/mods",
+      game.id,
+    );
+    fs.readdir(modsFolderPath, (err, files) => {
+      if (err) {
+        console.error("Error reading mods directory:", err);
+        res.status(500).send("Internal server error");
+        return;
+      }
+
+      const mods = [];
+      files.forEach((file) => {
+        const manifestPath = path.join(modsFolderPath, file, "manifest.json");
+        try {
+          const manifestData = JSON.parse(fs.readFileSync(manifestPath));
+          mods.push(manifestData);
+        } catch (error) {
+          console.error("Error parsing manifest file:", error);
         }
+      });
 
-        const gameId = req.path.replace("/games/", "");
-        if (!games[gameId]) {
-            res.status(404).sendFile(path.join(__dirname, '../../public/404.html'));
-            return;
-        }
-
-        res.sendFile(path.resolve("src/public/html/games/downloadpage.html"));
+      res.json(mods);
     });
-
-    app.post("/api/v1/createAccount", (req, res) => {
-        const { username, password, bio, email, isAdmin, gamesModded, profilePicture, socialLinks, favoriteGames, moddingExperience } = req.body;
-
-        if (!username || !password) {
-            const errorMessage = `Username and password are required. You sent: ${JSON.stringify(req.body)}`;
-            console.error(errorMessage);
-            res.status(400).send(errorMessage);
-            return;
-        }
-
-        if (accountExists(username)) {
-            const errorMessage = `Username '${username}' already exists.`;
-            console.error(errorMessage);
-            res.status(409).send(errorMessage);
-            return;
-        }
-
-        createAccount(username, password, bio, email, isAdmin, gamesModded, profilePicture, socialLinks, favoriteGames, moddingExperience);
-
-        const successMessage = "Account created successfully";
-        console.log(successMessage);
-        res.status(201).send(successMessage);
-    });
-
-    // Account system
-    const accounts = getAccounts();
-
-    app.get("/api/v1/getAccounts", (req, res) => {
-        res.json(accounts);
-    });
-
-    app.get("/user/:username", (req, res) => {
-        const { username } = req.params;
-        const account = accounts.find(acc => acc.username === username);
-        if (!account) {
-            res.status(404).send("Account not found");
-            return;
-        }
-        res.json(account);
-    });
-
-    // Handle mod uploads
-    app.post("/api/v1/uploadMod", (req, res) => {
-        const form = new formidable.IncomingForm();
-
-        // Handle errors
-        form.parse(req, (err, fields, files) => {
-            if (err) {
-                console.error("Error parsing the form", err);
-                res.status(400).send("Error parsing the form");
-                return;
-            }
-
-
-            // Log data
-            console.log("Fields:", fields);
-            console.log("Files:", files);
-
-            const modName = fields.modName ? fields.modName[0] : undefined;
-            const modDescription = fields.modDescription ? fields.modDescription[0] : undefined;
-            const modVersion = fields.modVersion ? fields.modVersion[0] : undefined;
-            const modFile = files.modFile ? files.modFile[0] : undefined;
-            const modIcon = files.modIcon ? files.modIcon[0] : undefined;
-
-            if (!modName || typeof modName !== 'string' || !modDescription || !modFile || !modIcon) {
-                const errorMessage = `Mod name, description, mod file, and mod icon are required. You sent: ${JSON.stringify(fields)}`;
-                console.error(errorMessage);
-                res.status(400).send(errorMessage);
-                return;
-            }
-
-            const modId = modName.toLowerCase().replace(/\s+/g, '-');
-            const modFolderPath = path.join(__dirname, "../../database/data/mods", modId);
-
-            // Create directory for the mod
-            fsUtils.makeDir(modFolderPath);
-
-            // Save mod file and icon
-            const modFilePath = path.join(modFolderPath, modFile.originalFilename);
-            const modIconPath = path.join(modFolderPath, modIcon.originalFilename);
-
-            // Copy and delete the original file
-            fs.copyFileSync(modFile.filepath, modFilePath);
-            fs.unlinkSync(modFile.filepath);
-            fs.copyFileSync(modIcon.filepath, modIconPath);
-            fs.unlinkSync(modIcon.filepath);
-
-            const manifestData = {
-                name: modName,
-                description: modDescription,
-                id: modId,
-                version: modVersion,
-                modFile: path.basename(modFilePath),
-                modIcon: path.basename(modIconPath)
-            };
-            const manifestPath = path.join(modFolderPath, "manifest.json");
-            fs.writeFileSync(manifestPath, JSON.stringify(manifestData, null, 2));
-
-            const successMessage = "Mod uploaded successfully";
-            console.log(successMessage);
-            res.status(201).send(successMessage);
-        });
-    });
+  });
 };

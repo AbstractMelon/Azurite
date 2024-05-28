@@ -1,4 +1,3 @@
-const { resolveSoa } = require("dns");
 const express = require("express");
 const path = require("path");
 
@@ -10,6 +9,7 @@ const quickFiles = {
   "/upload": path.resolve("./src/public/html/upload.html"),
   "/testing": path.resolve("./src/public/testing.html"),
   "/login": path.resolve("./src/public/html/account/login.html"),
+  "/register": path.resolve("./src/public/html/account/register.html"),
   "/logo/azuritelogo.png": path.resolve(
     "./src/public/assets/images/azuritelogo.png",
   ),

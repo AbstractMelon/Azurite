@@ -1,4 +1,4 @@
 /node_modules
-database/
+data/
 yar-error.log
 dist/
