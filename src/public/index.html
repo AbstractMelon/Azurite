@@ -96,5 +96,33 @@
             document.querySelector('.hamburger').classList.toggle('active');
         }
     </script>
+    <script>
+        function getCookie(name) {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                const [cookieName, cookieValue] = cookie.split('=');
+                if (cookieName === name) {
+                    return cookieValue;
+                }
+            }
+            return null;
+        }
+    
+        window.addEventListener('DOMContentLoaded', () => {
+            const accountLink = document.getElementById('accountLink');
+            const mobileAccountLink = document.getElementById('mobileAccountLink');
+    
+            const username = getCookie('username');
+    
+            if (username) {
+                accountLink.textContent = username;
+                mobileAccountLink.textContent = username;
+    
+                accountLink.href = `/user/${username}`;
+                mobileAccountLink.href = `/user/${username}`;
+            }
+        });
+    </script>    
 </body>
 </html>

@@ -77,6 +77,35 @@ module.exports = (app) => {
     res.status(201).send(successMessage);
   });
 
+  // Login
+  app.post("/api/v1/login", (req, res) => {
+    const { username, password } = req.body;
+
+    // Check if username and password are provided
+    if (!username || !password) {
+      const errorMessage = "Username and password are required.";
+      console.error(errorMessage);
+      res.status(400).send(errorMessage);
+      return;
+    }
+
+    // Find the account
+    const account = accounts.find(acc => acc.username === username && acc.password === password);
+    if (!account) {
+      const errorMessage = "Invalid username or password.";
+      console.error(errorMessage);
+      res.status(401).send(errorMessage);
+      return;
+    }
+
+    // Save username to cookies
+    res.setHeader('Set-Cookie', `username=${username}; HttpOnly`);
+
+    const successMessage = "Login successful.";
+    console.log(successMessage);
+    res.status(200).send(successMessage);
+  });
+
   // Account system
   const accounts = getAccounts();
 
