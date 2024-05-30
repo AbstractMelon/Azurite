@@ -2,7 +2,7 @@ const fs = require("fs");
 const path = require("path");
 
 const dbPath = path.resolve("./src/database");
-const accountsPath = path.join(dbPath, "accounts");
+const accountsPath = path.join(dbPath, "data", "accounts");
 
 function createAccount(
   username,

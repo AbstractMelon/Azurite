@@ -2,12 +2,11 @@ body {
   font-family: Arial, sans-serif;
   background-color: #36393f;
   background-image: url("/assets/images/login.jpg");
-  background-size: 100%;
+  background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
   color: #fff;
   margin: 0;
-  padding: 0;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -40,6 +39,11 @@ input[type="password"] {
   color: #fff;
 }
 
+input[type="text"]::placeholder,
+input[type="password"]::placeholder {
+  color: #b9bbbe;
+}
+
 button {
   width: 100%;
   padding: 10px;
@@ -55,8 +59,14 @@ button:hover {
   background-color: #677bc4;
 }
 
+.error-message {
+  color: red;
+  display: none;
+  margin-bottom: 20px;
+}
+
 @media screen and (max-width: 480px) {
   .container {
-      width: 95%;
+    width: 95%;
   }
 }
