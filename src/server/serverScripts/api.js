@@ -6,7 +6,6 @@ const fs = require("fs");
 const formidable = require("formidable");
 const fsUtils = require("../../utils/file.js");
 
-
 // Utils here bc it hates me :sob:
 const dbPath = path.resolve("./src/database");
 const accountsPath = path.join(dbPath, "data", "accounts");
@@ -63,23 +62,23 @@ module.exports = async (app) => {
       next();
       return;
     }
-  
+
     const gameId = req.path.replace("/games/", "");
     const game = games[gameId];
     if (!game) {
       res.status(404).sendFile(path.join(__dirname, "../../public/404.html"));
       return;
     }
-  
+
     const filePath = path.resolve("src/public/html/games/downloadpage.html");
-    fs.readFile(filePath, 'utf8', (err, data) => {
+    fs.readFile(filePath, "utf8", (err, data) => {
       if (err) {
         res.status(500).send("Server Error");
         return;
       }
 
       const htmlWithGameName = data.replace(/\${gamename}/g, game.id);
-  
+
       res.send(htmlWithGameName);
     });
   });
@@ -143,7 +142,9 @@ module.exports = async (app) => {
     }
 
     // Find the account
-    const account = accounts.find(acc => acc.username === username && acc.password === password);
+    const account = accounts.find(
+      (acc) => acc.username === username && acc.password === password,
+    );
     if (!account) {
       const errorMessage = "Invalid username or password.";
       console.error(errorMessage);
@@ -152,7 +153,7 @@ module.exports = async (app) => {
     }
 
     // Save username to cookies
-    res.setHeader('Set-Cookie', `username=${username}; HttpOnly`);
+    res.setHeader("Set-Cookie", `username=${username}; HttpOnly`);
 
     const successMessage = "Login successful.";
     console.log(successMessage);
