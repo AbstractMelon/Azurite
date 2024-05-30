@@ -48,10 +48,12 @@ function getAccounts() {
   });
 }
 
-function initializeDatabase() {
+async function initializeDatabase() {
   fsUtils.makeDir(dbPath);
   fsUtils.makeDir(path.join(dbPath, "users"));
+  fsUtils.makeDir(path.join(dbPath, "data"));
   fsUtils.makeDir(path.join(dbPath, "data", "games"));
+  fsUtils.makeDir(path.join(dbPath, "data", "mods"));
   fsUtils.makeDir(accountsPath);
 
   // Generate sample games

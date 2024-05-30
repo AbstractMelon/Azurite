@@ -1,12 +1,12 @@
 /* eslint-disable no-undef */
-const { getGames, getAccounts, initializeDatabase } = require("../database");
+const { getGames, getAccounts, initializeDatabase } = require("../database.js");
 const path = require("path");
 const fs = require("fs");
 const formidable = require("formidable");
 const fsUtils = require("../../utils/file.js");
 
-module.exports = (app) => {
-  initializeDatabase();
+module.exports = async (app) => {
+  await initializeDatabase();
 
   const games = getGames();
 
