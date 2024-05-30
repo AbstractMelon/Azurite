@@ -1,5 +1,5 @@
 /* eslint-disable no-undef */
-const { getGames, getAccounts, initializeDatabase } = require("../database.js");
+const { getGames, getAccounts, initializeDatabase, getMods } = require("../database.js");
 // const { accountExists } = require("../../utils/accounts.js");
 const path = require("path");
 const fs = require("fs");
@@ -51,6 +51,9 @@ module.exports = async (app) => {
 
   const games = getGames();
 
+  const mods = getMods('bopl-battle');
+  // console.log(mods);
+
   // Get games
   app.get("/api/v1/getGames", (req, res) => {
     res.json(games);
@@ -62,26 +65,52 @@ module.exports = async (app) => {
       next();
       return;
     }
-
-    const gameId = req.path.replace("/games/", "");
+  
+    const [gameId, modSegment, modId] = req.path.replace("/games/", "").split("/");
     const game = games[gameId];
     if (!game) {
       res.status(404).sendFile(path.join(__dirname, "../../public/404.html"));
       return;
     }
+  
+    if (modSegment === "mods" && modId) {
+      const mod = mods[gameId] && mods[gameId][modId];
+      if (!mod) {
+        res.status(404).sendFile(path.join(__dirname, "../../public/404.html"));
+        return;
+      }
+  
+      const modFilePath = path.resolve("src/public/html/downloads/modpage.html");
+      fs.readFile(modFilePath, 'utf8', (err, data) => {
+        if (err) {
+          res.status(500).send("Server Error");
+          return;
+        }
 
+        const htmlWithModData = data
+          .replace(/\${gamename}/g, game.name)
+          .replace(/\${modname}/g, mod.name)
+          .replace(/\${moddescription}/g, mod.description)
+          .replace(/\${modicon}/g, `../../database/data/${gameId}/${mod.name}/${mod.modIcon}`)
+          .replace(/\${modfile}/g, `/downloads/${mod.modFile}`);
+  
+        res.send(htmlWithModData);
+      });
+      return;
+    }
+  
     const filePath = path.resolve("src/public/html/games/downloadpage.html");
-    fs.readFile(filePath, "utf8", (err, data) => {
+    fs.readFile(filePath, 'utf8', (err, data) => {
       if (err) {
         res.status(500).send("Server Error");
         return;
       }
 
       const htmlWithGameName = data.replace(/\${gamename}/g, game.id);
-
+  
       res.send(htmlWithGameName);
     });
-  });
+  });  
 
   app.post("/api/v1/createAccount", (req, res) => {
     const {

@@ -48,6 +48,46 @@ function getAccounts() {
   });
 }
 
+function getMods(gameName) {
+  const gameModsPath = path.join(dbPath, "data", "mods", gameName);
+  const mods = [];
+
+  // Function to recursively search for JSON files within directories
+  function findModsInDirectory(directory) {
+    const files = fs.readdirSync(directory);
+
+    files.forEach((file) => {
+      const modFilePath = path.join(directory, file);
+      const stats = fs.statSync(modFilePath);
+
+      if (stats.isFile()) {
+        if (path.extname(file) === '.json') {
+          // console.log(`Processing mod file: ${modFilePath}`);
+
+          const modData = JSON.parse(fs.readFileSync(modFilePath, "utf-8"));
+          mods.push(modData);
+          // console.log(`Mod file "${file}" processed.`);
+        } else {
+          // console.log(`Skipping non-JSON file: ${modFilePath}`);
+        }
+      } else if (stats.isDirectory()) {
+        // console.log(`Entering directory: ${modFilePath}`);
+        findModsInDirectory(modFilePath); 
+      }
+    });
+  }
+
+  if (fs.existsSync(gameModsPath)) {
+    console.log(`Reading mods for game "${gameName}"...`);
+    findModsInDirectory(gameModsPath);
+    console.log(`Mods for game "${gameName}" processed.`);
+  } else {
+    console.log(`No mods directory found for game "${gameName}".`);
+  }
+
+  return mods;
+}
+
 function initializeDatabase() {
   fsUtils.makeDir(dbPath);
   fsUtils.makeDir(path.join(dbPath, "users"));
@@ -86,6 +126,7 @@ function initializeDatabase() {
 module.exports = {
   generateGame,
   getGames,
+  getMods,
   getAccounts,
   initializeDatabase,
 };
