@@ -4,6 +4,7 @@ const path = require("path");
 const fs = require("fs");
 const formidable = require("formidable");
 const fsUtils = require("../../utils/file.js");
+const { Console } = require("console");
 
 module.exports = async (app) => {
   await initializeDatabase();
