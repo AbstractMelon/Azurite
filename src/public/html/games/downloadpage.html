@@ -40,12 +40,13 @@
         });
 
         function loadMods() {
-            fetch("/api/v1/getMods/bopl-battle")
+            const gamename = "${gamename}";
+            fetch(`/api/v1/getMods/${gamename}`)
                 .then(response => response.json())
                 .then(mods => {
                     mods.forEach(mod => {
                         const modTemplate = document.getElementById('mod-item-template').innerHTML
-                            .replace('{image}', `../../database/data/bopl-battle/${mod.name}/${mod.modIcon}`)
+                            .replace('{image}', `../../database/data/${gamename}/${mod.name}/${mod.modIcon}`)
                             .replace('{title}', mod.name)
                             .replace('{description}', mod.description)
                             .replace('{downloadLink}', `/downloads/${mod.modFile}`);

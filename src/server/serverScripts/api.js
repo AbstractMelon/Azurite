@@ -1,13 +1,54 @@
 /* eslint-disable no-undef */
 const { getGames, getAccounts, initializeDatabase } = require("../database.js");
+// const { accountExists } = require("../../utils/accounts.js");
 const path = require("path");
 const fs = require("fs");
 const formidable = require("formidable");
 const fsUtils = require("../../utils/file.js");
-const { Console } = require("console");
+
+
+// Utils here bc it hates me :sob:
+const dbPath = path.resolve("./src/database");
+const accountsPath = path.join(dbPath, "data", "accounts");
+
+function accountExists(username) {
+  const filePath = path.join(accountsPath, `${username}.json`);
+  return fs.existsSync(filePath);
+}
+
+function createAccount(
+  username,
+  password,
+  bio = "",
+  email = "",
+  isAdmin = false,
+  gamesModded = [],
+  profilePicture = "",
+  socialLinks = {},
+  favoriteGames = [],
+  moddingExperience = "",
+  dateCreated = new Date(),
+) {
+  const accountData = {
+    username,
+    password,
+    bio,
+    email,
+    isAdmin,
+    gamesModded,
+    profilePicture,
+    socialLinks,
+    favoriteGames,
+    moddingExperience,
+    dateCreated: dateCreated.toISOString(),
+  };
+  const filePath = path.join(accountsPath, `${username}.json`);
+
+  fs.writeFileSync(filePath, JSON.stringify(accountData, null, 2));
+}
 
 module.exports = async (app) => {
-  await initializeDatabase();
+  initializeDatabase();
 
   const games = getGames();
 
@@ -22,14 +63,25 @@ module.exports = async (app) => {
       next();
       return;
     }
-
+  
     const gameId = req.path.replace("/games/", "");
-    if (!games[gameId]) {
+    const game = games[gameId];
+    if (!game) {
       res.status(404).sendFile(path.join(__dirname, "../../public/404.html"));
       return;
     }
+  
+    const filePath = path.resolve("src/public/html/games/downloadpage.html");
+    fs.readFile(filePath, 'utf8', (err, data) => {
+      if (err) {
+        res.status(500).send("Server Error");
+        return;
+      }
 
-    res.sendFile(path.resolve("src/public/html/games/downloadpage.html"));
+      const htmlWithGameName = data.replace(/\${gamename}/g, game.id);
+  
+      res.send(htmlWithGameName);
+    });
   });
 
   app.post("/api/v1/createAccount", (req, res) => {

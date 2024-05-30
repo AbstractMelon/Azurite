@@ -48,7 +48,7 @@ function getAccounts() {
   });
 }
 
-async function initializeDatabase() {
+function initializeDatabase() {
   fsUtils.makeDir(dbPath);
   fsUtils.makeDir(path.join(dbPath, "users"));
   fsUtils.makeDir(path.join(dbPath, "data"));
