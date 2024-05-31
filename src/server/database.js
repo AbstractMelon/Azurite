@@ -90,8 +90,8 @@ function getMods(gameName) {
 
 function initializeDatabase() {
   fsUtils.makeDir(dbPath);
-  fsUtils.makeDir(path.join(dbPath, "users"));
   fsUtils.makeDir(path.join(dbPath, "data"));
+  fsUtils.makeDir(path.join(dbPath, "data", "tickets"));
   fsUtils.makeDir(path.join(dbPath, "data", "games"));
   fsUtils.makeDir(path.join(dbPath, "data", "mods"));
   fsUtils.makeDir(accountsPath);

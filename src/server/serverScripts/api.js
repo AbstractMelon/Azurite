@@ -54,6 +54,20 @@ module.exports = async (app) => {
   const mods = getMods('bopl-battle');
   // console.log(mods);
 
+  app.post('/submit-ticket', (req, res) => {
+    const ticket = req.body;
+    const filePath = path.join(__dirname, '../../database/data/tickets', `ticket_${Date.now()}.json`);
+
+      fs.writeFile(filePath, JSON.stringify(ticket, null, 2), (err) => {
+          if (err) {
+              console.error('Error saving ticket:', err);
+              return res.status(500).json({ success: false, message: 'Error saving ticket' });
+          }
+          res.json({ success: true, message: 'Ticket submitted successfully' });
+      });
+  });
+
+
   // Get games
   app.get("/api/v1/getGames", (req, res) => {
     res.json(games);
