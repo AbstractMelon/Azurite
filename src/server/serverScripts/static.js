@@ -10,6 +10,11 @@ const quickFiles = {
   "/testing": path.resolve("./src/public/testing.html"),
   "/login": path.resolve("./src/public/html/account/login.html"),
   "/register": path.resolve("./src/public/html/account/register.html"),
+  "/faq": path.resolve("./src/public/html/helpful/faq.html"),
+  "/feedback": path.resolve("./src/public/html/helpful/feedback.html"),
+  "/privacy": path.resolve("./src/public/html/helpful/privacy.html"),
+  "/support": path.resolve("./src/public/html/helpful/support.html"),
+  "/terms": path.resolve("./src/public/html/helpful/terms.html"),
   "/logo/azuritelogo.png": path.resolve(
     "./src/public/assets/images/azuritelogo.png",
   ),
