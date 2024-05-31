@@ -1,1 +1,5 @@
+database/
 /node_modules
+data/
+yar-error.log
+dist/

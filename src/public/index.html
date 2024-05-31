@@ -3,11 +3,126 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-
+    <title>Azurite - Homepage</title>
+    <link rel="icon" type="image/x-icon" href="./assets/images/icon.ico">
+    <link rel="stylesheet" href="./stylesheets/homepage.css">
     <link rel="stylesheet" href="./stylesheets/root.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
 <body>
-    <h1>Hello, World!</h1>
+    <div id="header-container"></div>
+    
+    <div style="padding-top: 5px;">
+
+    <section class="welcome-section">
+        <div class="container">
+            <h2>Welcome to Azurite</h2>
+            <p>Your ultimate destination for discovering and sharing amazing mods!</p>
+        </div>
+    </section>
+
+    <section class="features-section">
+        <div class="container">
+            <div class="feature">
+                <i class="fas fa-gamepad"></i>
+                <h3>Explore Mods</h3>
+                <p>Discover a vast collection of mods for your favorite games.</p>
+            </div>
+            <div class="feature">
+                <i class="fas fa-users"></i>
+                <h3>Engage with Community</h3>
+                <p>Connect with fellow modders, share tips, and showcase your creations.</p>
+            </div>
+            <div class="feature">
+                <i class="fas fa-shield-alt"></i>
+                <h3>Secure Downloads</h3>
+                <p>Download mods safely with our secure platform and verified sources.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="get-started-section">
+        <div class="container">
+            <h2>Ready to get started?</h2>
+            <a href="/register" class="get-started-button">Create an Account</a>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-section">
+            <h3>About Us</h3>
+            <ul>
+                <li><a href="/about">Our Story</a></li>
+                <li><a href="/team">Team</a></li>
+                <li><a href="/careers">Careers</a></li>
+            </ul>
+        </div>
+        <div class="footer-section">
+            <h3>Support</h3>
+            <ul>
+                <li><a href="/faq">FAQ</a></li>
+                <li><a href="/support">Contact Support</a></li>
+                <li><a href="/feedback">Feedback</a></li>
+            </ul>
+        </div>
+        <div class="footer-section">
+            <h3>Follow Us</h3>
+            <div class="social-icons">
+                <a href="https://www.facebook.com" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                <a href="https://www.twitter.com" target="_blank"><i class="fab fa-twitter"></i></a>
+                <a href="https://www.instagram.com" target="_blank"><i class="fab fa-instagram"></i></a>
+                <a href="https://www.linkedin.com" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+            </div>
+        </div>
+        <div class="footer-section">
+            <h3>Newsletter</h3>
+            <div class="newsletter">
+                <input type="email" placeholder="Enter your email" />
+                <button type="button">Subscribe</button>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            &copy; 2024 Azurite. All rights reserved. | <a href="/privacy">Privacy Policy</a> | <a href="/terms">Terms of Service</a>
+        </div>
+    </footer>
+    
+
+    <!-- Font Awesome -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/js/all.min.js"></script>
+    <script src="scripts/header.js" defer></script>
+    <script>
+        function toggleMobileNav() {
+            document.getElementById('mobile-nav').classList.toggle('show');
+            document.querySelector('.hamburger').classList.toggle('active');
+        }
+    </script>
+    <script>
+        function getCookie(name) {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                const [cookieName, cookieValue] = cookie.split('=');
+                if (cookieName === name) {
+                    return cookieValue;
+                }
+            }
+            return null;
+        }
+    
+        window.addEventListener('DOMContentLoaded', () => {
+            const accountLink = document.getElementById('accountLink');
+            const mobileAccountLink = document.getElementById('mobileAccountLink');
+    
+            const username = getCookie('username');
+    
+            if (username) {
+                accountLink.textContent = username;
+                mobileAccountLink.textContent = username;
+    
+                accountLink.href = `/user/${username}`;
+                mobileAccountLink.href = `/user/${username}`;
+            }
+        });
+    </script>    
 </body>
 </html>
