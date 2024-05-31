@@ -7,7 +7,6 @@
 [![GitHub issues](https://img.shields.io/github/issues/AbstractMelon/Azurite)](https://github.com/AbstractMelon/Azurite/issues)
 [![GitHub commits](https://img.shields.io/github/commit-activity/m/AbstractMelon/Azurite)](https://github.com/AbstractMelon/Azurite/commits)
 
-
 Welcome to Azurite! This project aims to provide a platform for sharing and discovering mods for various games, similar to Thunderstore.
 
 ## Table of Contents
