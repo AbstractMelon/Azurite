@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/x-icon" href="./assets/images/icon.ico">
+  <link rel="stylesheet" href="/stylesheets/register.css">
+  <title>Azurite - Login</title>
+</head>
+<body>
+  <main class="container">
+    <h1>Login</h1>
+    <div id="errorMessage" class="error-message" role="alert"></div>
+    <form id="loginForm" onsubmit="event.preventDefault(); login();">
+      <input type="text" id="username" placeholder="Username" required aria-label="Username">
+      <input type="password" id="password" placeholder="Password" required aria-label="Password">
+      <button type="submit">Login</button>
+    </form>
+  </main>
+
+  <script>
+    async function login() {
+      const username = document.getElementById('username').value;
+      const password = document.getElementById('password').value;
+
+      const jsonData = {
+        username,
+        password
+      };
+
+      try {
+        const response = await fetch('/api/v1/login', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(jsonData)
+        });
+
+        if (!response.ok) {
+          const errorMessage = await response.text();
+          document.getElementById('errorMessage').textContent = errorMessage;
+          document.getElementById('errorMessage').style.display = 'block';
+          return;
+        }
+
+        const successMessage = await response.text();
+        console.log(successMessage);
+        window.location.href = '/';
+      } catch (error) {
+        console.error('Error:', error.message);
+        document.getElementById('errorMessage').textContent = 'An unexpected error occurred. Please try again.';
+        document.getElementById('errorMessage').style.display = 'block';
+      }
+    }
+  </script>
+</body>
+</html>

@@ -1,8 +1,7 @@
 ![Github logo](azuritelogo.png)
 
 # Azurite
-
-[![Version](https://img.shields.io/badge/Version-v0.3.1-blue)](https://github.com/AbstractMelon/Azurite/)
+[![Version](https://img.shields.io/badge/Version-v0.3.5-blue)](https://github.com/AbstractMelon/Azurite/)
 [![Contributers](https://img.shields.io/badge/Contributers-3-red)](https://github.com/AbstractMelon/Azurite/)
 [![Total lines of code in master](https://tokei.rs/b1/github/AbstractMelon/Azurite?category=lines)](https://github.com/AbstractMelon/Azurite)
 [![GitHub issues](https://img.shields.io/github/issues/AbstractMelon/Azurite)](https://github.com/AbstractMelon/Azurite/issues)
@@ -25,6 +24,7 @@ Welcome to Azurite! This project aims to provide a platform for sharing and disc
 Azurite is a web application (and maybe a mod manager later?) where users can upload, share, and download mods for their favorite games. It provides a user-friendly interface for browsing mods, searching for specific ones, and managing your own uploads.
 
 ## Features
+
 - **Exsists**: The site exsists! New stuff comming soon!
 <!--- - **User Authentication**: Secure user authentication system for registering, logging in, and managing user accounts.
 - **Mod Upload**: Allow users to upload their mods, including descriptions, screenshots, and version information.
