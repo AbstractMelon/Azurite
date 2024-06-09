@@ -13,6 +13,8 @@ const config = require("../config/server.json");
 app.use(morgan("dev"));
 app.use(express.json());
 
+app.use("/cdn", express.static(path.join(__dirname, "../database/data/")));
+
 app.use(
   helmet({
     contentSecurityPolicy: {

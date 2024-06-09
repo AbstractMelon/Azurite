@@ -61,7 +61,7 @@ function getMods(gameName) {
       const stats = fs.statSync(modFilePath);
 
       if (stats.isFile()) {
-        if (path.extname(file) === '.json') {
+        if (path.extname(file) === ".json") {
           // console.log(`Processing mod file: ${modFilePath}`);
 
           const modData = JSON.parse(fs.readFileSync(modFilePath, "utf-8"));
@@ -72,7 +72,7 @@ function getMods(gameName) {
         }
       } else if (stats.isDirectory()) {
         // console.log(`Entering directory: ${modFilePath}`);
-        findModsInDirectory(modFilePath); 
+        findModsInDirectory(modFilePath);
       }
     });
   }
