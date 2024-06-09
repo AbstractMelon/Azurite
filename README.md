@@ -26,13 +26,13 @@ Azurite is a web application (and maybe a mod manager later?) where users can up
 ## Features
 
 - **Exsists**: The site exsists! New stuff comming soon!
-<!--- - **User Authentication**: Secure user authentication system for registering, logging in, and managing user accounts.
+<!--- - **User Authentication**: Secure user authentication system for registering, logging in, and managing user accounts. -->
 - **Mod Upload**: Allow users to upload their mods, including descriptions, screenshots, and version information.
 - **Mod Listing**: Display a list of available mods with sorting and filtering options.
 - **Search Functionality**: Enable users to search for mods based on keywords, categories, or other criteria.
 - **Mod Details**: Show detailed information about each mod, including descriptions, download links, and user ratings.
 - **User Interaction**: Allow users to rate mods, leave comments, and interact with other users.
-- **Responsive Design**: Ensure the site is accessible and usable across different devices and screen sizes. -->
+- **Responsive Design**: Ensure the site is accessible and usable across different devices and screen sizes. 
 
 ## Demo
 

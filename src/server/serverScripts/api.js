@@ -1,5 +1,10 @@
 /* eslint-disable no-undef */
-const { getGames, getAccounts, initializeDatabase, getMods } = require("../database.js");
+const {
+  getGames,
+  getAccounts,
+  initializeDatabase,
+  getMods,
+} = require("../database.js");
 // const { accountExists } = require("../../utils/accounts.js");
 const path = require("path");
 const fs = require("fs");
@@ -51,22 +56,27 @@ module.exports = async (app) => {
 
   const games = getGames();
 
-  const mods = getMods('bopl-battle');
+  const mods = getMods("bopl-battle");
   // console.log(mods);
 
-  app.post('/submit-ticket', (req, res) => {
+  app.post("/submit-ticket", (req, res) => {
     const ticket = req.body;
-    const filePath = path.join(__dirname, '../../database/data/tickets', `ticket_${Date.now()}.json`);
+    const filePath = path.join(
+      __dirname,
+      "../../database/data/tickets",
+      `ticket_${Date.now()}.json`,
+    );
 
-      fs.writeFile(filePath, JSON.stringify(ticket, null, 2), (err) => {
-          if (err) {
-              console.error('Error saving ticket:', err);
-              return res.status(500).json({ success: false, message: 'Error saving ticket' });
-          }
-          res.json({ success: true, message: 'Ticket submitted successfully' });
-      });
+    fs.writeFile(filePath, JSON.stringify(ticket, null, 2), (err) => {
+      if (err) {
+        console.error("Error saving ticket:", err);
+        return res
+          .status(500)
+          .json({ success: false, message: "Error saving ticket" });
+      }
+      res.json({ success: true, message: "Ticket submitted successfully" });
+    });
   });
-
 
   // Get games
   app.get("/api/v1/getGames", (req, res) => {
@@ -79,23 +89,27 @@ module.exports = async (app) => {
       next();
       return;
     }
-  
-    const [gameId, modSegment, modId] = req.path.replace("/games/", "").split("/");
+
+    const [gameId, modSegment, modId] = req.path
+      .replace("/games/", "")
+      .split("/");
     const game = games[gameId];
     if (!game) {
       res.status(404).sendFile(path.join(__dirname, "../../public/404.html"));
       return;
     }
-  
+
     if (modSegment === "mods" && modId) {
       const mod = mods[gameId] && mods[gameId][modId];
       if (!mod) {
         res.status(404).sendFile(path.join(__dirname, "../../public/404.html"));
         return;
       }
-  
-      const modFilePath = path.resolve("src/public/html/downloads/modpage.html");
-      fs.readFile(modFilePath, 'utf8', (err, data) => {
+
+      const modFilePath = path.resolve(
+        "src/public/html/downloads/modpage.html",
+      );
+      fs.readFile(modFilePath, "utf8", (err, data) => {
         if (err) {
           res.status(500).send("Server Error");
           return;
@@ -105,26 +119,29 @@ module.exports = async (app) => {
           .replace(/\${gamename}/g, game.name)
           .replace(/\${modname}/g, mod.name)
           .replace(/\${moddescription}/g, mod.description)
-          .replace(/\${modicon}/g, `../../database/data/${gameId}/${mod.name}/${mod.modIcon}`)
+          .replace(
+            /\${modicon}/g,
+            `../../database/data/${gameId}/${mod.name}/${mod.modIcon}`,
+          )
           .replace(/\${modfile}/g, `/downloads/${mod.modFile}`);
-  
+
         res.send(htmlWithModData);
       });
       return;
     }
-  
+
     const filePath = path.resolve("src/public/html/games/downloadpage.html");
-    fs.readFile(filePath, 'utf8', (err, data) => {
+    fs.readFile(filePath, "utf8", (err, data) => {
       if (err) {
         res.status(500).send("Server Error");
         return;
       }
 
       const htmlWithGameName = data.replace(/\${gamename}/g, game.id);
-  
+
       res.send(htmlWithGameName);
     });
-  });  
+  });
 
   app.post("/api/v1/createAccount", (req, res) => {
     const {
@@ -289,20 +306,30 @@ module.exports = async (app) => {
       fs.copyFileSync(modIcon.filepath, modIconPath);
       fs.unlinkSync(modIcon.filepath);
 
+      const modFileUrl = `/cdn/mods/${game.id}/${modId}/${path.basename(modFilePath)}`;
+      const modIconUrl = `/cdn/mods/${game.id}/${modId}/${path.basename(modIconPath)}`;
+
       const manifestData = {
         name: modName,
         description: modDescription,
         id: modId,
         version: modVersion,
-        modFile: path.basename(modFilePath),
-        modIcon: path.basename(modIconPath),
+        modFile: modFileUrl,
+        modIcon: modIconUrl,
       };
       const manifestPath = path.join(modFolderPath, "manifest.json");
       fs.writeFileSync(manifestPath, JSON.stringify(manifestData, null, 2));
 
+      const manifestUrl = `/cdn/mods/${game.id}/${modId}/manifest.json`;
+
       const successMessage = "Mod uploaded successfully";
       console.log(successMessage);
-      res.status(201).send(successMessage);
+      res.status(201).send({
+        message: successMessage,
+        modFileUrl,
+        modIconUrl,
+        manifestUrl,
+      });
     });
   });
 
