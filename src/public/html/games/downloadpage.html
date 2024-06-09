@@ -49,10 +49,10 @@
                     mods.forEach(mod => {
                         const modTemplate = document.getElementById('mod-item-template').innerHTML
                             .replace('{modId}', mod.id)
-                            .replace('{image}', `../../database/data/${gamename}/${mod.name}/${mod.modIcon}`)
+                            .replace('{image}', mod.modIcon)
                             .replace('{title}', mod.name)
                             .replace('{description}', mod.description)
-                            .replace('{downloadLink}', `/downloads/${mod.modFile}`);
+                            .replace('{downloadLink}', mod.modFile);
 
                         const modElement = document.createElement('div');
                         modElement.innerHTML = modTemplate;
