@@ -45,7 +45,7 @@ To run azurite locally, follow these steps:
 1. Clone the repository: `git clone https://github.com/Abstractmelon/azurite.git`
 2. Navigate to the project directory: `cd azurite`
 3. Install dependencies: `npm install`
-5. Start the development server: `npm start`
+5. Start the development server: `npm run dev`
 
 ## Usage
 
