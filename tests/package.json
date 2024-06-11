@@ -3,10 +3,16 @@
   "version": "1.0.0",
   "main": "sll-maker.js",
   "scripts": {
-    "ssl": "node generate-certificates.js"
+    "ssl": "node generate-certificates.js",
+    "ssl-public": "node ./ssl-testing/generate-public-certificates.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "description": ""
+  "description": "",
+  "dependencies": {
+    "acme-http-01-standalone": "^3.0.5",
+    "greenlock": "^2.8.9",
+    "greenlock-store-fs": "^3.2.2"
+  }
 }
