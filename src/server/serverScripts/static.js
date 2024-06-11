@@ -7,6 +7,7 @@ const quickFiles = {
   "/account": path.resolve("./src/public/html/account/index.html"),
   "/games": path.resolve("./src/public/html/games/games.html"),
   "/upload": path.resolve("./src/public/html/upload.html"),
+  "/import": path.resolve("./src/public/html/import.html"),
   "/testing": path.resolve("./src/public/testing.html"),
   "/login": path.resolve("./src/public/html/account/login.html"),
   "/register": path.resolve("./src/public/html/account/register.html"),
