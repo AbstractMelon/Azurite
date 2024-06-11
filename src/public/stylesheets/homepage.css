@@ -76,8 +76,8 @@ footer {
     background-color: var(--bgcol2);
     color: var(--textcol);
     padding: 40px 20px;
-    padding-left: 20%;
-    padding-right: 20%;
+    padding-left: 5%;
+    padding-right: 5%;
     text-align: left;
     display: flex;
     flex-wrap: wrap;
@@ -85,8 +85,9 @@ footer {
 }
 
 footer .footer-section {
-    flex: 1 1 100px;
-    margin: 0;
+    flex: 0.5 0.5 100px;
+    margin: 0px;
+    padding: 0;
 }
 
 footer .footer-section h3 {
@@ -162,6 +163,6 @@ footer .footer-bottom {
     margin-top: 20px;
     border-top: 1px solid var(--textcol);
     padding-top: 20px;
-    font-size: 14px;
+    font-size: 18px;
     color: var(--textcol);
 }
