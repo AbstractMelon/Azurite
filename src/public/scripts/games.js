@@ -2,10 +2,10 @@
   const gameListEl = document.getElementById("games-list-main");
 
   function addGame({
-    name = "Joe",
-    description = "Even better than Joe Classic!",
-    id = "joe",
-    image = "../../assets/images/games/joe.png",
+    name = "Placeholder",
+    description = "The best placeholder ever!",
+    id = "place-holder",
+    image = "../../assets/images/games/placeholder.png",
   }) {
     var gameCard = document.createElement("div");
     gameCard.innerHTML = `<a href="/games/${id}">

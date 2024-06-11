@@ -1,3 +1,4 @@
+/* eslint-disable no-constant-binary-expression */
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-undef */
 const express = require("express");
@@ -13,7 +14,29 @@ const config = require("../config/server.json");
 app.use(morgan("dev"));
 app.use(express.json());
 
+app.get('/scripts/header.js', (req, res) => {
+  res.type('application/javascript');
+  res.sendFile(path.join(__dirname, '../public/scripts/header.js'));
+});
+
+app.use((req, res, next) => {
+  const restrictedPaths = ['/cdn/accounts/', '/cdn/keys/', '/cdn/tickets/'];
+
+  if (req.url.includes('/../' || req.url.includes('/./'))) {
+    const userIp = req.ip;
+    console.log(`IP banned: ${userIp}`);
+    return res.status(403).send('Forbidden');
+  }
+  if (req.url.startsWith('/cdn') && restrictedPaths.some(path => req.url.startsWith(path))) {
+      const userIp = req.ip;
+      console.log(`IP banned: ${userIp}`);
+      return res.status(403).send('Forbidden');
+  }
+  next();
+});
+
 app.use("/cdn", express.static(path.join(__dirname, "../database/data/")));
+
 
 app.use(
   helmet({
