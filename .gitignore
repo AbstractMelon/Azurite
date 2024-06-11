@@ -1,5 +1,5 @@
 database/
-/node_modules
+node_modules
 data/
 yar-error.log
 dist/
