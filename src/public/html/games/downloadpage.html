@@ -42,8 +42,9 @@
         });
 
         function loadMods() {
+            const gameid = "${gameid}";
             const gamename = "${gamename}";
-            fetch(`/api/v1/getMods/${gamename}`)
+            fetch(`/api/v1/getMods/${gameid}`)
                 .then(response => response.json())
                 .then(mods => {
                     mods.forEach(mod => {

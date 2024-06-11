@@ -137,11 +137,14 @@ module.exports = async (app) => {
         res.status(500).send("Server Error");
         return;
       }
-
-      const htmlWithGameName = data.replace(/\${gamename}/g, game.id);
-
+    
+      const htmlWithGameName = data
+        .replace(/\${gamename}/g, game.name)
+        .replace(/\${game\.id}/g, 'gameid');
+    
       res.send(htmlWithGameName);
     });
+    
   });
 
   app.post("/api/v1/createAccount", (req, res) => {
