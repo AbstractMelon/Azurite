@@ -1,0 +1,12 @@
+{
+  "name": "tests",
+  "version": "1.0.0",
+  "main": "sll-maker.js",
+  "scripts": {
+    "ssl": "node generate-certificates.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": ""
+}

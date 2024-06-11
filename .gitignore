@@ -3,3 +3,4 @@ database/
 data/
 yar-error.log
 dist/
+ssl/

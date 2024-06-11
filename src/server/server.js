@@ -2,41 +2,57 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-undef */
 const express = require("express");
-const app = express();
 const fs = require("fs");
 const path = require("path");
 const helmet = require("helmet");
 const morgan = require("morgan");
+const https = require("https");
 
 // Load configuration from config.json
 const config = require("../config/server.json");
 
+// SSL certificate and key
+const privateKey = fs.readFileSync(
+  path.join(__dirname, "../config/ssl/privateKey.key"),
+  "utf8",
+);
+const certificate = fs.readFileSync(
+  path.join(__dirname, "../config/ssl/certificate.crt"),
+  "utf8",
+);
+
+const credentials = { key: privateKey, cert: certificate };
+
+const app = express();
+
 app.use(morgan("dev"));
 app.use(express.json());
 
-app.get('/scripts/header.js', (req, res) => {
-  res.type('application/javascript');
-  res.sendFile(path.join(__dirname, '../public/scripts/header.js'));
+app.get("/scripts/header.js", (req, res) => {
+  res.type("application/javascript");
+  res.sendFile(path.join(__dirname, "../public/scripts/header.js"));
 });
 
 app.use((req, res, next) => {
-  const restrictedPaths = ['/cdn/accounts/', '/cdn/keys/', '/cdn/tickets/'];
+  const restrictedPaths = ["/cdn/accounts/", "/cdn/keys/", "/cdn/tickets/"];
 
-  if (req.url.includes('/../' || req.url.includes('/./'))) {
+  if (req.url.includes("/../") || req.url.includes("/./")) {
     const userIp = req.ip;
     console.log(`IP banned: ${userIp}`);
-    return res.status(403).send('Forbidden');
+    return res.status(403).send("Forbidden");
   }
-  if (req.url.startsWith('/cdn') && restrictedPaths.some(path => req.url.startsWith(path))) {
-      const userIp = req.ip;
-      console.log(`IP banned: ${userIp}`);
-      return res.status(403).send('Forbidden');
+  if (
+    req.url.startsWith("/cdn") &&
+    restrictedPaths.some((path) => req.url.startsWith(path))
+  ) {
+    const userIp = req.ip;
+    console.log(`IP banned: ${userIp}`);
+    return res.status(403).send("Forbidden");
   }
   next();
 });
 
 app.use("/cdn", express.static(path.join(__dirname, "../database/data/")));
-
 
 app.use(
   helmet({
@@ -88,6 +104,9 @@ app.use((err, req, res, next) => {
   }
 });
 
-app.listen(port, () => {
+// Create HTTPS server
+const httpsServer = https.createServer(credentials, app);
+
+httpsServer.listen(port, () => {
   console.log(`Azurite listening on port ${port}`);
 });
