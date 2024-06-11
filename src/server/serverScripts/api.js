@@ -102,7 +102,8 @@ module.exports = async (app) => {
     if (modSegment === "mods" && modId) {
       const mod = mods[gameId] && mods[gameId][modId];
       if (!mod) {
-        res.status(404).sendFile(path.join(__dirname, "../../public/404.html"));
+        // res.status(404).sendFile(path.join(__dirname, "../../public/404.html"));
+        res.sendFile(path.join(__dirname, "../../public/nopage.html"));
         return;
       }
 
