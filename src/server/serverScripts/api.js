@@ -140,7 +140,7 @@ module.exports = async (app) => {
     
       const htmlWithGameName = data
         .replace(/\${gamename}/g, game.name)
-        .replace(/\${game\.id}/g, game.id);
+        .replace(/\${gameid}/g, game.id);
     
       res.send(htmlWithGameName);
     });
