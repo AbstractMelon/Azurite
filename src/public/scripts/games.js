@@ -20,7 +20,7 @@
   const searchInput = document.getElementById("search-input");
   const searchForm = document.getElementById("search-form");
 
-  let games = await (await fetch("/api/v1/getGames")).json();
+  let games = await (await fetch("/api/v1/games")).json();
 
   function searchGames() {
     const searchValue = searchInput.value.toLowerCase();
