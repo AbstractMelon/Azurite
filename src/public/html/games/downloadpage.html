@@ -29,16 +29,19 @@
                 <div class="mod-info">
                     <h2>{title}</h2>
                     <p>{description}</p>
-                    <a href="{downloadLink}" class="download-button">Download</a>
+                    <div class="author-download">
+                        <a href="{downloadLink}" class="download-button">Download</a>
+                    </div>
                 </div>
             </a>
         </div>
     </template>
-
+    
     <script src="/scripts/header.js" defer></script>
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             loadMods();
+            document.getElementById('searchInput').addEventListener('input', searchMods);
         });
 
         function loadMods() {
@@ -61,6 +64,21 @@
                     });
                 })
                 .catch(error => console.error("Error fetching mods:", error));
+        }
+
+        function searchMods() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const modItems = document.querySelectorAll('.mod-item');
+
+            modItems.forEach(item => {
+                const title = item.querySelector('h2').textContent.toLowerCase();
+                const description = item.querySelector('p').textContent.toLowerCase();
+                if (title.includes(searchTerm) || description.includes(searchTerm)) {
+                    item.style.display = "block";
+                } else {
+                    item.style.display = "none";
+                }
+            });
         }
     </script>
 </body>
