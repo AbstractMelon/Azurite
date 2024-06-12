@@ -1,7 +1,7 @@
 import fetch from 'node-fetch';
 import FormData from 'form-data';
 import https from 'https';
-import fs from 'fs';
+import fs, { mkdirSync } from 'fs';
 import path from 'path';
 import { promisify } from 'util';
 import stream from 'stream';
@@ -42,6 +42,7 @@ const uploadMod = async (modData) => {
   await downloadFile(download_url, modFilePath);
   await downloadFile(icon, modIconPath);
   const folderPath = path.join(path.resolve(tempDir),"mod")
+  mkdirSync(folderPath)
   fs.createReadStream(modFilePath).pipe(unzip.Extract({ path: folderPath }));
 
   const formData = new FormData();
