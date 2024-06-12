@@ -14,7 +14,6 @@ const fsUtils = require("../../utils/file.js");
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
 
-
 // Utils here bc it hates me :sob:
 const dbPath = path.resolve("./src/database");
 const accountsPath = path.join(dbPath, "data", "accounts");
@@ -236,8 +235,8 @@ module.exports = async (app) => {
         return;
       }
 
-      // Save username to cookies
-      res.setHeader("Set-Cookie", `username=${username};`);
+      // Set the cookie
+      res.cookie('username', username, { maxAge: 3600000 });
 
       const successMessage = "Login successful.";
       console.log(successMessage);
