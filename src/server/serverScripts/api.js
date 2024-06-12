@@ -208,6 +208,7 @@ module.exports = async (app) => {
 
   // Login
   app.post("/api/v1/login", async (req, res) => {
+    const accounts = getAccounts();
     const { username, password } = req.body;
 
     if (!username || !password) {
@@ -220,7 +221,7 @@ module.exports = async (app) => {
     // Find the account
     const account = accounts.find((acc) => acc.username === username);
     if (!account) {
-      const errorMessage = "Invalid username or password.";
+      const errorMessage = "Account does not exsist!";
       console.error(errorMessage);
       res.status(401).send(errorMessage);
       return;
@@ -236,7 +237,7 @@ module.exports = async (app) => {
       }
 
       // Save username to cookies
-      res.setHeader("Set-Cookie", `username=${username}; HttpOnly`);
+      res.setHeader("Set-Cookie", `username=${username};`);
 
       const successMessage = "Login successful.";
       console.log(successMessage);
