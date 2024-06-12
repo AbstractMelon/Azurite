@@ -204,7 +204,7 @@ module.exports = async (app) => {
       res.status(400).send(errorMessage);
       return;
     }
-
+    
     // Find the account
     const account = accounts.find(
       (acc) => acc.username === username && acc.password === password,
