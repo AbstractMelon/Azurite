@@ -5,6 +5,7 @@ import fs from 'fs';
 import path from 'path';
 import { promisify } from 'util';
 import stream from 'stream';
+import * as unzip from 'unzip'
 
 const pipeline = promisify(stream.pipeline);
 
@@ -40,6 +41,8 @@ const uploadMod = async (modData) => {
 
   await downloadFile(download_url, modFilePath);
   await downloadFile(icon, modIconPath);
+  const folderPath = path.join(path.resolve(tempDir),"mod")
+  fs.createReadStream(modFilePath).pipe(unzip.Extract({ path: folderPath }));
 
   const formData = new FormData();
   formData.append('modName', name);
