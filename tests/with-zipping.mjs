@@ -5,6 +5,7 @@ import fs from 'fs';
 import path from 'path';
 import { promisify } from 'util';
 import stream from 'stream';
+import * as unzip from 'unzip'
 
 const pipeline = promisify(stream.pipeline);
 
@@ -40,12 +41,14 @@ const uploadMod = async (modData) => {
 
   await downloadFile(download_url, modFilePath);
   await downloadFile(icon, modIconPath);
+  const dllPath = path.join(path.resolve(tempDir),"mod.dll")
+  fs.createReadStream(modFilePath).pipe(unzip.Extract({ path: dllPath }));
 
   const formData = new FormData();
   formData.append('modName', name);
   formData.append('modDescription', description);
   formData.append('modVersion', version_number);
-  formData.append('modFile', fs.createReadStream(modFilePath));
+  formData.append('modFile', fs.createReadStream(dllPath));
   formData.append('modIcon', fs.createReadStream(modIconPath));
   formData.append('gameId', 'bopl-battle');
 

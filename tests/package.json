@@ -19,6 +19,7 @@
     "greenlock-store-fs": "^3.2.2",
     "node-fetch": "^3.3.2",
     "nodemon": "^3.1.3",
+    "unzip": "^0.1.11",
     "unzipper": "^0.12.1"
   }
 }
