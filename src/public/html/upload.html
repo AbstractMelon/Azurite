@@ -40,7 +40,7 @@
     <script src="scripts/upload.js" defer></script>
 
     <script>
-        fetch("/api/v1/getGames")
+        fetch("/api/v1/games")
             .then(response => response.json())
             .then(games => {
                 const gameSelect = document.getElementById("gameSelect");
