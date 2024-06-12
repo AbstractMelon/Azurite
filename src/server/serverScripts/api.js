@@ -251,11 +251,9 @@ module.exports = async (app) => {
   // Account system
   const accounts = getAccounts();
 
-  /*
-  app.get("/api/v1/getAccounts", (req, res) => {
-    res.json(accounts);
-  });
-  */
+  app.get("/profile/:user", (req, res) => {
+    const { user } = req.params;
+});
 
   app.get("/user/:username", (req, res) => {
     const { username } = req.params;

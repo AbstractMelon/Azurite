@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 const headerContainer = document.getElementById("header-container");
 
 // Test cookie
