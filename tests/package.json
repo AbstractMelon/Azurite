@@ -5,7 +5,8 @@
   "scripts": {
     "ssl": "node generate-certificates.js",
     "ssl-public": "node ./ssl-testing/generate-public-certificates.js",
-    "upload": "nodemon upload-all-ts-mods.mjs"
+    "upload": "nodemon upload-all-ts-mods.mjs",
+    "zip": "nodemon with-zipping.mjs"
   },
   "keywords": [],
   "author": "",
@@ -17,6 +18,7 @@
     "greenlock": "^2.8.9",
     "greenlock-store-fs": "^3.2.2",
     "node-fetch": "^3.3.2",
-    "nodemon": "^3.1.3"
+    "nodemon": "^3.1.3",
+    "unzipper": "^0.12.1"
   }
 }

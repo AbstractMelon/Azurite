@@ -11,6 +11,9 @@ const fs = require("fs");
 const formidable = require("formidable");
 const fsUtils = require("../../utils/file.js");
 
+const bcrypt = require('bcrypt');
+const saltRounds = 10;
+
 // Utils here bc it hates me :sob:
 const dbPath = path.resolve("./src/database");
 const accountsPath = path.join(dbPath, "data", "accounts");
@@ -79,7 +82,7 @@ module.exports = async (app) => {
   });
 
   // Get games
-  app.get("/api/v1/getGames", (req, res) => {
+  app.get("/api/v1/games", (req, res) => {
     res.json(games);
   });
 
@@ -147,7 +150,8 @@ module.exports = async (app) => {
     
   });
 
-  app.post("/api/v1/createAccount", (req, res) => {
+  // Create Account
+  app.post("/api/v1/createAccount", async (req, res) => {
     const {
       username,
       password,
@@ -175,61 +179,83 @@ module.exports = async (app) => {
       return;
     }
 
-    createAccount(
-      username,
-      password,
-      bio,
-      email,
-      isAdmin,
-      gamesModded,
-      profilePicture,
-      socialLinks,
-      favoriteGames,
-      moddingExperience,
-    );
+    try {
+      const hashedPassword = await bcrypt.hash(password, saltRounds);
 
-    const successMessage = "Account created successfully";
-    console.log(successMessage);
-    res.status(201).send(successMessage);
+      createAccount(
+        username,
+        hashedPassword,
+        bio,
+        email,
+        isAdmin,
+        gamesModded,
+        profilePicture,
+        socialLinks,
+        favoriteGames,
+        moddingExperience,
+      );
+
+      const successMessage = "Account created successfully";
+      console.log(successMessage);
+      res.status(201).send(successMessage);
+    } catch (error) {
+      const errorMessage = `Error creating account: ${error.message}`;
+      console.error(errorMessage);
+      res.status(500).send(errorMessage);
+    }
   });
 
   // Login
-  app.post("/api/v1/login", (req, res) => {
+  app.post("/api/v1/login", async (req, res) => {
+    const accounts = getAccounts();
     const { username, password } = req.body;
 
-    // Check if username and password are provided
     if (!username || !password) {
       const errorMessage = "Username and password are required.";
       console.error(errorMessage);
       res.status(400).send(errorMessage);
       return;
     }
-    
+
     // Find the account
-    const account = accounts.find(
-      (acc) => acc.username === username && acc.password === password,
-    );
+    const account = accounts.find((acc) => acc.username === username);
     if (!account) {
-      const errorMessage = "Invalid username or password.";
+      const errorMessage = "Account does not exsist!";
       console.error(errorMessage);
       res.status(401).send(errorMessage);
       return;
     }
 
-    // Save username to cookies
-    res.setHeader("Set-Cookie", `username=${username}; HttpOnly`);
+    try {
+      const isPasswordMatch = await bcrypt.compare(password, account.password);
+      if (!isPasswordMatch) {
+        const errorMessage = "Invalid username or password.";
+        console.error(errorMessage);
+        res.status(401).send(errorMessage);
+        return;
+      }
 
-    const successMessage = "Login successful.";
-    console.log(successMessage);
-    res.status(200).send(successMessage);
+      // Set the cookie
+      res.cookie('username', username, { maxAge: 3600000 });
+
+      const successMessage = "Login successful.";
+      console.log(successMessage);
+      res.status(200).send(successMessage);
+    } catch (error) {
+      const errorMessage = `Error logging in: ${error.message}`;
+      console.error(errorMessage);
+      res.status(500).send(errorMessage);
+    }
   });
 
   // Account system
   const accounts = getAccounts();
 
+  /*
   app.get("/api/v1/getAccounts", (req, res) => {
     res.json(accounts);
   });
+  */
 
   app.get("/user/:username", (req, res) => {
     const { username } = req.params;
@@ -387,7 +413,7 @@ module.exports = async (app) => {
 });   
 
   // Get mods API
-  app.get("/api/v1/getMods/:gamename", (req, res) => {
+  app.get("/api/v1/mods/:gamename", (req, res) => {
     const { gamename } = req.params;
     const game = Object.values(games).find(
       (game) => game.id.toLowerCase() === gamename.toLowerCase(),
