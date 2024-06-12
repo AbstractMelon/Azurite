@@ -204,7 +204,7 @@ module.exports = async (app) => {
       res.status(400).send(errorMessage);
       return;
     }
-
+    
     // Find the account
     const account = accounts.find(
       (acc) => acc.username === username && acc.password === password,
@@ -336,6 +336,55 @@ module.exports = async (app) => {
       });
     });
   });
+
+  app.get("/api/v1/getModsFromThunderstore", async (req, res) => {
+    try {
+        // Fetch mods from Thunderstore API
+        const response = await fetch("https://thunderstore.io/c/bopl-battle/api/v1/package/");
+        if (!response.ok) {
+            throw new Error("Failed to fetch mods from Thunderstore");
+        }
+
+        // Parse the response JSON
+        const mods = await response.json();
+
+        // Extract relevant data from mods
+        const modList = mods.map(mod => ({
+            id: mod.owner + "/" + mod.name, 
+            name: mod.name,
+            description: mod.short_description
+        }));
+
+        res.json(modList);
+    } catch (error) {
+        console.error("Error fetching mods from Thunderstore:", error);
+        res.status(500).json({ error: "Failed to fetch mods from Thunderstore" });
+    }
+});
+
+  app.get("/api/v1/getModDetailsFromThunderstore", async (req, res) => {
+    try {
+        // const { mod } = req.query;
+
+        const response = await fetch(`https://thunderstore.io/c/bopl-battle/api/v1/package/`);
+        if (!response.ok) {
+            throw new Error("Failed to fetch mod details from Thunderstore");
+        }
+
+        const mods = await response.json();
+
+        const modData = mods.map(mod => ({
+          id: mod.owner + "/" + mod.name, 
+          name: mod.name,
+          description: mod.short_description
+      }));
+
+        res.json(modData);
+    } catch (error) {
+        console.error("Error fetching mod details from Thunderstore:", error);
+        res.status(500).json({ error: "Failed to fetch mod details from Thunderstore" });
+    }
+});   
 
   // Get mods API
   app.get("/api/v1/getMods/:gamename", (req, res) => {
