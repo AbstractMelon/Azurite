@@ -71,7 +71,7 @@
             })
             .catch(error => console.error("Error fetching mods from Thunderstore:", error));
 
-        fetch("/api/v1/getGames")
+        fetch("/api/v1/games")
             .then(response => response.json())
             .then(games => {
                 const gameSelect = document.getElementById("gameSelect");

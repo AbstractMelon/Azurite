@@ -35,6 +35,7 @@
                 </div>
             </a>
         </div>
+        <!-- <h5>Downloads: 0</h5> -->
     </template>
     
     <script src="/scripts/header.js" defer></script>
@@ -44,41 +45,52 @@
             document.getElementById('searchInput').addEventListener('input', searchMods);
         });
 
+        let allMods = [];
+
         function loadMods() {
             const gameid = "${gameid}";
             const gamename = "${gamename}";
-            fetch(`/api/v1/getMods/${gameid}`)
+            fetch(`/api/v1/mods/${gameid}`)
                 .then(response => response.json())
                 .then(mods => {
-                    mods.forEach(mod => {
-                        const modTemplate = document.getElementById('mod-item-template').innerHTML
-                            .replace('{modId}', mod.id)
-                            .replace('{image}', mod.modIcon)
-                            .replace('{title}', mod.name)
-                            .replace('{description}', mod.description)
-                            .replace('{downloadLink}', mod.modFile);
-
-                        const modElement = document.createElement('div');
-                        modElement.innerHTML = modTemplate;
-                        document.getElementById('mod-list').appendChild(modElement);
-                    });
+                    allMods = mods;
+                    displayMods(mods);
                 })
                 .catch(error => console.error("Error fetching mods:", error));
         }
 
+        function displayMods(mods) {
+            const modList = document.getElementById('mod-list');
+            modList.innerHTML = '';
+            mods.forEach(mod => {
+                const modTemplate = document.getElementById('mod-item-template').innerHTML
+                    .replace('{modId}', mod.id)
+                    .replace('{image}', mod.modIcon)
+                    .replace('{title}', mod.name)
+                    .replace('{description}', mod.description)
+                    .replace('{downloadLink}', mod.modFile);
+
+                    const modElement = document.createElement('div');
+                    modElement.innerHTML = modTemplate;
+                    document.getElementById('mod-list').appendChild(modElement);
+            });
+        }
+
         function searchMods() {
             const searchTerm = document.getElementById('searchInput').value.toLowerCase();
-            const modItems = document.querySelectorAll('.mod-item');
 
-            modItems.forEach(item => {
-                const title = item.querySelector('h2').textContent.toLowerCase();
-                const description = item.querySelector('p').textContent.toLowerCase();
-                if (title.includes(searchTerm) || description.includes(searchTerm)) {
-                    item.style.display = "block";
-                } else {
-                    item.style.display = "none";
-                }
+            if (searchTerm === '') {
+                displayMods(allMods);
+                return;
+            }
+
+            const filteredMods = allMods.filter(mod => {
+                const title = mod.name.toLowerCase();
+                const description = mod.description.toLowerCase();
+                return title.includes(searchTerm) || description.includes(searchTerm);
             });
+
+            displayMods(filteredMods);
         }
     </script>
 </body>
