@@ -13,7 +13,10 @@
     <div id="errorMessage" style="color: red; display: none;"></div>
     <form id="createAccountForm">
       <input type="text" id="username" placeholder="Username" required>
-      <input type="password" id="password" placeholder="Password" required>
+      <div class="password-container">
+        <input type="password" id="password" placeholder="Password" required>
+        <input type="checkbox" id="showPasswordCheckbox" onchange="togglePasswordVisibility()"> Show Password
+      </div>
       <button type="button" onclick="createAccount()">Create Account</button>
     </form>
   </div>
@@ -49,6 +52,17 @@
         window.location.href = '/';
       } catch (error) {
         console.error('Error:', error.message);
+      }
+    }
+
+    function togglePasswordVisibility() {
+      const passwordField = document.getElementById('password');
+      const checkbox = document.getElementById('showPasswordCheckbox');
+
+      if (checkbox.checked) {
+        passwordField.type = 'text';
+      } else {
+        passwordField.type = 'password';
       }
     }
   </script>
