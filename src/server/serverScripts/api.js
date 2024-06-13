@@ -10,9 +10,9 @@ const path = require("path");
 const fs = require("fs");
 const formidable = require("formidable");
 const fsUtils = require("../../utils/file.js");
-const https = require('https');
+const https = require("https");
 
-const bcrypt = require('bcrypt');
+const bcrypt = require("bcrypt");
 const saltRounds = 10;
 
 // Utils here bc it hates me :sob:
@@ -141,14 +141,13 @@ module.exports = async (app) => {
         res.status(500).send("Server Error");
         return;
       }
-    
+
       const htmlWithGameName = data
         .replace(/\${gamename}/g, game.name)
         .replace(/\${gameid}/g, game.id);
-    
+
       res.send(htmlWithGameName);
     });
-    
   });
 
   // Create Account
@@ -237,7 +236,7 @@ module.exports = async (app) => {
       }
 
       // Set the cookie
-      res.cookie('username', username, { maxAge: 3600000 });
+      res.cookie("username", username, { maxAge: 3600000 });
 
       const successMessage = "Login successful.";
       console.log(successMessage);
@@ -261,7 +260,7 @@ module.exports = async (app) => {
     }
     res.json(account);
   });
-  
+
   app.get("/user/:username", (req, res) => {
     const { username } = req.params;
     const account = accounts.find((acc) => acc.username === username);
@@ -370,52 +369,58 @@ module.exports = async (app) => {
 
   app.get("/api/v1/getModsFromThunderstore", async (req, res) => {
     try {
-        // Fetch mods from Thunderstore API
-        const response = await fetch("https://thunderstore.io/c/bopl-battle/api/v1/package/");
-        if (!response.ok) {
-            throw new Error("Failed to fetch mods from Thunderstore");
-        }
+      // Fetch mods from Thunderstore API
+      const response = await fetch(
+        "https://thunderstore.io/c/bopl-battle/api/v1/package/",
+      );
+      if (!response.ok) {
+        throw new Error("Failed to fetch mods from Thunderstore");
+      }
 
-        // Parse the response JSON
-        const mods = await response.json();
+      // Parse the response JSON
+      const mods = await response.json();
 
-        // Extract relevant data from mods
-        const modList = mods.map(mod => ({
-            id: mod.owner + "/" + mod.name, 
-            name: mod.name,
-            description: mod.short_description
-        }));
+      // Extract relevant data from mods
+      const modList = mods.map((mod) => ({
+        id: mod.owner + "/" + mod.name,
+        name: mod.name,
+        description: mod.short_description,
+      }));
 
-        res.json(modList);
+      res.json(modList);
     } catch (error) {
-        console.error("Error fetching mods from Thunderstore:", error);
-        res.status(500).json({ error: "Failed to fetch mods from Thunderstore" });
+      console.error("Error fetching mods from Thunderstore:", error);
+      res.status(500).json({ error: "Failed to fetch mods from Thunderstore" });
     }
-});
+  });
 
   app.get("/api/v1/getModDetailsFromThunderstore", async (req, res) => {
     try {
-        // const { mod } = req.query;
+      // const { mod } = req.query;
 
-        const response = await fetch(`https://thunderstore.io/c/bopl-battle/api/v1/package/`);
-        if (!response.ok) {
-            throw new Error("Failed to fetch mod details from Thunderstore");
-        }
+      const response = await fetch(
+        `https://thunderstore.io/c/bopl-battle/api/v1/package/`,
+      );
+      if (!response.ok) {
+        throw new Error("Failed to fetch mod details from Thunderstore");
+      }
 
-        const mods = await response.json();
+      const mods = await response.json();
 
-        const modData = mods.map(mod => ({
-          id: mod.owner + "/" + mod.name, 
-          name: mod.name,
-          description: mod.short_description
+      const modData = mods.map((mod) => ({
+        id: mod.owner + "/" + mod.name,
+        name: mod.name,
+        description: mod.short_description,
       }));
 
-        res.json(modData);
+      res.json(modData);
     } catch (error) {
-        console.error("Error fetching mod details from Thunderstore:", error);
-        res.status(500).json({ error: "Failed to fetch mod details from Thunderstore" });
+      console.error("Error fetching mod details from Thunderstore:", error);
+      res
+        .status(500)
+        .json({ error: "Failed to fetch mod details from Thunderstore" });
     }
-});   
+  });
 
   // Get mods API
   app.get("/api/v1/mods/:gamename", (req, res) => {
