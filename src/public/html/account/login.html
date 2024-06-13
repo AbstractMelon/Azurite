@@ -14,6 +14,7 @@
     <form id="loginForm" onsubmit="event.preventDefault(); login();">
       <input type="text" id="username" placeholder="Username" required aria-label="Username">
       <input type="password" id="password" placeholder="Password" required aria-label="Password">
+      <input type="checkbox" id="showPasswordCheckbox" onchange="togglePasswordVisibility()"> Show Password
       <button type="submit">Login</button>
     </form>
   </main>
@@ -51,6 +52,16 @@
         console.error('Error:', error.message);
         document.getElementById('errorMessage').textContent = 'An unexpected error occurred. Please try again.';
         document.getElementById('errorMessage').style.display = 'block';
+      }
+    }
+    function togglePasswordVisibility() {
+      const passwordField = document.getElementById('password');
+      const checkbox = document.getElementById('showPasswordCheckbox');
+
+      if (checkbox.checked) {
+        passwordField.type = 'text';
+      } else {
+        passwordField.type = 'password';
       }
     }
   </script>

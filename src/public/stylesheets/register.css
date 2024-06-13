@@ -44,6 +44,11 @@ input[type="password"]::placeholder {
   color: #b9bbbe;
 }
 
+.password-container {
+  position: relative;
+}
+
+
 button {
   width: 100%;
   padding: 10px;
