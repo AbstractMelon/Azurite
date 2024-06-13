@@ -12,9 +12,10 @@ const quickFiles = {
   "/login": path.resolve("./src/public/html/account/login.html"),
   "/register": path.resolve("./src/public/html/account/register.html"),
   "/support/faq": path.resolve("./src/public/html/helpful/faq.html"),
+  "/support/contact": path.resolve("./src/public/html/helpful/support.html"),
+  "/support/discord": path.resolve("./src/public/html/helpful/discord.html"),
   "/feedback": path.resolve("./src/public/html/helpful/feedback.html"),
   "/privacy": path.resolve("./src/public/html/helpful/privacy.html"),
-  "/support/contact": path.resolve("./src/public/html/helpful/support.html"),
   "/terms": path.resolve("./src/public/html/helpful/terms.html"),
   "/logo/azuritelogo.png": path.resolve(
     "./src/public/assets/images/azuritelogo.png",
