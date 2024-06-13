@@ -10,6 +10,7 @@ const path = require("path");
 const fs = require("fs");
 const formidable = require("formidable");
 const fsUtils = require("../../utils/file.js");
+const https = require('https');
 
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
@@ -251,10 +252,16 @@ module.exports = async (app) => {
   // Account system
   const accounts = getAccounts();
 
-  app.get("/profile/:user", (req, res) => {
+  app.get("/profile/:user", async (req, res) => {
     const { user } = req.params;
-});
-
+    const account = accounts.find((acc) => acc.username === user);
+    if (!account) {
+      res.status(404).send("Account not found");
+      return;
+    }
+    res.json(account);
+  });
+  
   app.get("/user/:username", (req, res) => {
     const { username } = req.params;
     const account = accounts.find((acc) => acc.username === username);
