@@ -63,6 +63,7 @@
   });
 
   app.use("/cdn", express.static(path.join(__dirname, "../database/data/")));
+  app.use("/docs", express.static(path.join(__dirname, "../public/documentation")));
 
   app.use(
     helmet({
