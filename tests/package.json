@@ -14,12 +14,12 @@
   "description": "",
   "dependencies": {
     "acme-http-01-standalone": "^3.0.5",
+    "adm-zip": "^0.5.14",
     "form-data": "^4.0.0",
     "greenlock": "^2.8.9",
     "greenlock-store-fs": "^3.2.2",
     "node-fetch": "^3.3.2",
     "nodemon": "^3.1.3",
-    "unzip": "^0.1.11",
     "unzipper": "^0.12.1"
   }
 }
