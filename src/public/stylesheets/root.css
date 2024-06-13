@@ -1,10 +1,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Kumbh+Sans:wght@100..900&display=swap');
 
 :root {
-    --accent: #0055ff;
-    --bgcol: #ffffff;
-    --bgcol2: #d4d4d4;
-    --textcol: #000000;
+    --accent: #3975e5;
+    --bgcol: #292929;
+    --bgcol2: #222222;
+    --textcol: #ffffff;
     --textcol2: #ffffff;
 }
 
@@ -20,10 +20,17 @@
 
 @media (prefers-color-scheme: light) {
     :root {
+        /*
         --accent: #0055ff;
         --bgcol: #ffffff;
         --bgcol2: #d4d4d4;
         --textcol: #000000;
+        --textcol2: #ffffff;
+        */
+        --accent: #3975e5;
+        --bgcol: #292929;
+        --bgcol2: #222222;
+        --textcol: #ffffff;
         --textcol2: #ffffff;
     }
 }
