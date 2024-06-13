@@ -69,12 +69,14 @@
       contentSecurityPolicy: {
         directives: {
           defaultSrc: ["'self'"],
-          scriptSrc: ["'self'", "'unsafe-inline'"],
+          scriptSrc: ["'self'", "https://cdnjs.cloudflare.com"],
           scriptSrcAttr: ["'self'", "'unsafe-inline'"],
+          scriptSrcElem: ["'self'", "https://cdnjs.cloudflare.com", "'unsafe-inline'"],
         },
       },
     }),
   );
+  
 
   // Read scripts path from config
   const scriptsPath = path.join(__dirname, config.scriptsPath);
