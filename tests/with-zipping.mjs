@@ -1,7 +1,7 @@
 import fetch from 'node-fetch';
 import FormData from 'form-data';
 import https from 'https';
-import fs from 'fs';
+import fs, { mkdirSync } from 'fs';
 import path from 'path';
 import { promisify } from 'util';
 import stream from 'stream';
@@ -27,6 +27,22 @@ const downloadFile = async (url, filePath) => {
   await pipeline(response.body, fs.createWriteStream(filePath));
 };
 
+import AdmZip from 'adm-zip';
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
+const unzipFile = (zipFilePath, outputDir) => {
+  try {
+    // Create an instance of AdmZip
+    const zip = new AdmZip(zipFilePath);
+
+    // Extract all files to the specified directory
+    zip.extractAllTo(outputDir, true);
+
+  } catch (error) {
+    console.warn('Error while unzipping file:', error);
+  }
+};
+
 const uploadMod = async (modData) => {
   const latestVersion = modData.versions[0];
   const { name, description, version_number, download_url, icon } = latestVersion;
@@ -42,6 +58,7 @@ const uploadMod = async (modData) => {
   await downloadFile(download_url, modFilePath);
   await downloadFile(icon, modIconPath);
   const folderPath = path.join(path.resolve(tempDir),"mod")
+  mkdirSync(folderPath)
   fs.createReadStream(modFilePath).pipe(unzip.Extract({ path: folderPath }));
 
   const formData = new FormData();
