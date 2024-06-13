@@ -27,6 +27,22 @@ const downloadFile = async (url, filePath) => {
   await pipeline(response.body, fs.createWriteStream(filePath));
 };
 
+import AdmZip from 'adm-zip';
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
+const unzipFile = (zipFilePath, outputDir) => {
+  try {
+    // Create an instance of AdmZip
+    const zip = new AdmZip(zipFilePath);
+
+    // Extract all files to the specified directory
+    zip.extractAllTo(outputDir, true);
+
+  } catch (error) {
+    console.warn('Error while unzipping file:', error);
+  }
+};
+
 const uploadMod = async (modData) => {
   const latestVersion = modData.versions[0];
   const { name, description, version_number, download_url, icon } = latestVersion;
