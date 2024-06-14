@@ -26,8 +26,8 @@ const certificate = fs.readFileSync(
 
 // Linux/Prod!
 /*
-  const privateKey = fs.readFileSync("/etc/letsencrypt/live/yourdomain.com/privkey.pem", "utf8");
-  const certificate = fs.readFileSync("/etc/letsencrypt/live/yourdomain.com/fullchain.pem", "utf8");
+  const privateKey = fs.readFileSync("/etc/letsencrypt/live/azurite.abstractmelon.net/privkey.pem", "utf8");
+  const certificate = fs.readFileSync("/etc/letsencrypt/live/azurite.abstractmelon.net/fullchain.pem", "utf8");
   */
 
 const credentials = { key: privateKey, cert: certificate };
