@@ -3,19 +3,208 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Azurite - ${modname}</title>
+    <title>Azurite - Mod Page</title>
     <link rel="icon" type="image/x-icon" href="/assets/images/icon.ico">
-    <link rel="stylesheet" href="../stylesheets/modpage.css">
-    <link rel="stylesheet" href="../stylesheets/root.css">
+    <link rel="stylesheet" href="/stylesheets/root.css">
+    <style>
+        .main-container {
+            display: flex;
+            flex-direction: column;
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+            border-radius: 20px;
+            background-color: var(--bgcol2);
+        }
+
+        .mod-container {
+            flex: 2;
+            margin-right: 20px;
+        }
+
+        .sidebar {
+            flex: 1;
+            background-color: var(--bgcol2);
+            padding: 20px;
+            border-radius: 5px;
+        }
+
+        .mod-title {
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            color: var(--textcol);
+        }
+
+        .mod-icon {
+            width: 100px;
+            height: 100px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .mod-description {
+            font-size: 1.2em;
+            margin-bottom: 20px;
+        }
+
+        .mod-download {
+            display: inline-block;
+            background-color: var(--accent);
+            color: var(--textcol2);
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        .mod-download:hover {
+            background-color: #0055ff;
+        }
+
+        .screenshots {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .screenshot {
+            width: calc(33.333% - 10px);
+            background-color: var(--bgcol2);
+            border: 1px solid var(--accent);
+            border-radius: 5px;
+            overflow: hidden;
+        }
+
+        .screenshot img {
+            width: 100%;
+            height: auto;
+        }
+
+        .maker {
+            margin-bottom: 20px;
+        }
+
+        .maker h3 {
+            margin-bottom: 10px;
+            color: var(--accent);
+        }
+
+        .maker p {
+            margin: 0;
+            color: var(--textcol);
+        }
+
+        .comments {
+            margin-top: 40px;
+        }
+
+        .comments h3 {
+            margin-bottom: 20px;
+            color: var(--accent);
+        }
+
+        .comment {
+            background-color: var(--bgcol2);
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            color: var(--textcol);
+        }
+
+        .comment-form {
+            display: flex;
+            flex-direction: column;
+            margin-top: 20px;
+        }
+
+        .comment-form textarea, .comment-form input {
+            background-color: var(--bgcol);
+            color: var(--textcol);
+            border: 1px solid var(--accent);
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+
+        .comment-form button {
+            background-color: var(--accent);
+            color: var(--textcol2);
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .comment-form button:hover {
+            background-color: #0055ff;
+        }
+
+        @media (max-width: 768px) {
+            .main-container {
+                flex-direction: column;
+            }
+
+            .mod-container {
+                margin-right: 0;
+                margin-bottom: 20px;
+            }
+
+            .screenshot {
+                width: calc(50% - 10px);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .screenshot {
+                width: 100%;
+            }
+        }
+    </style>
 </head>
 <body>
     <div id="header-container"></div>
+            
+    <div class="main-container">
+        <div class="mod-container">
+            <img src="${modicon}" alt="Mod Icon" class="mod-icon">
+            
+            <h1 class="mod-title">${modname}</h1>
+            
+            <p class="mod-description">${moddescription}</p>
+            
+            <a href="${modfile}" class="mod-download">Download Mod</a>
+            
+            <div class="screenshots">
+                <div class="screenshot">
+                    <img src="/assets/images/screenshot1.png" alt="Screenshot 1">
+                </div>
+                <div class="screenshot">
+                    <img src="/assets/images/screenshot2.png" alt="Screenshot 2">
+                </div>
+                <div class="screenshot">
+                    <img src="/assets/images/screenshot3.png" alt="Screenshot 3">
+                </div>
+            </div>
 
-    <div class="container">
-        <h1>${modname}</h1>
-        <img src="${modicon}" alt="${modname} Image">
-        <p>${moddescription}</p>
-        <a href="${modfile}" class="download-button">Download</a>
+            <!-- Comments Section -->
+            <div class="comments">
+                <h3>Comments</h3>
+                <div class="comment">
+                    <p><strong>User1:</strong> Great mod! Really improved my gameplay.</p>
+                </div>
+                <div class="comment">
+                    <p><strong>User2:</strong> I encountered a bug, but overall it's awesome.</p>
+                </div>
+                <div class="comment-form">
+                    <h3>Leave a Comment</h3>
+                    <input type="text" placeholder="Your Name" required>
+                    <textarea rows="5" placeholder="Your Comment" required></textarea>
+                    <button type="submit">Submit</button>
+                </div>
+            </div>
+        </div>
     </div>
 
     <script src="/scripts/header.js" defer></script>

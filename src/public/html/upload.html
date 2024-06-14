@@ -9,6 +9,12 @@
     <link rel="stylesheet" href="./stylesheets/root.css">
 </head>
 <body>
+    <script>
+        if (!document.cookie.includes('username')) {
+            window.location.replace("/login"); 
+        }
+    </script>
+
     <div id="header-container"></div>
 
     <div class="upload-container">

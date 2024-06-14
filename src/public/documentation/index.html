@@ -3,18 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Azurite - Docs</title>
+    <title>Welcome to Azurite Wiki</title>
     <link rel="icon" type="image/x-icon" href="/assets/images/icon.ico">
     <link rel="stylesheet" href="/stylesheets/root.css">
+    <style>
+        .container {
+            max-width: 960px;
+            margin: 20px auto;
+            background-color: var(--bgcol2);
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: var(--textcol);
+            text-align: center;
+        }
+        p {
+            line-height: 1.6;
+        }
+    </style>
 </head>
 <body>
     <div id="header-container"></div>
+    <div class="container">
+        <h1>Welcome to Azurite Wiki</h1>
+    </div>
     <script src="/scripts/header.js" defer></script>
-    <script>
-        function toggleMobileNav() {
-            const mobileNav = document.getElementById('mobile-nav');
-            mobileNav.classList.toggle('show');
-        }
-    </script>
 </body>
 </html>

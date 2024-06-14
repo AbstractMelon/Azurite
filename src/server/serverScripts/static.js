@@ -3,6 +3,7 @@ const path = require("path");
 
 const quickFiles = {
   "/mod-manager": path.resolve("./src/public/html/modmanager.html"),
+  "/mod-page": path.resolve("./src/public/html/downloads/modpage.html"),
   "/downloads": path.resolve("./src/public/html/downloads/download.html"),
   "/account": path.resolve("./src/public/html/account/index.html"),
   "/games": path.resolve("./src/public/html/games/games.html"),
