@@ -12,7 +12,7 @@ console.log("Script Started!");
 
 const fetchModsFromThunderstore = async () => {
   try {
-    const response = await fetch('https://thunderstore.io/c/bopl-battle/api/v1/package/');
+    const response = await fetch('https://thunderstore.io/c/muck/api/v1/package/');
     return await response.json();
   } catch (error) {
     console.error('Error fetching mods from Thunderstore API', error);
@@ -47,7 +47,7 @@ const uploadMod = async (modData) => {
   formData.append('modVersion', version_number);
   formData.append('modFile', fs.createReadStream(modFilePath));
   formData.append('modIcon', fs.createReadStream(modIconPath));
-  formData.append('gameId', 'bopl-battle');
+  formData.append('gameId', 'muck');
 
   const agent = new https.Agent({
     rejectUnauthorized: false
