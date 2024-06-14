@@ -123,6 +123,12 @@ function initializeDatabase() {
         id: "muck",
         image: "../../assets/images/games/muck.png",
     },
+    {
+        name: "Ultrakill",
+        description: "A fast-paced ultraviolent old school FPS that fuses together classic shooters like Quake, modern shooters like Doom (2016) and character action games like Devil May Cry.",
+        id: "ultrakill",
+        image: "../../assets/images/games/ultrakill.png",
+    },
   ];
 
   gamesData.forEach((gameData) => generateGame(gameData));
