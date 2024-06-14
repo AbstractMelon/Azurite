@@ -5,21 +5,40 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="icon" type="image/x-icon" href="./assets/images/icon.ico">
   <link rel="stylesheet" href="/stylesheets/register.css">
+  <!-- <link rel="stylesheet" href="/stylesheets/header.css"> -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"/>
   <title>Azurite - Login</title>
 </head>
 <body>
+  <div id="header-container"></div>
+
   <main class="container">
     <h1>Login</h1>
     <div id="errorMessage" class="error-message" role="alert"></div>
     <form id="loginForm" onsubmit="event.preventDefault(); login();">
       <input type="text" id="username" placeholder="Username" required aria-label="Username">
-      <input type="password" id="password" placeholder="Password" required aria-label="Password">
-      <input type="checkbox" id="showPasswordCheckbox" onchange="togglePasswordVisibility()"> Show Password
+      <div class="password-field">
+        <input type="password" id="password" placeholder="Password" required aria-label="Password">
+        <div class="password-toggle">
+          <button type="button" onclick="togglePasswordVisibility()" class="vis-button">
+            <i class="fas fa-eye-slash"></i>
+          </button>
+        </div>
+      </div>
       <button type="submit">Login</button>
+      <h6>Need an account? <a href="/register" style="color: #7289da;">Register here!</a></h6>
     </form>
   </main>
 
+  <!-- <script src="scripts/header.js" defer></script> -->
+  
   <script>
+
+    function toggleMobileNav() {
+      const mobileNav = document.getElementById('mobile-nav');
+      mobileNav.classList.toggle('show');
+    }
+
     async function login() {
       const username = document.getElementById('username').value;
       const password = document.getElementById('password').value;
@@ -54,14 +73,17 @@
         document.getElementById('errorMessage').style.display = 'block';
       }
     }
+    
     function togglePasswordVisibility() {
       const passwordField = document.getElementById('password');
-      const checkbox = document.getElementById('showPasswordCheckbox');
-
-      if (checkbox.checked) {
+      const button = document.querySelector('.password-toggle button');
+      
+      if (passwordField.type === 'password') {
         passwordField.type = 'text';
+        button.innerHTML = '<i class="fas fa-eye"></i>';
       } else {
         passwordField.type = 'password';
+        button.innerHTML = '<i class="fas fa-eye-slash"></i>';
       }
     }
   </script>
