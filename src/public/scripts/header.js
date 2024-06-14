@@ -53,3 +53,8 @@ function getCookie(name) {
 
   return "";
 }
+
+function toggleMobileNav() {
+    document.getElementById('mobile-nav').classList.toggle('show');
+    document.querySelector('.hamburger').classList.toggle('active');
+}
