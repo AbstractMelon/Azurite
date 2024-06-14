@@ -96,27 +96,32 @@ function initializeDatabase() {
   fsUtils.makeDir(path.join(dbPath, "data", "mods"));
   fsUtils.makeDir(accountsPath);
 
-  // Generate sample games
   const gamesData = [
     {
-      name: "Bopl Battle",
-      description:
-        "Bopl Battle is a couch/online platform fighter game focused around battling your friends and combining unique and wild abilities together.",
-      id: "bopl-battle",
-      image: "../../assets/images/games/boplbattle.png",
+        name: "Bopl Battle",
+        description:
+            "Bopl Battle is a couch/online platform fighter game focused around battling your friends and combining unique and wild abilities together.",
+        id: "bopl-battle",
+        image: "../../assets/images/games/boplbattle.png",
     },
     {
-      name: "Block Mechanic",
-      description:
-        "Block Mechanic is a physics puzzle game, where you combine a selection of blocks of different types to build a vehicle.",
-      id: "block-mechanic",
-      image: "../../assets/images/games/blockmechanic.png",
+        name: "Block Mechanic",
+        description:
+            "Block Mechanic is a physics puzzle game, where you combine a selection of blocks of different types to build a vehicle.",
+        id: "block-mechanic",
+        image: "../../assets/images/games/blockmechanic.png",
     },
     {
-      name: "3Dash",
-      description: "3Dash, a three-dimensional autoscrolling platformer.",
-      id: "3dash",
-      image: "../../assets/images/games/3dash.png",
+        name: "3Dash",
+        description: "3Dash, a three-dimensional autoscrolling platformer.",
+        id: "3dash",
+        image: "../../assets/images/games/3dash.png",
+    },
+    {
+        name: "Muck",
+        description: "Collect resources, craft tools, weapons, & armor, find items & build your base during day. But once night falls, mysterious enemies appear from the shadows.",
+        id: "muck",
+        image: "../../assets/images/games/muck.png",
     },
   ];
 
