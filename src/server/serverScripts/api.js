@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable no-undef */
 const {
   getGames,
@@ -11,6 +12,7 @@ const fs = require("fs");
 const formidable = require("formidable");
 const fsUtils = require("../../utils/file.js");
 const https = require("https");
+const fetch = require("node-fetch");
 
 const bcrypt = require("bcrypt");
 const saltRounds = 10;
@@ -23,6 +25,10 @@ function accountExists(username) {
   const filePath = path.join(accountsPath, `${username}.json`);
   return fs.existsSync(filePath);
 }
+
+const agent = new https.Agent({
+  rejectUnauthorized: false, 
+});
 
 function createAccount(
   username,
@@ -61,7 +67,6 @@ module.exports = async (app) => {
   const games = getGames();
 
   const mods = getMods("bopl-battle");
-  // console.log(mods);
 
   app.post("/submit-ticket", (req, res) => {
     const ticket = req.body;
@@ -87,68 +92,73 @@ module.exports = async (app) => {
     res.json(games);
   });
 
-  // Handle game requests
   app.use((req, res, next) => {
     if (!req.path.startsWith("/games/")) {
       next();
       return;
     }
-
-    const [gameId, modSegment, modId] = req.path
-      .replace("/games/", "")
-      .split("/");
+  
+    const [gameId, modSegment, modId] = req.path.replace("/games/", "").split("/");
     const game = games[gameId];
+    console.log(game)
     if (!game) {
       res.status(404).sendFile(path.join(__dirname, "../../public/404.html"));
       return;
     }
-
+  
     if (modSegment === "mods" && modId) {
-      const mod = mods[gameId] && mods[gameId][modId];
-      if (!mod) {
-        // res.status(404).sendFile(path.join(__dirname, "../../public/404.html"));
-        res.sendFile(path.join(__dirname, "../../public/nopage.html"));
-        return;
-      }
-
-      const modFilePath = path.resolve(
-        "src/public/html/downloads/modpage.html",
-      );
-      fs.readFile(modFilePath, "utf8", (err, data) => {
-        if (err) {
+      fetch(`https://localhost/cdn/mods/${gameId}/${modId}/manifest.json`, {
+        agent, 
+      })
+        .then(response => {
+          if (!response.ok) {
+            throw new Error(`Failed to fetch mod data: ${response.status} ${response.statusText}`);
+          }
+          return response.json();
+        })
+        .then(mod => {
+          console.log(mod);
+  
+          const modFilePath = path.resolve("src/public/html/downloads/modpage.html");
+          fs.readFile(modFilePath, "utf8", (err, data) => {
+            if (err) {
+              res.status(500).send("Server Error");
+              return;
+            }
+  
+            const htmlWithModData = data
+              .replace(/\${gamename}/g, game.name)
+              .replace(/\${modname}/g, mod.name)
+              .replace(/\${moddescription}/g, mod.description)
+              .replace(/\${modicon}/g, mod.modIcon)
+              .replace(/\${modfile}/g, mod.modFile);
+  
+            res.send(htmlWithModData);
+          });
+        })
+        .catch(error => {
+          console.error("Error fetching mod data:", error);
           res.status(500).send("Server Error");
-          return;
-        }
-
-        const htmlWithModData = data
-          .replace(/\${gamename}/g, game.name)
-          .replace(/\${modname}/g, mod.name)
-          .replace(/\${moddescription}/g, mod.description)
-          .replace(
-            /\${modicon}/g,
-            `../../database/data/${gameId}/${mod.name}/${mod.modIcon}`,
-          )
-          .replace(/\${modfile}/g, `/downloads/${mod.modFile}`);
-
-        res.send(htmlWithModData);
-      });
+        });
+  
       return;
     }
-
+  
     const filePath = path.resolve("src/public/html/games/downloadpage.html");
     fs.readFile(filePath, "utf8", (err, data) => {
       if (err) {
         res.status(500).send("Server Error");
         return;
       }
-
+  
       const htmlWithGameName = data
         .replace(/\${gamename}/g, game.name)
         .replace(/\${gameid}/g, game.id);
-
+  
       res.send(htmlWithGameName);
     });
   });
+  
 
   // Create Account
   app.post("/api/v1/createAccount", async (req, res) => {
@@ -220,7 +230,7 @@ module.exports = async (app) => {
     // Find the account
     const account = accounts.find((acc) => acc.username === username);
     if (!account) {
-      const errorMessage = "Account does not exsist!";
+      const errorMessage = "Account does not exist!";
       console.error(errorMessage);
       res.status(401).send(errorMessage);
       return;
