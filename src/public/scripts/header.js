@@ -55,6 +55,6 @@ function getCookie(name) {
 }
 
 function toggleMobileNav() {
-    document.getElementById('mobile-nav').classList.toggle('show');
-    document.querySelector('.hamburger').classList.toggle('active');
+  document.getElementById("mobile-nav").classList.toggle("show");
+  document.querySelector(".hamburger").classList.toggle("active");
 }
