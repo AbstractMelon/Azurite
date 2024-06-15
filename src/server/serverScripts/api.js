@@ -27,7 +27,7 @@ function accountExists(username) {
 }
 
 const agent = new https.Agent({
-  rejectUnauthorized: false, 
+  rejectUnauthorized: false,
 });
 
 function createAccount(
@@ -97,68 +97,73 @@ module.exports = async (app) => {
       next();
       return;
     }
-  
-    const [gameId, modSegment, modId] = req.path.replace("/games/", "").split("/");
+
+    const [gameId, modSegment, modId] = req.path
+      .replace("/games/", "")
+      .split("/");
     const game = games[gameId];
-    console.log(game)
+    console.log(game);
     if (!game) {
       res.status(404).sendFile(path.join(__dirname, "../../public/404.html"));
       return;
     }
-  
+
     if (modSegment === "mods" && modId) {
       fetch(`https://localhost/cdn/mods/${gameId}/${modId}/manifest.json`, {
-        agent, 
+        agent,
       })
-        .then(response => {
+        .then((response) => {
           if (!response.ok) {
-            throw new Error(`Failed to fetch mod data: ${response.status} ${response.statusText}`);
+            throw new Error(
+              `Failed to fetch mod data: ${response.status} ${response.statusText}`,
+            );
           }
           return response.json();
         })
-        .then(mod => {
+        .then((mod) => {
           console.log(mod);
-  
-          const modFilePath = path.resolve("src/public/html/downloads/modpage.html");
+
+          const modFilePath = path.resolve(
+            "src/public/pages/downloads/modpage.html",
+          );
           fs.readFile(modFilePath, "utf8", (err, data) => {
             if (err) {
               res.status(500).send("Server Error");
               return;
             }
-  
+
             const htmlWithModData = data
               .replace(/\${gamename}/g, game.name)
               .replace(/\${modname}/g, mod.name)
               .replace(/\${moddescription}/g, mod.description)
               .replace(/\${modicon}/g, mod.modIcon)
               .replace(/\${modfile}/g, mod.modFile);
-  
+
             res.send(htmlWithModData);
           });
         })
-        .catch(error => {
+        .catch((error) => {
           console.error("Error fetching mod data:", error);
           res.status(500).send("Server Error");
         });
-  
+
       return;
     }
-  
-    const filePath = path.resolve("src/public/html/games/downloadpage.html");
+
+    const filePath = path.resolve("src/public/pages/games/downloadpage.html");
     fs.readFile(filePath, "utf8", (err, data) => {
       if (err) {
         res.status(500).send("Server Error");
         return;
       }
-  
+
       const htmlWithGameName = data
         .replace(/\${gamename}/g, game.name)
         .replace(/\${gameid}/g, game.id);
-  
+
       res.send(htmlWithGameName);
     });
   });
-  
 
   // Create Account
   app.post("/api/v1/createAccount", async (req, res) => {

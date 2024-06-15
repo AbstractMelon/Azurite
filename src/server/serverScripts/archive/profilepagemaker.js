@@ -14,7 +14,7 @@ module.exports = (app) => {
       res.sendFile(
         path.join(
           __dirname,
-          "../../public/html/account/accounts/",
+          "../../public/pages/account/accounts/",
           `${userName}.html`,
         ),
       );
