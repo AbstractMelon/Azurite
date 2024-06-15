@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile Page</title>
+    <link rel="icon" type="image/x-icon" href="/assets/images/icon.ico">
+    <link rel="stylesheet" href="/stylesheets/profilespage.css">
+    <link rel="stylesheet" href="/stylesheets/root.css">
+</head>
+<body>
+    <div id="header-container"></div>
+
+    <div class="profile-container">
+        <div class="search-bar">
+            <form id="search-form" onsubmit="searchProfiles(event)">
+                <input type="text" id="search-input" name="search" placeholder="Search profiles...">
+                <button type="submit">Search</button>
+            </form>
+        </div>
+        <div class="profile-grid" id="profile-grid">
+        </div>
+    </div>
+
+    <script src="scripts/header.js" defer></script>
+    <script src="scripts/accounts/accounts.js" defer></script>
+</body>
+</html>

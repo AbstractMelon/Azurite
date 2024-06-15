@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/x-icon" href="./assets/images/icon.ico">
+  <link rel="stylesheet" href="/stylesheets/register.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"/>
+  <title>Azurite - Register</title>
+</head>
+<body>
+  <div class="container">
+    <h1>Create Account</h1>
+    <div id="errorMessage" style="color: red; display: none;"></div>
+    <form id="createAccountForm">
+      <input type="text" id="username" placeholder="Username" required>
+      <div class="password-field">
+        <input type="password" id="password" placeholder="Password" required aria-label="Password">
+        <div class="password-toggle">
+          <button type="button" onclick="togglePasswordVisibility()" class="vis-button">
+            <i class="fas fa-eye-slash"></i>
+          </button>
+        </div>
+      </div>
+      <button type="button" onclick="createAccount()">Create Account</button>
+    </form>
+  </div>
+
+  <script src="/scripts/accounts/register.js" defer></script>
+</body>
+</html>
