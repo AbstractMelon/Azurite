@@ -131,6 +131,15 @@ function initializeDatabase() {
       id: "ultrakill",
       image: "../../assets/images/games/ultrakill.png",
     },
+    /*
+    {
+      name: "installHook.js.map",
+      description:
+        "This means something has gone terrible wrong",
+      id: "installHook.js.map",
+      image: "../../assets/images/games/ultrakill.png",
+    },
+    */
   ];
 
   gamesData.forEach((gameData) => generateGame(gameData));
