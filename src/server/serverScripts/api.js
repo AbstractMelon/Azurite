@@ -88,46 +88,48 @@ module.exports = async (app) => {
   });
 
   // Get games
+
   app.get("/api/v1/games", (req, res) => {
-    res.json(games);
+    try {
+      res.json(games);
+    } catch (error) {
+      console.error("Error fetching games:", error);
+      res.status(500).json({ message: "Internal Server Error" });
+    }
   });
 
-  app.use((req, res, next) => {
+  app.use(async (req, res, next) => {
     if (!req.path.startsWith("/games/")) {
       next();
       return;
     }
 
-    const [gameId, modSegment, modId] = req.path
-      .replace("/games/", "")
-      .split("/");
-    const game = games[gameId];
-    console.log(game);
-    if (!game) {
-      res.status(404).sendFile(path.join(__dirname, "../../public/404.html"));
-      return;
-    }
+    try {
+      const [gameId, modSegment, modId] = req.path.replace("/games/", "").split("/");
+      const game = games[gameId];
+      console.log("Requested game:", game);
 
-    if (modSegment === "mods" && modId) {
-      fetch(`https://localhost/cdn/mods/${gameId}/${modId}/manifest.json`, {
-        agent,
-      })
-        .then((response) => {
+      if (!game) {
+        console.warn("Game not found:", gameId);
+        res.status(404).sendFile(path.join(__dirname, "../../public/404.html"));
+        return;
+      }
+
+      if (modSegment === "mods" && modId) {
+        try {
+          const response = await fetch(`https://localhost/cdn/mods/${gameId}/${modId}/manifest.json`, { agent });
+
           if (!response.ok) {
-            throw new Error(
-              `Failed to fetch mod data: ${response.status} ${response.statusText}`,
-            );
+            throw new Error(`Failed to fetch mod data: ${response.status} ${response.statusText}`);
           }
-          return response.json();
-        })
-        .then((mod) => {
-          console.log(mod);
 
-          const modFilePath = path.resolve(
-            "src/public/pages/downloads/modpage.html",
-          );
+          const mod = await response.json();
+          console.log("Fetched mod:", mod);
+
+          const modFilePath = path.resolve("src/public/pages/downloads/modpage.html");
           fs.readFile(modFilePath, "utf8", (err, data) => {
             if (err) {
+              console.error("Error reading mod page file:", err);
               res.status(500).send("Server Error");
               return;
             }
@@ -141,28 +143,32 @@ module.exports = async (app) => {
 
             res.send(htmlWithModData);
           });
-        })
-        .catch((error) => {
-          console.error("Error fetching mod data:", error);
+        } catch (error) {
+          console.error("Error handling mod data:", error);
           res.status(500).send("Server Error");
-        });
-
-      return;
-    }
-
-    const filePath = path.resolve("src/public/pages/games/downloadpage.html");
-    fs.readFile(filePath, "utf8", (err, data) => {
-      if (err) {
-        res.status(500).send("Server Error");
+        }
         return;
       }
 
-      const htmlWithGameName = data
-        .replace(/\${gamename}/g, game.name)
-        .replace(/\${gameid}/g, game.id);
+      const filePath = path.resolve("src/public/pages/games/downloadpage.html");
+      fs.readFile(filePath, "utf8", (err, data) => {
+        if (err) {
+          console.error("Error reading game download page file:", err);
+          res.status(500).send("Server Error");
+          return;
+        }
 
-      res.send(htmlWithGameName);
-    });
+        const htmlWithGameName = data
+          .replace(/\${gamename}/g, game.name)
+          .replace(/\${gameid}/g, game.id);
+
+        res.send(htmlWithGameName);
+      });
+
+    } catch (error) {
+      console.error("Error processing request:", error);
+      res.status(500).send("Server Error");
+    }
   });
 
   // Create Account
@@ -251,7 +257,7 @@ module.exports = async (app) => {
       }
 
       // Set the cookie
-      res.cookie("username", username, { maxAge: 3600000 });
+      res.cookie("username", username, { maxAge: 604800000 });
 
       const successMessage = "Login successful.";
       console.log(successMessage);
