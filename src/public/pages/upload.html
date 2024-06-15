@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Azurite - Upload Mod</title>
+    <link rel="icon" type="image/x-icon" href="./assets/images/icon.ico">
+    <link rel="stylesheet" href="./stylesheets/upload.css">
+    <link rel="stylesheet" href="./stylesheets/root.css">
+</head>
+<body>
+    <script>
+        if (!document.cookie.includes('username')) {
+            window.location.replace("/login"); 
+        }
+    </script>
+
+    <div id="header-container"></div>
+
+    <div class="upload-container">
+        <h2>Upload Mod</h2>
+        <form id="upload-form" enctype="multipart/form-data">
+            <input type="text" name="modName" placeholder="Mod Name" required>
+            <input type="text" name="modVersion" placeholder="Version">
+            <textarea name="modDescription" placeholder="Mod Description" required></textarea>
+            <!-- <input type="text" name="modTags" placeholder="Tags (comma-separated)"> -->
+            <!-- <input type="text" name="modDependencies" placeholder="Dependencies (comma-separated)"> -->
+            <!-- <input type="text" name="modMembers" placeholder="Members (comma-separated)"> -->
+            <!-- <input type="url" name="modWebsite" placeholder="Website URL"> -->
+            <p>Mod icon:</p>
+            <input type="file" name="modIcon" accept="image/*" required>
+            <p>Mod .dll:</p>
+            <input type="file" name="modFile" accept=".dll" required>
+
+            <!-- Dropdown for selecting game -->
+            <label for="gameSelect">Select Game:</label>
+            <select id="gameSelect" name="gameId" required>
+                <option value="" disabled selected>Select a game</option>
+            </select>
+
+            <button type="submit">Upload</button>
+        </form>
+    </div>
+
+    <script src="scripts/header.js" defer></script>
+    <script src="scripts/upload.js" defer></script>
+</body>
+</html>
