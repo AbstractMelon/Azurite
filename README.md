@@ -1,5 +1,6 @@
 ![Github logo](azuritelogo.png)
 
+# THIS IS THE ARCHIVED OLD VERSION OF AZURITE!
 # Azurite
 [![Version](https://img.shields.io/badge/Version-v0.3.5-blue)](https://github.com/AbstractMelon/Azurite/)
 [![Contributers](https://img.shields.io/badge/Contributers-3-red)](https://github.com/AbstractMelon/Azurite/)
