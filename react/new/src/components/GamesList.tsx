@@ -1,4 +1,3 @@
-// components/GamesList.tsx
 import { useEffect, useState } from 'react';
 import GameCard from './GameCard';
 
@@ -15,9 +14,20 @@ const GamesList = ({ searchQuery }: { searchQuery: string }) => {
 
     useEffect(() => {
         const fetchGames = async () => {
-            const response = await fetch('/api/v1/games');
-            const gamesData = await response.json();
-            setGames(gamesData);
+            try {
+                const response = await fetch('/api/games');
+                const gamesData = await response.json();
+
+                if (gamesData && typeof gamesData === 'object') {
+                    // Convert the object to an array
+                    const gamesArray = Object.keys(gamesData).map(key => gamesData[key]);
+                    setGames(gamesArray);
+                } else {
+                    console.error('API did not return an object:', gamesData);
+                }
+            } catch (error) {
+                console.error('Error fetching games:', error);
+            }
         };
 
         fetchGames();
@@ -37,9 +47,13 @@ const GamesList = ({ searchQuery }: { searchQuery: string }) => {
 
     return (
         <section className="games-list" id="games-list-main">
-            {filteredGames.map((game) => (
-                <GameCard key={game.id} {...game} />
-            ))}
+            {Array.isArray(filteredGames) && filteredGames.length > 0 ? (
+                filteredGames.map((game) => (
+                    <GameCard key={game.id} {...game} />
+                ))
+            ) : (
+                <p>No games found.</p>
+            )}
         </section>
     );
 };
