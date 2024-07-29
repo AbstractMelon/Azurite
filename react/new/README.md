@@ -1,36 +1,64 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+![Github logo](azuritelogo.png)
 
-## Getting Started
+# Azurite
+[![Version](https://img.shields.io/badge/Version-v1.2.0-blue)](https://github.com/AbstractMelon/Azurite/)
+[![Contributers](https://img.shields.io/badge/Contributers-3-red)](https://github.com/AbstractMelon/Azurite/)
+[![Total lines of code in master](https://tokei.rs/b1/github/AbstractMelon/Azurite?category=lines)](https://github.com/AbstractMelon/Azurite)
+[![GitHub issues](https://img.shields.io/github/issues/AbstractMelon/Azurite)](https://github.com/AbstractMelon/Azurite/issues)
+[![GitHub commits](https://img.shields.io/github/commit-activity/m/AbstractMelon/Azurite)](https://github.com/AbstractMelon/Azurite/commits)
 
-First, run the development server:
+Welcome to Azurite! This project aims to provide a platform for sharing and discovering mods for various games, similar to Thunderstore.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Table of Contents
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- [Introduction](#introduction)
+- [Features](#features)
+- [Demo](#demo)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Contributing](#contributing)
+- [License](#license)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Introduction
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+Azurite is a web application (and maybe a mod manager later?) where users can upload, share, and download mods for their favorite games. It provides a user-friendly interface for browsing mods, searching for specific ones, and managing your own uploads.
 
-## Learn More
+## Features
 
-To learn more about Next.js, take a look at the following resources:
+- **Exsists**: The site exsists! New stuff comming soon!
+<!--- - **User Authentication**: Secure user authentication system for registering, logging in, and managing user accounts. -->
+- **Mod Upload**: Allow users to upload their mods, including descriptions, screenshots, and version information.
+- **Mod Listing**: Display a list of available mods with sorting and filtering options.
+- **Search Functionality**: Enable users to search for mods based on keywords, categories, or other criteria.
+- **Mod Details**: Show detailed information about each mod, including descriptions, download links, and user ratings.
+- **User Interaction**: Allow users to rate mods, leave comments, and interact with other users.
+- **Responsive Design**: Ensure the site is accessible and usable across different devices and screen sizes. 
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Demo
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+[Link to Demo](azurite-dev.vercel.app) - Add a link to a live demo of your site if available.
 
-## Deploy on Vercel
+## Installation
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+To run azurite locally, follow these steps:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+1. Clone the repository: `git clone https://github.com/Abstractmelon/azurite.git`
+2. Navigate to the project directory: `cd azurite`
+3. Install dependencies: `npm install`
+5. Start the development server: `npm run dev`
+
+## Usage
+
+Once the development server is running, you can access the site in your web browser at `http://localhost:3000`. 
+
+## Contributing
+
+Contributions to Azurite are welcome! If you'd like to contribute, please follow these guidelines:
+
+1. Fork the repository and create a new branch for your feature or bug fix.
+2. Commit your changes with clear and descriptive messages.
+3. Push your branch to your fork and submit a pull request to the main repository.
+
+## License
+
+This project is licensed under the [GNU v3 License](LICENSE). Feel free to use, modify, and distribute it as you see fit.
