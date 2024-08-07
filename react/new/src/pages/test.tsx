@@ -7,6 +7,7 @@ const Test = () => {
         <>
             <Head>
                 <title>Azurite - Pagename</title>
+                <link rel="icon" type="image/x-icon" href="/assets/images/icon.ico" />
             </Head>
             <Header />
         </>
