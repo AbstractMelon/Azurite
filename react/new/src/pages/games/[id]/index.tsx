@@ -51,8 +51,8 @@ export default function GamePage({ game }: GameProps) {
     }
   }, [searchTerm, mods]);
 
-  const handleSearch = (event: { target: { value: string; }; }) => {
-    setSearchTerm(event.target.value);
+  const handleSearch = (searchValue: string) => {
+    setSearchTerm(searchValue);
   };
 
   return (
@@ -66,18 +66,20 @@ export default function GamePage({ game }: GameProps) {
       <div className={styles.container}>
         <h1>Download Mods for {game.name}</h1>
 
-        <SearchBar onSearch={handleSearch} />
+        <div className={styles['search-bar']}>
+          <SearchBar onSearch={handleSearch} />
+        </div>
 
-        <div className={styles.modList}>
+        <div className={styles['mod-list']}>
           {filteredMods.map((mod) => (
-            <div className={styles.modItem} key={mod.id}>
+            <div className={styles['mod-item']} key={mod.id}>
               <Link href={`/games/${game.id}/mods/${mod.id}`}>
                 <img src={mod.modIcon} alt="Mod Image" />
-                <div className={styles.modInfo}>
+                <div className={styles['mod-info']}>
                   <h2>{mod.name}</h2>
                   <p>{mod.description}</p>
-                  <div className={styles.authorDownload}>
-                    <Link href={mod.modFile} className={styles.downloadButton}>Download</Link>
+                  <div className={styles['author-download']}>
+                    <Link href={mod.modFile} className={styles['download-button']}>Download</Link>
                   </div>
                 </div>
               </Link>

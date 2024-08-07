@@ -93,6 +93,9 @@
   left: 50%;
   transform: translateX(-50%);
   width: 100%;
+  display: flex;
+  justify-content: center;
+  padding-bottom: 10px;
 }
 
 .author {
@@ -106,10 +109,9 @@
   color: #fff;
   text-decoration: none;
   border-radius: 5px;
-  margin-bottom: 10px;
+  margin-top: 10px;
 }
 
 .download-button:hover {
   background-color: #0056b3;
 }
-

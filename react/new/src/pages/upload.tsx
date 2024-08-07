@@ -16,6 +16,7 @@ const UploadMod: React.FC = () => {
   const router = useRouter();
 
   useEffect(() => {
+
     /*
     if (!document.cookie.includes('username')) {
       router.replace('/login');
@@ -39,14 +40,14 @@ const UploadMod: React.FC = () => {
   }, [router]);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-    const { name, value, files } = event.target;
-    const updatedFormData = new FormData();
+    const { name, value, files } = event.target as HTMLInputElement; // Type assertion
 
+    const updatedFormData = new FormData();
     formData.forEach((value, key) => {
       updatedFormData.append(key, value);
     });
 
-    if (files) {
+    if (files && files.length > 0) {
       updatedFormData.set(name, files[0]);
     } else {
       updatedFormData.set(name, value);
