@@ -2,7 +2,7 @@ import path from 'path';
 import fs from 'fs';
 import { makeDir, makeFile } from './utils/file';
 
-const dbPath = path.resolve("../database/");
+const dbPath = path.resolve("./database/");
 const accountsPath = path.join(dbPath, "data", "accounts");
 
 initializeDatabase()
