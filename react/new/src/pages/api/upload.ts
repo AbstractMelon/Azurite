@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
-import formidable from 'formidable';
+import formidable, { IncomingForm, Fields, Files } from 'formidable';
 import path from 'path';
 import fs from 'fs';
 import { getGames } from '../../database';
@@ -11,19 +11,22 @@ export const config = {
   },
 };
 
-export default function handler(req: NextApiRequest, res: NextApiResponse) {
-  const form = new formidable.IncomingForm();
+const handler = (req: NextApiRequest, res: NextApiResponse) => {
+  const form = new IncomingForm();
 
-  form.parse(req, (err, fields, files) => {
+  form.parse(req, (err: any, fields: Fields, files: Files) => {
     if (err) {
       console.error("Error parsing the form", err);
       res.status(400).send("Error parsing the form");
       return;
     }
 
-    const { modName, modDescription, modVersion, gameId } = fields;
-    const modFile = files.modFile;
-    const modIcon = files.modIcon;
+    const modName = fields.modName as unknown as string;
+    const modDescription = fields.modDescription as unknown as string;
+    const modVersion = fields.modVersion as unknown as string;
+    const gameId = fields.gameId as unknown as string;
+    const modFile = files.modFile as unknown as formidable.File;
+    const modIcon = files.modIcon as unknown as formidable.File;
 
     if (!modName || !modDescription || !modFile || !modIcon || !gameId) {
       const errorMessage = `Mod name, description, mod file, mod icon, and game ID are required. You sent: ${JSON.stringify(fields)}`;
@@ -33,7 +36,7 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
     }
 
     const games = getGames();
-    const game = games[gameId];
+    const game = games[gameId as string];
     if (!game) {
       const errorMessage = `Game with ID ${gameId} not found`;
       console.error(errorMessage);
@@ -42,12 +45,12 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
     }
 
     const modId = (modName as string).toLowerCase().replace(/\s+/g, "-");
-    const modFolderPath = path.join(__dirname, "../../database/data/mods", game.id, modId);
+    const modFolderPath = path.join(process.cwd(), "database/data/mods", game.id, modId);
 
     fsUtils.makeDir(modFolderPath);
 
-    const modFilePath = path.join(modFolderPath, modFile.originalFilename);
-    const modIconPath = path.join(modFolderPath, modIcon.originalFilename);
+    const modFilePath = path.join(modFolderPath, modFile.originalFilename as string);
+    const modIconPath = path.join(modFolderPath, modIcon.originalFilename as string);
 
     fs.copyFileSync(modFile.filepath, modFilePath);
     fs.unlinkSync(modFile.filepath);
@@ -79,4 +82,6 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
       manifestUrl,
     });
   });
-}
+};
+
+export default handler;

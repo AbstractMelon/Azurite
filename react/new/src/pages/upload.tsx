@@ -4,26 +4,43 @@ import Head from 'next/head';
 import Header from '../components/Header';
 import styles from '../stylesheets/Upload.module.css';
 
+interface Game {
+  id: string;
+  name: string;
+}
+
 const UploadMod: React.FC = () => {
-  const [games, setGames] = useState<{ id: string; name: string; }[]>([]);
-  const [formData, setFormData] = useState<FormData>(new FormData());
+  const [games, setGames] = useState<Game[]>([]);
+  const [formData, setFormData] = useState<FormData>(() => new FormData());
   const router = useRouter();
 
   useEffect(() => {
     /*
     if (!document.cookie.includes('username')) {
       router.replace('/login');
-    } */
+    }
+    */
 
     fetch('/api/games')
       .then((response) => response.json())
-      .then((data) => setGames(data))
+      .then((data) => {
+        // Convert the games object to an array
+        const gamesArray = Object.keys(data).map((key) => ({
+          id: key,
+          name: data[key].name,
+        }));
+        setGames(gamesArray);
+      })
       .catch((error) => console.error('Error fetching games:', error));
   }, [router]);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value, files } = event.target;
-    const updatedFormData = new FormData(formData);
+    const updatedFormData = new FormData();
+
+    formData.forEach((value, key) => {
+      updatedFormData.append(key, value);
+    });
 
     if (files) {
       updatedFormData.set(name, files[0]);
@@ -44,7 +61,6 @@ const UploadMod: React.FC = () => {
       .then((response) => response.json())
       .then((data) => {
         console.log('Upload successful:', data);
-        // Redirect or display success message
       })
       .catch((error) => console.error('Error uploading mod:', error));
   };
@@ -68,9 +84,9 @@ const UploadMod: React.FC = () => {
           <p>Mod .dll:</p>
           <input type="file" name="modFile" accept=".dll" required onChange={handleChange} />
           <label htmlFor="gameSelect">Select Game:</label>
-          <select id="gameSelect" name="gameId" required onChange={handleChange}>
-            <option value="" disabled selected>Select a game</option>
-            {Array.isArray(games) && games.map((game) => (
+          <select id="gameSelect" name="gameId" required defaultValue="" onChange={handleChange}>
+            <option value="" disabled>Select a game</option>
+            {games.map((game) => (
               <option key={game.id} value={game.id}>{game.name}</option>
             ))}
           </select>
