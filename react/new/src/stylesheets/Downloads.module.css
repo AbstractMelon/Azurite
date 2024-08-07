@@ -4,6 +4,10 @@
   margin: 0 auto;
 }
 
+.container h1 {
+  text-align: center;
+}
+
 .search-bar {
   text-align: center;
   margin-top: 50px;
@@ -31,6 +35,7 @@
   border: none;
   border-radius: 5px;
   cursor: pointer;
+  margin-left: 10px;
   transition: background-color 0.3s ease;
 }
 

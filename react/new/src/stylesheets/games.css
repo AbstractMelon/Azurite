@@ -25,7 +25,7 @@ main {
 
 .game-card img {
     width: 100%;
-    height: auto; 
+    height: auto;
 }
 
 
@@ -73,6 +73,7 @@ main {
     border: none;
     border-radius: 5px;
     cursor: pointer;
+    margin-left: 10px;
     transition: background-color 0.3s ease;
 }
 
