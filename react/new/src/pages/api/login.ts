@@ -39,7 +39,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     console.log(successMessage);
     res.status(200).send(successMessage);
   } catch (error) {
-    const errorMessage = `Error logging in: ${error.message}`;
+    const errorMessage = error instanceof Error ? `Error Logging in: ${error.message}` : 'Unknown error occurred';
     console.error(errorMessage);
     res.status(500).send(errorMessage);
   }

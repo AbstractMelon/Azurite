@@ -27,8 +27,8 @@ const Header = () => {
         };
 
         const username = getCookie('username');
-        const accountLink = document.getElementById('accountLink');
-        const mobileAccountLink = document.getElementById('mobileAccountLink');
+        const accountLink = document.getElementById('accountLink') as HTMLAnchorElement | null;
+        const mobileAccountLink = document.getElementById('mobileAccountLink') as HTMLAnchorElement | null;
 
         if (username) {
             if (accountLink) {
