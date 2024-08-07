@@ -5,6 +5,7 @@ import styles from '../../../stylesheets/Downloads.module.css';
 import Header from '../../../components/Header';
 import SearchBar from '../../../components/SearchBar';
 import { getGames, getMods } from '../../../database';
+import Link from 'next/link';
 
 interface Mod {
   id: string;
@@ -29,7 +30,7 @@ export default function GamePage({ game }: GameProps) {
   const [searchTerm, setSearchTerm] = useState('');
 
   useEffect(() => {
-    fetch(`/api/mods/${game.id}`)
+    fetch(`/api/mods?gameName=${game.id}`)
       .then((response) => response.json())
       .then((data) => {
         setMods(data);
@@ -70,16 +71,16 @@ export default function GamePage({ game }: GameProps) {
         <div className={styles.modList}>
           {filteredMods.map((mod) => (
             <div className={styles.modItem} key={mod.id}>
-              <a href={`/games/${game.id}/mods/${mod.id}`}>
+              <Link href={`/games/${game.id}/mods/${mod.id}`}>
                 <img src={mod.modIcon} alt="Mod Image" />
                 <div className={styles.modInfo}>
                   <h2>{mod.name}</h2>
                   <p>{mod.description}</p>
                   <div className={styles.authorDownload}>
-                    <a href={mod.modFile} className={styles.downloadButton}>Download</a>
+                    <Link href={mod.modFile} className={styles.downloadButton}>Download</Link>
                   </div>
                 </div>
-              </a>
+              </Link>
             </div>
           ))}
         </div>

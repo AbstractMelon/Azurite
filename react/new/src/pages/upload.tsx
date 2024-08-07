@@ -12,6 +12,7 @@ interface Game {
 const UploadMod: React.FC = () => {
   const [games, setGames] = useState<Game[]>([]);
   const [formData, setFormData] = useState<FormData>(() => new FormData());
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const router = useRouter();
 
   useEffect(() => {
@@ -31,7 +32,10 @@ const UploadMod: React.FC = () => {
         }));
         setGames(gamesArray);
       })
-      .catch((error) => console.error('Error fetching games:', error));
+      .catch((error) => {
+        console.error('Error fetching games:', error);
+        setErrorMessage('Error fetching games');
+      });
   }, [router]);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
@@ -60,9 +64,17 @@ const UploadMod: React.FC = () => {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log('Upload successful:', data);
+        if (data.error) {
+          console.error('Error uploading mod:', data.error);
+          setErrorMessage(data.error);
+        } else {
+          console.log('Upload successful:', data);
+        }
       })
-      .catch((error) => console.error('Error uploading mod:', error));
+      .catch((error) => {
+        console.error('Error uploading mod:', error);
+        setErrorMessage('Error uploading mod');
+      });
   };
 
   return (
@@ -75,6 +87,7 @@ const UploadMod: React.FC = () => {
 
       <div className={styles.uploadContainer}>
         <h2>Upload Mod</h2>
+        {errorMessage && <p className={styles.error}>{errorMessage}</p>}
         <form id="upload-form" onSubmit={handleSubmit} encType="multipart/form-data">
           <input type="text" name="modName" placeholder="Mod Name" required onChange={handleChange} />
           <input type="text" name="modVersion" placeholder="Version" onChange={handleChange} />
