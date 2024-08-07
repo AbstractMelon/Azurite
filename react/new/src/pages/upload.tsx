@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import Head from 'next/head';
 import Header from '../components/Header';
-import styles from '../stylesheets/Upload.module.css';
+import styles from '../stylesheets/upload.module.css';
 
 interface Game {
   id: string;
@@ -82,6 +82,7 @@ const UploadMod: React.FC = () => {
     <>
       <Head>
         <title>Azurite - Upload Mod</title>
+        <link rel="icon" type="image/x-icon" href="/assets/images/icon.ico" />
       </Head>
 
       <Header />
@@ -89,7 +90,7 @@ const UploadMod: React.FC = () => {
       <div className={styles.uploadContainer}>
         <h2>Upload Mod</h2>
         {errorMessage && <p className={styles.error}>{errorMessage}</p>}
-        <form id="upload-form" onSubmit={handleSubmit} encType="multipart/form-data">
+        <form id="upload-form" onSubmit={handleSubmit} encType="multipart/form-data" className={styles.uploadForm}>
           <input type="text" name="modName" placeholder="Mod Name" required onChange={handleChange} />
           <input type="text" name="modVersion" placeholder="Version" onChange={handleChange} />
           <textarea name="modDescription" placeholder="Mod Description" required onChange={handleChange} />

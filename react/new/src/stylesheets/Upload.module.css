@@ -1,4 +1,4 @@
-.upload-container {
+.uploadContainer {
   max-width: 500px;
   margin: 50px auto;
   padding: 20px;
@@ -7,18 +7,18 @@
   box-shadow: 0 0 15px rgba(0, 0, 0, 0.4);
 }
 
-.upload-container h2 {
+.uploadContainer h2 {
   margin-bottom: 20px;
   text-align: center;
 }
 
-#upload-form {
+.uploadForm {
   display: flex;
   flex-direction: column;
 }
 
-#upload-form input,
-#upload-form textarea {
+.uploadForm input,
+.uploadForm textarea {
   margin-bottom: 15px;
   color: #ffffff;
   padding: 10px;
@@ -27,11 +27,11 @@
   background-color: #3d3d3d;
 }
 
-#upload-form input[type="url"] {
+.uploadForm input[type="url"] {
   margin-bottom: 15px;
 }
 
-#upload-form button {
+.uploadForm button {
   padding: 10px 20px;
   background-color: #007bff;
   color: #ffffff;
@@ -40,12 +40,11 @@
   cursor: pointer;
 }
 
-#upload-form button:hover {
+.uploadForm button:hover {
   background-color: #0056b3;
 }
 
-/* Dropdown Menu Styles */
-#upload-form select {
+.uploadForm select {
   margin-bottom: 15px;
   padding: 10px;
   color: #ffffff;
@@ -57,17 +56,17 @@
   -moz-appearance: none;
 }
 
-#upload-form select:focus {
+.uploadForm select:focus {
   border-color: #007bff;
   outline: none;
 }
 
-#upload-form select option {
+.uploadForm select option {
   background-color: #3d3d3d;
   color: #ffffff;
 }
 
-#upload-form select {
+.uploadForm select {
   position: relative;
   background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='5' viewBox='0 0 10 5'%3E%3Cpath fill='%23FFFFFF' d='M0 0l5 5 5-5z'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
@@ -75,6 +74,12 @@
   background-size: 10px 5px;
 }
 
-#upload-form select::-ms-expand {
+.uploadForm select::-ms-expand {
   display: none;
+}
+
+.error {
+  color: red;
+  text-align: center;
+  margin-bottom: 15px;
 }
