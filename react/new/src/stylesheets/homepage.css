@@ -23,7 +23,7 @@
 
 .feature {
     display: inline-block;
-    width: calc(33.333% - 40px);
+    width: calc(40.333% - 40px);
     margin: 20px;
     vertical-align: top;
     text-align: center;
@@ -60,7 +60,7 @@
 .get-started-button {
     display: inline-block;
     padding: 10px 20px;
-    background-color: var(--accent); 
+    background-color: var(--accent);
     color: var(--textcol2);
     text-decoration: none;
     font-size: 18px;
