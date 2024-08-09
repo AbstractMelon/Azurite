@@ -18,6 +18,13 @@ const UploadMod: React.FC = () => {
   const router = useRouter();
 
   useEffect(() => {
+
+    /*
+    if (!document.cookie.includes('username')) {
+      router.replace('/login');
+    }
+    */
+
     fetch('/api/games')
       .then((response) => response.json())
       .then((data) => {
