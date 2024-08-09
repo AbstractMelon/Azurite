@@ -11,15 +11,15 @@ export const config = {
   },
 };
 
-const handler = (req: NextApiRequest, res: NextApiResponse) => {
+const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   console.log('Received a request to upload a mod');
 
   const form = new IncomingForm();
-  form.parse(req, (err: any, fields: Fields, files: Files) => {
+
+  form.parse(req, async (err: any, fields: Fields, files: Files) => {
     if (err) {
       console.error('Error parsing the form', err);
-      res.status(400).json({ error: 'Error parsing the form' });
-      return;
+      return res.status(400).json({ error: 'Error parsing the form' });
     }
 
     console.log('Form parsed successfully', { fields, files });
@@ -28,15 +28,17 @@ const handler = (req: NextApiRequest, res: NextApiResponse) => {
       const modName = String(fields.modName);
       const modDescription = String(fields.modDescription);
       const modVersion = String(fields.modVersion);
+      const author = String(fields.author);
+      const teamMembers = String(fields.teamMembers);
       const gameId = String(fields.gameId);
       const modFileArray = files.modFile as formidable.File[];
       const modIconArray = files.modIcon as formidable.File[];
+      const screenshotsArray = files.screenshots as formidable.File[] | formidable.File;
 
-      if (!modName || !modDescription || !modFileArray || !modIconArray || !gameId) {
-        const errorMessage = `Mod name, description, mod file, mod icon, and game ID are required. You sent: ${JSON.stringify(fields)}`;
+      if (!modName || !modDescription || !modFileArray || !modIconArray || !gameId || !author) {
+        const errorMessage = `All required fields are missing. You sent: ${JSON.stringify(fields)}`;
         console.error(errorMessage);
-        res.status(400).json({ error: errorMessage });
-        return;
+        return res.status(400).json({ error: errorMessage });
       }
 
       const modFile = modFileArray[0];
@@ -47,8 +49,7 @@ const handler = (req: NextApiRequest, res: NextApiResponse) => {
       if (!game) {
         const errorMessage = `Game with ID ${gameId} not found`;
         console.error(errorMessage);
-        res.status(404).json({ error: errorMessage });
-        return;
+        return res.status(404).json({ error: errorMessage });
       }
 
       const modId = modName.toLowerCase().replace(/\s+/g, '-');
@@ -56,23 +57,30 @@ const handler = (req: NextApiRequest, res: NextApiResponse) => {
 
       fsUtils.makeDir(modFolderPath);
 
-      // Check if file paths are properly set
       if (!modFile.filepath || !modIcon.filepath) {
         const errorMessage = 'File paths are not properly set.';
         console.error(errorMessage, { modFile, modIcon });
-        res.status(500).json({ error: errorMessage });
-        return;
+        return res.status(500).json({ error: errorMessage });
       }
-
-      console.log('File paths are properly set', { modFile, modIcon });
 
       const modFilePath = path.join(modFolderPath, modFile.originalFilename as string);
       const modIconPath = path.join(modFolderPath, modIcon.originalFilename as string);
 
-      fs.copyFileSync(modFile.filepath, modFilePath);
-      fs.unlinkSync(modFile.filepath);
-      fs.copyFileSync(modIcon.filepath, modIconPath);
-      fs.unlinkSync(modIcon.filepath);
+      await fs.promises.copyFile(modFile.filepath, modFilePath);
+      await fs.promises.unlink(modFile.filepath);
+      await fs.promises.copyFile(modIcon.filepath, modIconPath);
+      await fs.promises.unlink(modIcon.filepath);
+
+      const screenshotUrls: string[] = [];
+      if (screenshotsArray) {
+        const screenshots = Array.isArray(screenshotsArray) ? screenshotsArray : [screenshotsArray];
+        for (const screenshot of screenshots) {
+          const screenshotPath = path.join(modFolderPath, screenshot.originalFilename as string);
+          await fs.promises.copyFile(screenshot.filepath, screenshotPath);
+          await fs.promises.unlink(screenshot.filepath);
+          screenshotUrls.push(`/api/cdn/${game.id}/${modId}/${path.basename(screenshotPath)}`);
+        }
+      }
 
       const modFileUrl = `/api/cdn/${game.id}/${modId}/${path.basename(modFilePath)}`;
       const modIconUrl = `/api/cdn/${game.id}/${modId}/${path.basename(modIconPath)}`;
@@ -82,8 +90,15 @@ const handler = (req: NextApiRequest, res: NextApiResponse) => {
         description: modDescription,
         id: modId,
         version: modVersion,
+        author,
+        teamMembers: teamMembers.split(',').map(member => member.trim()),
         modFile: modFileUrl,
         modIcon: modIconUrl,
+        screenshots: screenshotUrls,
+        dateUploaded: new Date().toISOString(),
+        dateUpdated: new Date().toISOString(),
+        likes: 0,
+        comments: [],
       };
       const manifestPath = path.join(modFolderPath, 'manifest.json');
       fs.writeFileSync(manifestPath, JSON.stringify(manifestData, null, 2));

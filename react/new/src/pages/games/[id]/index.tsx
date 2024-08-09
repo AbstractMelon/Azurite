@@ -59,6 +59,7 @@ export default function GamePage({ game }: GameProps) {
     <>
       <Head>
         <title>Azurite - Downloads</title>
+        <link rel="icon" type="image/x-icon" href="/assets/images/icon.ico" />
       </Head>
 
       <Header />
