@@ -1,40 +1,33 @@
-import path from "path";
-import fs from "fs";
+import bcrypt from 'bcryptjs';
+import { v4 as uuidv4 } from 'uuid';
+import { getUsers, saveUsers, getUserByUsername } from '../database';
 
-const dbPath = path.resolve("./src/database");
-const accountsPath = path.join(dbPath, "data", "accounts");
+export const createUser = async (username: string, password: string, email: string, role: string = 'user') => {
+    const users = getUsers();
+    if (getUserByUsername(username)) {
+        throw new Error('Username already exists');
+    }
 
-export function accountExists(username: string): boolean {
-  const filePath = path.join(accountsPath, `${username}.json`);
-  return fs.existsSync(filePath);
-}
+    const hashedPassword = await bcrypt.hash(password, 10);
+    const newUser = {
+        id: uuidv4(),
+        username,
+        email,
+        password: hashedPassword,
+        role,
+        createdAt: new Date().toISOString(),
+    };
+    users.push(newUser);
+    saveUsers(users);
+    return newUser;
+};
 
-export function createAccount(
-  username: string,
-  password: string,
-  bio: string = "",
-  email: string = "",
-  isAdmin: boolean = false,
-  gamesModded: string[] = [],
-  profilePicture: string = "",
-  socialLinks: Record<string, string> = {},
-  favoriteGames: string[] = [],
-  moddingExperience: string = "",
-  dateCreated: Date = new Date()
-) {
-  const accountData = {
-    username,
-    password,
-    bio,
-    email,
-    isAdmin,
-    gamesModded,
-    profilePicture,
-    socialLinks,
-    favoriteGames,
-    moddingExperience,
-    dateCreated: dateCreated.toISOString(),
-  };
-  const filePath = path.join(accountsPath, `${username}.json`);
-  fs.writeFileSync(filePath, JSON.stringify(accountData, null, 2));
-}
+export const authenticateUser = async (username: string, password: string) => {
+    const user = getUserByUsername(username);
+    if (!user) return null;
+
+    const isValid = await bcrypt.compare(password, user.password);
+    if (!isValid) return null;
+
+    return user;
+};

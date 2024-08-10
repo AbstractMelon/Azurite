@@ -1,46 +1,33 @@
-import type { NextApiRequest, NextApiResponse } from 'next';
-import bcrypt from 'bcrypt';
-import { getAccounts } from '../../database';
-import { accountExists } from '../../utils/account';
+import { NextApiRequest, NextApiResponse } from 'next';
+import { authenticateUser } from '../../utils/account';
+import { sign } from 'jsonwebtoken';
+import { setCookie } from 'nookies';
+
+const SECRET = 'your-secret-key';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  const accounts = getAccounts();
-  const { username, password } = req.body;
+    if (req.method === 'POST') {
+        const { username, password } = req.body;
 
-  if (!username || !password) {
-    const errorMessage = "Username and password are required.";
-    console.error(errorMessage);
-    res.status(400).send(errorMessage);
-    return;
-  }
+        const user = await authenticateUser(username, password);
+        if (user) {
+            const token = sign(
+                { id: user.id, username: user.username },
+                SECRET,
+                { expiresIn: '7d' }
+            );
 
-  // Find the account
-  const account = accounts.find((acc) => acc.username === username);
-  if (!account) {
-    const errorMessage = "Account does not exist!";
-    console.error(errorMessage);
-    res.status(401).send(errorMessage);
-    return;
-  }
-
-  try {
-    const isPasswordMatch = await bcrypt.compare(password, account.password);
-    if (!isPasswordMatch) {
-      const errorMessage = "Invalid username or password.";
-      console.error(errorMessage);
-      res.status(401).send(errorMessage);
-      return;
+            setCookie({ res }, 'authToken', token, {
+                httpOnly: false,
+                secure: process.env.NODE_ENV === 'production',
+                maxAge: 7 * 24 * 60 * 60,
+                path: '/',
+            });
+            res.status(200).json({ success: true });
+        } else {
+            res.status(401).json({ success: false, message: 'Invalid credentials' });
+        }
+    } else {
+        res.status(405).json({ message: 'Method not allowed' });
     }
-
-    // Set the cookie
-    res.setHeader('Set-Cookie', `username=${username}; Path=/; HttpOnly`);
-
-    const successMessage = "Login successful.";
-    console.log(successMessage);
-    res.status(200).send(successMessage);
-  } catch (error) {
-    const errorMessage = error instanceof Error ? `Error Logging in: ${error.message}` : 'Unknown error occurred';
-    console.error(errorMessage);
-    res.status(500).send(errorMessage);
-  }
 }
