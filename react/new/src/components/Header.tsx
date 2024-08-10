@@ -1,7 +1,16 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
+import { parseCookies } from 'nookies';
+import jwtDecode from 'jwt-decode';
+
+interface DecodedToken {
+    id: string;
+    username: string;
+}
 
 const Header = () => {
+    const [username, setUsername] = useState<string | null>(null);
+
     const toggleMobileNav = () => {
         const mobileNav = document.getElementById('mobile-nav');
         const hamburger = document.querySelector('.hamburger');
@@ -12,33 +21,19 @@ const Header = () => {
     };
 
     useEffect(() => {
-        const getCookie = (name: string) => {
-            const cookieString = document.cookie;
-            const cookies = cookieString.split('; ');
+        const cookies = parseCookies();
+        console.log('Cookies:', cookies);
 
-            for (let cookie of cookies) {
-                const [cookieName, cookieValue] = cookie.split('=');
-                if (cookieName === name) {
-                    return decodeURIComponent(cookieValue);
-                }
-            }
+        const token = cookies.authToken;
+        console.log('Token:', token);
 
-            return '';
-        };
-
-        const username = getCookie('username');
-        const accountLink = document.getElementById('accountLink') as HTMLAnchorElement | null;
-        const mobileAccountLink = document.getElementById('mobileAccountLink') as HTMLAnchorElement | null;
-
-        if (username) {
-            if (accountLink) {
-                accountLink.href = `/profile/${username}`;
-                accountLink.textContent = username;
-            }
-
-            if (mobileAccountLink) {
-                mobileAccountLink.href = `/profile/${username}`;
-                mobileAccountLink.textContent = username;
+        if (token) {
+            try {
+                const decoded: DecodedToken = jwtDecode(token);
+                console.log('Decoded Token:', decoded);
+                setUsername(decoded.username);
+            } catch (error) {
+                console.error('Failed to decode token', error);
             }
         }
     }, []);
@@ -54,7 +49,11 @@ const Header = () => {
                     <Link href="/games">Games</Link>
                     <Link href="/mod-manager">Mod Manager</Link>
                     <Link href="/upload">Upload</Link>
-                    <Link id="accountLink" href="/login">Login/Signup</Link>
+                    {username ? (
+                        <Link id="accountLink" href={`/profile/${username}`}>{username}</Link>
+                    ) : (
+                        <Link id="accountLink" href="/login">Login/Signup</Link>
+                    )}
                 </nav>
                 <div className="hamburger" onClick={toggleMobileNav}>
                     <div></div>
@@ -67,7 +66,11 @@ const Header = () => {
                 <Link href="/games">Games</Link>
                 <Link href="/mod-manager">Mod Manager</Link>
                 <Link href="/upload">Upload</Link>
-                <Link id="mobileAccountLink" href="/login">Login/Signup</Link>
+                {username ? (
+                    <Link id="mobileAccountLink" href={`/profile/${username}`}>{username}</Link>
+                ) : (
+                    <Link id="mobileAccountLink" href="/login">Login/Signup</Link>
+                )}
             </div>
         </>
     );

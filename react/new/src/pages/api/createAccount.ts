@@ -1,40 +1,17 @@
-import type { NextApiRequest, NextApiResponse } from 'next';
-import bcrypt from 'bcrypt';
-import { createAccount, accountExists } from '../../utils/account';
-import { initializeDatabase, getGames, getAccounts, getMods } from '../../database';
-import path from 'path';
-import fs from 'fs';
-
-const saltRounds = 10;
-
-initializeDatabase();
+import { NextApiRequest, NextApiResponse } from 'next';
+import { createUser } from '../../utils/account';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  const { username, password, bio, email, isAdmin, gamesModded, profilePicture, socialLinks, favoriteGames, moddingExperience } = req.body;
+    if (req.method === 'POST') {
+        const { username, password, email } = req.body;
 
-  if (!username || !password) {
-    const errorMessage = `Username and password are required. You sent: ${JSON.stringify(req.body)}`;
-    console.error(errorMessage);
-    res.status(400).send(errorMessage);
-    return;
-  }
-
-  if (accountExists(username)) {
-    const errorMessage = `Username '${username}' already exists.`;
-    console.error(errorMessage);
-    res.status(409).send(errorMessage);
-    return;
-  }
-
-  try {
-    const hashedPassword = await bcrypt.hash(password, saltRounds);
-    createAccount(username, hashedPassword, bio, email, isAdmin, gamesModded, profilePicture, socialLinks, favoriteGames, moddingExperience);
-    const successMessage = "Account created successfully";
-    console.log(successMessage);
-    res.status(201).send(successMessage);
-  } catch (error) {
-    const errorMessage = error instanceof Error ? `Error creating account: ${error.message}` : 'Unknown error occurred';
-    console.error(errorMessage);
-    res.status(500).send(errorMessage);
-  }
+        try {
+            const user = await createUser(username, password, email);
+            res.status(201).json({ success: true, user });
+        } catch (error) {
+            res.status(400).json({ success: false, message: error.message });
+        }
+    } else {
+        res.status(405).json({ message: 'Method not allowed' });
+    }
 }

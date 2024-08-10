@@ -4,6 +4,7 @@ import { makeDir, makeFile } from './utils/file';
 
 const dbPath = path.resolve("./database/");
 const accountsPath = path.join(dbPath, "data", "accounts");
+const usersFilePath = path.join(process.cwd(), 'database', 'data', 'accounts', 'users.json');
 
 initializeDatabase()
 
@@ -20,7 +21,7 @@ interface AccountData {
   [key: string]: any;
 }
 
-function generateGame(gameData: GameData): void {
+export function generateGame(gameData: GameData): void {
   const { name, description, id, image } = gameData;
   const gameFolderPath = path.join(dbPath, "data", "games", id);
   const gameModFolderPath = path.join(dbPath, "data", "mods", id);
@@ -36,7 +37,7 @@ function generateGame(gameData: GameData): void {
   });
 }
 
-function getGames(): Record<string, GameData> {
+export function getGames(): Record<string, GameData> {
   const files = fs.readdirSync(path.join(dbPath, "data", "games"));
   const games = files.map((file) => {
     const manifestPath = path.join(dbPath, "data", "games", file, "manifest.json");
@@ -49,15 +50,7 @@ function getGames(): Record<string, GameData> {
   }, {} as Record<string, GameData>);
 }
 
-function getAccounts(): AccountData[] {
-  const files = fs.readdirSync(accountsPath);
-  return files.map((file) => {
-    const filePath = path.join(accountsPath, file);
-    return JSON.parse(fs.readFileSync(filePath, "utf-8")) as AccountData;
-  });
-}
-
-function getMods(gameName: string): Record<string, unknown>[] {
+export function getMods(gameName: string): Record<string, unknown>[] {
   const gameModsPath = path.join(dbPath, "data", "mods", gameName);
   const mods: Record<string, unknown>[] = [];
 
@@ -84,13 +77,36 @@ function getMods(gameName: string): Record<string, unknown>[] {
   return mods;
 }
 
-function initializeDatabase(): void {
+export const getUsers = () => {
+    const usersData = fs.readFileSync(usersFilePath, 'utf-8');
+    return JSON.parse(usersData);
+};
+
+export const saveUsers = (users: any) => {
+    fs.writeFileSync(usersFilePath, JSON.stringify(users, null, 2));
+};
+
+export const getUserById = (id: string) => {
+    const users = getUsers();
+    return users.find((user: any) => user.id === id);
+};
+
+export const getUserByUsername = (username: string) => {
+    const users = getUsers();
+    return users.find((user: any) => user.username === username);
+};
+
+
+export function initializeDatabase(): void {
   makeDir(dbPath);
   makeDir(path.join(dbPath, "data"));
   makeDir(path.join(dbPath, "data", "tickets"));
   makeDir(path.join(dbPath, "data", "games"));
   makeDir(path.join(dbPath, "data", "mods"));
   makeDir(accountsPath);
+
+  const blankuserfiledata: Record<string, unknown> | never[] = []
+  makeFile(usersFilePath, blankuserfiledata);
 
   const gamesData: GameData[] = [
     {
@@ -127,11 +143,3 @@ function initializeDatabase(): void {
 
   gamesData.forEach((gameData) => generateGame(gameData));
 }
-
-export {
-  generateGame,
-  getGames,
-  getMods,
-  getAccounts,
-  initializeDatabase,
-};
