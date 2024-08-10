@@ -1,5 +1,8 @@
 import { useState } from 'react';
 import { useRouter } from 'next/router';
+import Head from 'next/head';
+import Header from '../components/Header';
+import styles from '../stylesheets/Register.module.css';
 
 export default function Register() {
     const [username, setUsername] = useState('');
@@ -26,30 +29,40 @@ export default function Register() {
     };
 
     return (
-        <div>
-            <h1>Register</h1>
-            {error && <p>{error}</p>}
-            <form onSubmit={handleRegister}>
-                <input
-                    type="text"
-                    placeholder="Username"
-                    value={username}
-                    onChange={(e) => setUsername(e.target.value)}
-                />
-                <input
-                    type="password"
-                    placeholder="Password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                />
-                <input
-                    type="email"
-                    placeholder="Email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                />
-                <button type="submit">Register</button>
-            </form>
-        </div>
+        <>
+        <Head>
+            <title>Azurite - Register</title>
+            <link rel="icon" type="image/x-icon" href="/assets/images/icon.ico" />
+        </Head>
+
+        <Header />
+            <div className={styles.container}>
+                <div className={styles.registerContainer}>
+                    <h2>Register</h2>
+                    {error && <p className={styles.error}>{error}</p>}
+                    <form onSubmit={handleRegister} className={styles.registerForm}>
+                        <input
+                            type="text"
+                            placeholder="Username"
+                            value={username}
+                            onChange={(e) => setUsername(e.target.value)}
+                        />
+                        <input
+                            type="password"
+                            placeholder="Password"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                        />
+                        <input
+                            type="email"
+                            placeholder="Email"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                        />
+                        <button type="submit">Register</button>
+                    </form>
+                </div>
+            </div>
+        </>
     );
 }
