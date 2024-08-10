@@ -1,5 +1,8 @@
 import { useState } from 'react';
 import { useRouter } from 'next/router';
+import Head from 'next/head';
+import Header from '../components/Header';
+import styles from '../stylesheets/Login.module.css';
 
 export default function Login() {
     const [username, setUsername] = useState('');
@@ -25,24 +28,35 @@ export default function Login() {
     };
 
     return (
-        <div>
-            <h1>Login</h1>
-            {error && <p>{error}</p>}
-            <form onSubmit={handleLogin}>
-                <input
-                    type="text"
-                    placeholder="Username"
-                    value={username}
-                    onChange={(e) => setUsername(e.target.value)}
-                />
-                <input
-                    type="password"
-                    placeholder="Password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                />
-                <button type="submit">Login</button>
-            </form>
-        </div>
+
+        <>
+            <Head>
+                <title>Azurite - Login</title>
+                <link rel="icon" type="image/x-icon" href="/assets/images/icon.ico" />
+            </Head>
+
+            <Header />
+            <div className={styles.container}>
+                <div className={styles.loginContainer}>
+                    <h2>Login</h2>
+                    {error && <p className={styles.error}>{error}</p>}
+                    <form onSubmit={handleLogin} className={styles.loginForm}>
+                        <input
+                            type="text"
+                            placeholder="Username"
+                            value={username}
+                            onChange={(e) => setUsername(e.target.value)}
+                        />
+                        <input
+                            type="password"
+                            placeholder="Password"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                        />
+                        <button type="submit">Login</button>
+                    </form>
+                </div>
+            </div>
+        </>
     );
 }
