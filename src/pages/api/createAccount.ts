@@ -12,7 +12,8 @@ export default async function handler(
             const user = await createUser(username, password, email);
             res.status(201).json({ success: true, user });
         } catch (error) {
-            res.status(400).json({ success: false, message: error.message });
+            const err = error as Error;
+            res.status(400).json({ success: false, message: err.message });
         }
     } else {
         res.status(405).json({ message: "Method not allowed" });
