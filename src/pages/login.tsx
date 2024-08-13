@@ -1,38 +1,41 @@
-import { useState } from 'react';
-import { useRouter } from 'next/router';
-import Head from 'next/head';
-import Header from '../components/Header';
-import styles from '../stylesheets/Login.module.css';
+import { useState } from "react";
+import { useRouter } from "next/router";
+import Head from "next/head";
+import Header from "../components/Header";
+import styles from "../stylesheets/Login.module.css";
 
 export default function Login() {
-    const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('');
-    const [error, setError] = useState('');
+    const [username, setUsername] = useState("");
+    const [password, setPassword] = useState("");
+    const [error, setError] = useState("");
     const router = useRouter();
 
     const handleLogin = async (e: React.FormEvent) => {
         e.preventDefault();
-        const res = await fetch('/api/login', {
-            method: 'POST',
+        const res = await fetch("/api/login", {
+            method: "POST",
             headers: {
-                'Content-Type': 'application/json',
+                "Content-Type": "application/json",
             },
             body: JSON.stringify({ username, password }),
         });
         if (res.ok) {
-            router.push('/');
+            router.push("/");
         } else {
             const data = await res.json();
-            setError(data.message || 'Invalid credentials');
+            setError(data.message || "Invalid credentials");
         }
     };
 
     return (
-
         <>
             <Head>
                 <title>Azurite - Login</title>
-                <link rel="icon" type="image/x-icon" href="/assets/images/icon.ico" />
+                <link
+                    rel="icon"
+                    type="image/x-icon"
+                    href="/assets/images/icon.ico"
+                />
             </Head>
 
             <Header />

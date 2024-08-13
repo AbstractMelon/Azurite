@@ -1,6 +1,6 @@
-import Head from 'next/head';
-import Link from 'next/link';
-import Header from '../components/Header'
+import Head from "next/head";
+import Link from "next/link";
+import Header from "../components/Header";
 
 const PageName = () => {
     return (
@@ -11,6 +11,6 @@ const PageName = () => {
             <Header />
         </>
     );
-}
+};
 
 export default PageName;

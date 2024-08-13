@@ -1,12 +1,12 @@
 // components/SearchBar.tsx
-import { FormEvent, useState } from 'react';
+import { FormEvent, useState } from "react";
 
 type SearchBarProps = {
     onSearch: (searchValue: string) => void;
 };
 
 const SearchBar = ({ onSearch }: SearchBarProps) => {
-    const [searchValue, setSearchValue] = useState('');
+    const [searchValue, setSearchValue] = useState("");
 
     const handleSearch = (e: FormEvent) => {
         e.preventDefault();

@@ -1,5 +1,5 @@
 // components/GameCard.tsx
-import Link from 'next/link';
+import Link from "next/link";
 
 type GameCardProps = {
     name: string;
