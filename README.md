@@ -1,6 +1,7 @@
 ![Github logo](azuritelogo.png)
 
 # Azurite
+
 [![Version](https://img.shields.io/badge/Version-v0.3.5-blue)](https://github.com/AbstractMelon/Azurite/)
 [![Contributers](https://img.shields.io/badge/Contributers-3-red)](https://github.com/AbstractMelon/Azurite/)
 [![GitHub issues](https://img.shields.io/github/issues/AbstractMelon/Azurite)](https://github.com/AbstractMelon/Azurite/issues)
@@ -10,13 +11,13 @@ Welcome to Azurite! This project aims to provide a platform for sharing and disc
 
 ## Table of Contents
 
-- [Introduction](#introduction)
-- [Features](#features)
-- [Demo](#demo)
-- [Installation](#installation)
-- [Usage](#usage)
-- [Contributing](#contributing)
-- [License](#license)
+-   [Introduction](#introduction)
+-   [Features](#features)
+-   [Demo](#demo)
+-   [Installation](#installation)
+-   [Usage](#usage)
+-   [Contributing](#contributing)
+-   [License](#license)
 
 ## Introduction
 
@@ -24,14 +25,14 @@ Azurite is a web application (and maybe a mod manager later?) where users can up
 
 ## Features
 
-- **Exsists**: The site exsists! New stuff comming soon!
+-   **Exsists**: The site exsists! New stuff comming soon!
 <!--- - **User Authentication**: Secure user authentication system for registering, logging in, and managing user accounts. -->
-- **Mod Upload**: Allow users to upload their mods, including descriptions, screenshots, and version information.
-- **Mod Listing**: Display a list of available mods with sorting and filtering options.
-- **Search Functionality**: Enable users to search for mods based on keywords, categories, or other criteria.
-- **Mod Details**: Show detailed information about each mod, including descriptions, download links, and user ratings.
-- **User Interaction**: Allow users to rate mods, leave comments, and interact with other users.
-- **Responsive Design**: Ensure the site is accessible and usable across different devices and screen sizes. 
+-   **Mod Upload**: Allow users to upload their mods, including descriptions, screenshots, and version information.
+-   **Mod Listing**: Display a list of available mods with sorting and filtering options.
+-   **Search Functionality**: Enable users to search for mods based on keywords, categories, or other criteria.
+-   **Mod Details**: Show detailed information about each mod, including descriptions, download links, and user ratings.
+-   **User Interaction**: Allow users to rate mods, leave comments, and interact with other users.
+-   **Responsive Design**: Ensure the site is accessible and usable across different devices and screen sizes.
 
 ## Demo
 
@@ -49,7 +50,7 @@ To run azurite locally, follow these steps:
 
 ## Usage
 
-Once the development server is running, you can access the site in your web browser at `http://localhost:3000`. 
+Once the development server is running, you can access the site in your web browser at `http://localhost:3000`.
 
 ## Contributing
 
