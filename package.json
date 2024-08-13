@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "format": "prettier . --write"
   },
   "dependencies": {
     "azurite": "file:",
@@ -17,6 +18,7 @@
     "jwt-decode": "^4.0.0",
     "next": "14.2.4",
     "nookies": "^2.5.2",
+    "prettier": "^3.3.3",
     "react": "^18",
     "react-dom": "^18",
     "uuid": "^10.0.0"

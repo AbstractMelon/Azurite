@@ -1,46 +1,53 @@
-import { useState } from 'react';
-import { useRouter } from 'next/router';
-import Head from 'next/head';
-import Header from '../components/Header';
-import styles from '../stylesheets/Register.module.css';
+import { useState } from "react";
+import { useRouter } from "next/router";
+import Head from "next/head";
+import Header from "../components/Header";
+import styles from "../stylesheets/Register.module.css";
 
 export default function Register() {
-    const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('');
-    const [email, setEmail] = useState('');
-    const [error, setError] = useState('');
+    const [username, setUsername] = useState("");
+    const [password, setPassword] = useState("");
+    const [email, setEmail] = useState("");
+    const [error, setError] = useState("");
     const router = useRouter();
 
     const handleRegister = async (e: React.FormEvent) => {
         e.preventDefault();
-        const res = await fetch('/api/createAccount', {
-            method: 'POST',
+        const res = await fetch("/api/createAccount", {
+            method: "POST",
             headers: {
-                'Content-Type': 'application/json',
+                "Content-Type": "application/json",
             },
             body: JSON.stringify({ username, password, email }),
         });
         if (res.ok) {
-            router.push('/login');
+            router.push("/login");
         } else {
             const data = await res.json();
-            setError(data.message || 'Registration failed');
+            setError(data.message || "Registration failed");
         }
     };
 
     return (
         <>
-        <Head>
-            <title>Azurite - Register</title>
-            <link rel="icon" type="image/x-icon" href="/assets/images/icon.ico" />
-        </Head>
+            <Head>
+                <title>Azurite - Register</title>
+                <link
+                    rel="icon"
+                    type="image/x-icon"
+                    href="/assets/images/icon.ico"
+                />
+            </Head>
 
-        <Header />
+            <Header />
             <div className={styles.container}>
                 <div className={styles.registerContainer}>
                     <h2>Register</h2>
                     {error && <p className={styles.error}>{error}</p>}
-                    <form onSubmit={handleRegister} className={styles.registerForm}>
+                    <form
+                        onSubmit={handleRegister}
+                        className={styles.registerForm}
+                    >
                         <input
                             type="text"
                             placeholder="Username"

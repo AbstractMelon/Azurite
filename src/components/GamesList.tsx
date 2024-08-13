@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react';
-import GameCard from './GameCard';
+import { useEffect, useState } from "react";
+import GameCard from "./GameCard";
 
 type Game = {
     name: string;
@@ -15,18 +15,20 @@ const GamesList = ({ searchQuery }: { searchQuery: string }) => {
     useEffect(() => {
         const fetchGames = async () => {
             try {
-                const response = await fetch('/api/games');
+                const response = await fetch("/api/games");
                 const gamesData = await response.json();
 
-                if (gamesData && typeof gamesData === 'object') {
+                if (gamesData && typeof gamesData === "object") {
                     // Convert the object to an array
-                    const gamesArray = Object.keys(gamesData).map(key => gamesData[key]);
+                    const gamesArray = Object.keys(gamesData).map(
+                        (key) => gamesData[key],
+                    );
                     setGames(gamesArray);
                 } else {
-                    console.error('API did not return an object:', gamesData);
+                    console.error("API did not return an object:", gamesData);
                 }
             } catch (error) {
-                console.error('Error fetching games:', error);
+                console.error("Error fetching games:", error);
             }
         };
 
@@ -37,8 +39,8 @@ const GamesList = ({ searchQuery }: { searchQuery: string }) => {
         if (searchQuery) {
             setFilteredGames(
                 games.filter((game) =>
-                    game.name.toLowerCase().includes(searchQuery.toLowerCase())
-                )
+                    game.name.toLowerCase().includes(searchQuery.toLowerCase()),
+                ),
             );
         } else {
             setFilteredGames(games);

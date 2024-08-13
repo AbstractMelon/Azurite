@@ -1,11 +1,16 @@
-import bcrypt from 'bcryptjs';
-import { v4 as uuidv4 } from 'uuid';
-import { getUsers, saveUsers, getUserByUsername } from '../database';
+import bcrypt from "bcryptjs";
+import { v4 as uuidv4 } from "uuid";
+import { getUsers, saveUsers, getUserByUsername } from "../database";
 
-export const createUser = async (username: string, password: string, email: string, role: string = 'user') => {
+export const createUser = async (
+    username: string,
+    password: string,
+    email: string,
+    role: string = "user",
+) => {
     const users = getUsers();
     if (getUserByUsername(username)) {
-        throw new Error('Username already exists');
+        throw new Error("Username already exists");
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);

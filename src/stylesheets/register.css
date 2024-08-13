@@ -14,30 +14,30 @@ body {
 }
 
 .container {
-  max-width: 400px; 
+  max-width: 400px;
   width: 90%;
-  padding: 15px 15px; 
+  padding: 15px 15px;
   border-radius: 8px;
-  background-color: rgba(47, 49, 54, 0.8); 
+  background-color: rgba(47, 49, 54, 0.8);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   text-align: center;
 }
 
 h1 {
   font-size: 32px;
-  margin-bottom: 20px; 
+  margin-bottom: 20px;
 }
 
 input[type="text"],
 input[type="password"] {
-  width: 100%; 
+  width: 100%;
   padding: 14px;
   margin-bottom: 20px;
   border: none;
   border-radius: 4px;
   background-color: #40444b;
   color: #fff;
-  box-sizing: border-box; 
+  box-sizing: border-box;
 }
 
 input[type="text"]::placeholder,
@@ -46,7 +46,7 @@ input[type="password"]::placeholder {
 }
 
 .password-field {
-  position: relative; 
+  position: relative;
 }
 
 .vis-button {
@@ -70,8 +70,6 @@ input[type="password"]::placeholder {
   height: 100%;
 }
 
-
-
 button {
   width: 100%;
   padding: 14px;
@@ -91,17 +89,17 @@ button:hover {
 .error-message {
   color: red;
   display: none;
-  margin-top: 20px; 
+  margin-top: 20px;
 }
 
 h6 {
-  margin-top: 20px; 
+  margin-top: 20px;
   color: #b9bbbe;
 }
 
 @media screen and (max-width: 480px) {
   .container {
     width: 95%;
-    padding: 30px 15px; 
+    padding: 30px 15px;
   }
 }

@@ -22,10 +22,10 @@ If you'd like to contribute code to the project, please follow these steps:
 
 If you encounter a bug while using our website, please help us fix it by submitting a detailed bug report. Include information such as:
 
-- Steps to reproduce the bug
-- Expected behavior
-- Actual behavior
-- Screenshots or error messages, if applicable
+-   Steps to reproduce the bug
+-   Expected behavior
+-   Actual behavior
+-   Screenshots or error messages, if applicable
 
 ### 3. Feature Requests
 
@@ -39,10 +39,10 @@ Improving documentation is always appreciated! If you notice any errors or areas
 
 When contributing code, please adhere to the following guidelines:
 
-- Follow the coding style and conventions used throughout the project.
-- Write clear, concise, and descriptive commit messages.
-- Ensure your code is well-documented, especially for complex or non-obvious functionality.
-- Test your changes thoroughly to ensure they don't introduce regressions.
+-   Follow the coding style and conventions used throughout the project.
+-   Write clear, concise, and descriptive commit messages.
+-   Ensure your code is well-documented, especially for complex or non-obvious functionality.
+-   Test your changes thoroughly to ensure they don't introduce regressions.
 
 ## Code of Conduct
 
