@@ -6,7 +6,7 @@ const Test = () => {
     return (
         <>
             <Head>
-                <title>Azurite - Pagename</title>
+                <title>Azurite - Mod Manager</title>
                 <link
                     rel="icon"
                     type="image/x-icon"

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { parseCookies } from "nookies";
-import jwtDecode from "jwt-decode";
+import { jwtDecode } from 'jwt-decode';
 
 interface DecodedToken {
     id: string;
@@ -33,7 +33,7 @@ const Header = () => {
                 console.log("Decoded Token:", decoded);
                 setUsername(decoded.username);
             } catch (error) {
-                console.error("Failed to decode token", error);
+                console.error("Failed to decode token:", error);
             }
         }
     }, []);

@@ -44,21 +44,31 @@ export function generateGame(gameData: GameData): void {
 }
 
 export function getGames(): Record<string, GameData> {
-    const files = fs.readdirSync(path.join(dbPath, "data", "games"));
-    const games = files.map((file) => {
-        const manifestPath = path.join(
-            dbPath,
-            "data",
-            "games",
-            file,
-            "manifest.json",
-        );
-        return JSON.parse(fs.readFileSync(manifestPath, "utf-8")) as GameData;
-    });
+    const gamesDir = path.join(dbPath, "data", "games");
+
+    let games: GameData[] = [];
+
+    try {
+        const files = fs.readdirSync(gamesDir);
+        games = files.map((file) => {
+            const manifestPath = path.join(gamesDir, file, "manifest.json");
+            try {
+                const data = fs.readFileSync(manifestPath, "utf-8");
+                return JSON.parse(data) as GameData;
+            } catch (parseError) {
+                console.error(`Error parsing JSON file: ${manifestPath}`, parseError);
+                return null;
+            }
+        }).filter((game): game is GameData => game !== null);
+    } catch (readError) {
+        console.error(`Error reading directory: ${gamesDir}`, readError);
+    }
 
     return games.reduce(
         (acc, game) => {
-            acc[game.id] = game;
+            if (game) {
+                acc[game.id] = game;
+            }
             return acc;
         },
         {} as Record<string, GameData>,
@@ -121,7 +131,7 @@ export function initializeDatabase(): void {
     makeDir(path.join(dbPath, "data", "mods"));
     makeDir(accountsPath);
 
-    const blankuserfiledata: Record<string, unknown> | never[] = [];
+    const blankuserfiledata: Record<string, unknown> = {};
     makeFile(usersFilePath, blankuserfiledata);
 
     const gamesData: GameData[] = [
