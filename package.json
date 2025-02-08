@@ -7,14 +7,17 @@
   "type": "commonjs",
   "main": "index.js",
   "scripts": {
-    "dev": "pnpm run dev:frontend & pnpm run dev:backend",
-    "test": "pnpm run test:frontend & pnpm run test:backend",
-    "prod": "pnpm run prod:frontend & pnpm run prod:backend",
+    "dev": "concurrently \"pnpm run dev:frontend\" \"pnpm run dev:backend\"",
+    "test": "concurrently \"pnpm run test:frontend\" \"pnpm run test:backend\"",
+    "prod": "concurrently \"pnpm run prod:frontend\" \"pnpm run prod:backend\"",
     "dev:frontend": "cd frontend && pnpm run dev",
     "dev:backend": "cd backend && pnpm run dev",
     "test:frontend": "cd frontend && pnpm run test",
     "test:backend": "cd backend && pnpm run test",
     "prod:frontend": "cd frontend && pnpm run build",
     "prod:backend": "cd backend && pnpm run build"
+  },
+  "devDependencies": {
+    "concurrently": "^7.3.0"
   }
 }
