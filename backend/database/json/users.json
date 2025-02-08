@@ -1,0 +1,26 @@
+[
+  {
+    "username": "5l1B7S-zLw",
+    "email": "5l1B7S-zLw@example.com",
+    "password": "$2b$10$z1yY.7M53p1c377uyyttq.DCoS3Xt8lt0dp2ZHd1NxbmuS1uoXbHm",
+    "displayName": "5l1B7S-zLw",
+    "role": "user",
+    "mods": [],
+    "favorites": [],
+    "id": "eb27291e-d5e8-43da-974b-2ded9a3fd70f",
+    "createdAt": "2025-01-08T20:50:41.505Z",
+    "updatedAt": "2025-01-08T20:50:41.505Z"
+  },
+  {
+    "username": "testing",
+    "email": "testing@testing.com",
+    "password": "$2b$10$Ljb5zrim45/dSmX05xElCuq7lKN6kXvBY5dgXAoljsTbXAWX5vh2q",
+    "displayName": "testing",
+    "role": "user",
+    "mods": [],
+    "favorites": [],
+    "id": "0882371d-cd91-4f24-b9ba-740830d15cc3",
+    "createdAt": "2025-01-22T01:45:59.439Z",
+    "updatedAt": "2025-01-22T01:45:59.439Z"
+  }
+]

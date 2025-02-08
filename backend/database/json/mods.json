@@ -1,0 +1,98 @@
+[
+  {
+    "name": "Arachnid Assault",
+    "description": "Enhance your SpiderHeck experience with the Arachnid Assault mod, introducing new enemy types and challenging arenas to master.",
+    "shortDescription": "New enemies and arenas for SpiderHeck.",
+    "version": "1.2.0",
+    "gameId": "1b3eb52c-bc40-4a0d-8f36-9956a1223416",
+    "creatorId": "modCreator123",
+    "filePath": "/mods/spiderheck-arachnid-assault.zip",
+    "fileSize": 2048,
+    "tags": ["challenge", "arena"],
+    "downloads": 150,
+    "ratings": [],
+    "averageRating": 0,
+    "comments": [],
+    "changelog": [
+      {
+        "version": "1.2.0",
+        "description": "Added new enemy types and arenas.",
+        "changes": ["New enemy AI", "3 new arenas"],
+        "date": "2025-05-01T00:00:00.000Z"
+      }
+    ],
+    "screenshots": [],
+    "requirements": {
+      "minGameVersion": "1.5",
+      "dependencies": []
+    },
+    "isPublished": true,
+    "isApproved": true,
+    "approvedBy": null,
+    "approvedAt": null
+  },
+  {
+    "name": "Power Surge",
+    "description": "Unleash new abilities in Bopl Battle with the Power Surge mod, featuring unique power-ups and gameplay mechanics.",
+    "shortDescription": "New abilities and gameplay mechanics.",
+    "version": "2.0.0",
+    "gameId": "1b3eb52c-bc40-4a0d-8f36-9956a1223417",
+    "creatorId": "modCreator456",
+    "filePath": "/mods/bopl-battle-power-surge.zip",
+    "fileSize": 3072,
+    "tags": ["ability", "power-up"],
+    "downloads": 300,
+    "ratings": [],
+    "averageRating": 0,
+    "comments": [],
+    "changelog": [
+      {
+        "version": "2.0.0",
+        "description": "Introduced new power-ups and abilities.",
+        "changes": ["5 new abilities", "Improved gameplay balance"],
+        "date": "2025-06-10T00:00:00.000Z"
+      }
+    ],
+    "screenshots": [],
+    "requirements": {
+      "minGameVersion": "3.1.1",
+      "dependencies": []
+    },
+    "isPublished": true,
+    "isApproved": true,
+    "approvedBy": null,
+    "approvedAt": null
+  },
+  {
+    "name": "Creative Expansion",
+    "description": "Expand your creativity in Block Mechanic with new building blocks and tools for endless possibilities.",
+    "shortDescription": "New blocks and tools for Block Mechanic.",
+    "version": "1.1.0",
+    "gameId": "1b3eb52c-bc40-4a0d-8f36-9956a1223418",
+    "creatorId": "modCreator789",
+    "filePath": "/mods/block-mechanic-creative-expansion.zip",
+    "fileSize": 4096,
+    "tags": ["building", "creativity"],
+    "downloads": 200,
+    "ratings": [],
+    "averageRating": 0,
+    "comments": [],
+    "changelog": [
+      {
+        "version": "1.1.0",
+        "description": "Added new blocks and creative tools.",
+        "changes": ["10 new blocks", "2 new tools"],
+        "date": "2025-07-20T00:00:00.000Z"
+      }
+    ],
+    "screenshots": [],
+    "requirements": {
+      "minGameVersion": "1.0",
+      "dependencies": []
+    },
+    "isPublished": true,
+    "isApproved": true,
+    "approvedBy": null,
+    "approvedAt": null
+  }
+]
