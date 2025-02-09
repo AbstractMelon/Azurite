@@ -10,6 +10,7 @@
     "dev": "concurrently \"pnpm run dev:frontend\" \"pnpm run dev:backend\"",
     "test": "concurrently \"pnpm run test:frontend\" \"pnpm run test:backend\"",
     "prod": "concurrently \"pnpm run prod:frontend\" \"pnpm run prod:backend\"",
+    "setup": "pnpm install && (cd frontend && pnpm install) && (cd backend && pnpm install)",
     "dev:frontend": "cd frontend && pnpm run dev",
     "dev:backend": "cd backend && pnpm run dev",
     "test:frontend": "cd frontend && pnpm run test",

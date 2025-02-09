@@ -1,4 +1,4 @@
-![Github logo](azuritelogo.png)
+![Azurite Logo](./azuritelogo.png)
 
 # Azurite
 
@@ -7,36 +7,29 @@
 [![GitHub issues](https://img.shields.io/github/issues/AbstractMelon/Azurite)](https://github.com/AbstractMelon/Azurite/issues)
 [![GitHub commits](https://img.shields.io/github/commit-activity/m/AbstractMelon/Azurite)](https://github.com/AbstractMelon/Azurite/commits)
 
-Welcome to Azurite! This project aims to provide a platform for sharing and discovering mods for various games, similar to Thunderstore.
+Welcome to Azurite, a platform for sharing and discovering mods for various games. It's similar to Thunderstore, but with a few tweaks to make it more user-friendly.
 
 ## Table of Contents
 
--   [Introduction](#introduction)
--   [Features](#features)
--   [Demo](#demo)
--   [Installation](#installation)
--   [Usage](#usage)
--   [Contributing](#contributing)
--   [License](#license)
+- [Introduction](#introduction)
+- [Features](#features)
+- [Demo](#demo)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Contributing](#contributing)
+- [License](#license)
 
 ## Introduction
 
-Azurite is a web application (and maybe a mod manager later?) where users can upload, share, and download mods for their favorite games. It provides a user-friendly interface for browsing mods, searching for specific ones, and managing your own uploads.
+Azurite is a website where users can upload, share, and download mods for their favorite games. It provides a user-friendly interface for browsing mods, searching for specific ones, and managing your own uploads. I'm working on making it a mod manager too, but that's a ways off.
 
 ## Features
 
--   **Exsists**: The site exsists! New stuff comming soon!
-<!--- - **User Authentication**: Secure user authentication system for registering, logging in, and managing user accounts. -->
--   **Mod Upload**: Allow users to upload their mods, including descriptions, screenshots, and version information.
--   **Mod Listing**: Display a list of available mods with sorting and filtering options.
--   **Search Functionality**: Enable users to search for mods based on keywords, categories, or other criteria.
--   **Mod Details**: Show detailed information about each mod, including descriptions, download links, and user ratings.
--   **User Interaction**: Allow users to rate mods, leave comments, and interact with other users.
--   **Responsive Design**: Ensure the site is accessible and usable across different devices and screen sizes.
+- **Exsists**: The site exsists! New stuff comming soon!
 
 ## Demo
 
-[Link to Demo](azurite-dev.vercel.app) - Add a link to a live demo of your site if available.
+[Link to Demo](azurite-dev.vercel.app) - Check out the demo if you want to see what it looks like in action.
 
 ## Installation
 
@@ -44,13 +37,12 @@ To run azurite locally, follow these steps:
 
 1. Clone the repository: `git clone https://github.com/Abstractmelon/azurite.git`
 2. Navigate to the project directory: `cd azurite`
-3. Install dependencies: `npm install`
-4. Setup needed files: `npm run setup`
-5. Start the development server: `npm run dev`
+3. Setup needed files: `pnpm run setup`
+4. Start the development server: `pnpm run dev`
 
 ## Usage
 
-Once the development server is running, you can access the site in your web browser at `http://localhost:3000`.
+Once the development server is running, you can access the site in your web browser at `http://localhost:5173`.
 
 ## Contributing
 

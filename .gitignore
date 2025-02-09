@@ -7,10 +7,19 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
+# Dependency directories
 node_modules
+.pnp
+.pnp.js
+
+# Production
 dist
 dist-ssr
+build
 *.local
+
+# TypeScript
+*.tsbuildinfo
 
 # Editor directories and files
 .vscode/*
@@ -22,3 +31,19 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Vue/Vite specific
+.vite
+.vitepress
+.vuepress
+.nuxt
+out
+
+# pnpm specific
+pnpm-lock.yaml
+
+# Others
+coverage
+
+# Mine
+uploads/
