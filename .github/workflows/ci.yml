@@ -29,10 +29,6 @@ jobs:
           version: 9
           run_install: false
 
-      - name: Backend build
-        working-directory: backend
-        run: go build ./...
-
       - name: Frontend install
         working-directory: frontend
         run: pnpm install
@@ -40,3 +36,20 @@ jobs:
       - name: Frontend build
         working-directory: frontend
         run: pnpm build
+
+      - name: Backend build
+        working-directory: backend
+        run: go build ./...
+
+      - name: Run tests with coverage
+        working-directory: backend
+        run: make test-coverage
+
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v5
+        with:
+          directory: backend/coverage
+          files: coverage.out
+          fail_ci_if_error: true
+          verbose: true
+          token: ${{ secrets.CODECOV_TOKEN }}

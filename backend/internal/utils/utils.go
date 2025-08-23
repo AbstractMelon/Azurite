@@ -47,7 +47,7 @@ func GenerateRandomToken() string {
 	return hex.EncodeToString(bytes)
 }
 
-func GenerateFileHash(file multipart.File) (string, error) {
+func GenerateFileHash(file io.Reader) (string, error) {
 	hasher := sha256.New()
 	if _, err := io.Copy(hasher, file); err != nil {
 		return "", err

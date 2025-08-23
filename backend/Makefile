@@ -30,19 +30,62 @@ test:
 	@echo "Running tests..."
 	@go test -v ./...
 
+# Run tests with race detection
+test-race:
+	@echo "Running tests with race detection..."
+	@go test -v -race ./...
+
 # Run tests with coverage
 test-coverage:
 	@echo "Running tests with coverage..."
-	@go test -v -coverprofile=coverage.out ./...
-	@go tool cover -html=coverage.out -o coverage.html
-	@echo "Coverage report generated: coverage.html"
+	@mkdir -p coverage
+	@go test -v -coverprofile=coverage/coverage.out ./... || true
+	@go tool cover -html=coverage/coverage.out -o coverage/coverage.html
+	@go tool cover -func=coverage/coverage.out
+	@echo "Coverage report generated: coverage/coverage.html"
+
+# Run tests with detailed coverage by package
+test-coverage-detailed:
+	@echo "Running detailed coverage analysis..."
+	@mkdir -p coverage
+	@echo "mode: atomic" > coverage/coverage.out
+	@for pkg in $$(go list ./... | grep -v /vendor/); do \
+		go test -v -covermode=atomic -coverprofile=coverage/profile.out $$pkg; \
+		if [ -f coverage/profile.out ]; then \
+			grep -v "mode: atomic" coverage/profile.out >> coverage/coverage.out; \
+			rm coverage/profile.out; \
+		fi; \
+	done
+	@go tool cover -html=coverage/coverage.out -o coverage/detailed_coverage.html
+	@go tool cover -func=coverage/coverage.out | tail -1
+	@echo "Detailed coverage report generated: coverage/detailed_coverage.html"
+
+# Run benchmark tests
+test-bench:
+	@echo "Running benchmark tests..."
+	@go test -bench=. -benchmem ./...
+
+# Run tests and check coverage threshold
+test-coverage-check:
+	@echo "Running tests with coverage threshold check..."
+	@mkdir -p coverage
+	@go test -v -coverprofile=coverage/coverage.out ./...
+	@coverage=$$(go tool cover -func=coverage/coverage.out | tail -1 | awk '{print $$3}' | sed 's/%//'); \
+	if [ $$(echo "$$coverage < 70" | bc -l) -eq 1 ]; then \
+		echo "Coverage $$coverage% is below 70% threshold!"; \
+		exit 1; \
+	else \
+		echo "Coverage $$coverage% meets threshold"; \
+	fi
 
 # Clean build artifacts
 clean:
 	@echo "Cleaning build artifacts..."
 	@rm -rf $(BUILD_DIR)
+	@rm -rf coverage/
 	@rm -f coverage.out coverage.html
 	@rm -f azurite.db azurite.db-shm azurite.db-wal
+	@rm -f *.test
 
 # Install dependencies
 deps:
@@ -187,7 +230,11 @@ help:
 	@echo ""
 	@echo "Testing:"
 	@echo "  test           - Run tests"
+	@echo "  test-race      - Run tests with race detection"
 	@echo "  test-coverage  - Run tests with coverage report"
+	@echo "  test-coverage-detailed - Run detailed coverage analysis by package"
+	@echo "  test-coverage-check - Run tests and check coverage threshold (70%)"
+	@echo "  test-bench     - Run benchmark tests"
 	@echo ""
 	@echo "Code Quality:"
 	@echo "  fmt            - Format code"
