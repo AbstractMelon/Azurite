@@ -1,4 +1,11 @@
 # Azurite
+[![CI](https://github.com/AbstractMelon/Azurite/actions/workflows/ci.yml/badge.svg)](https://github.com/AbstractMelon/Azurite/actions/workflows/ci.yml)
+[![Go Report Card](https://goreportcard.com/badge/github.com/AbstractMelon/Azurite)](https://goreportcard.com/report/github.com/AbstractMelon/Azurite)
+[![codecov](https://codecov.io/gh/AbstractMelon/Azurite/branch/main/graph/badge.svg)](https://codecov.io/gh/AbstractMelon/Azurite)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+[![Made with Go](https://img.shields.io/badge/Made%20with-Go-00ADD8?logo=go&logoColor=white)](https://go.dev/)
+[![Frontend: SvelteKit](https://img.shields.io/badge/Frontend-SvelteKit-FF3E00?logo=svelte&logoColor=white)](https://kit.svelte.dev/)
+[![pnpm](https://img.shields.io/badge/Package%20Manager-pnpm-%23F69220?logo=pnpm&logoColor=white)](https://pnpm.io/)
 
 A complete modding website platform built for community-driven mod management.
 
