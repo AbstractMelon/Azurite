@@ -23,7 +23,6 @@
 - [ ] Advanced search and filtering
 - [ ] Mod collection system
 - [ ] User reputation system
-- [ ] API rate limiting
 - [ ] Caching layer
 - [ ] Advanced analytics
 
