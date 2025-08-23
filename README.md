@@ -1,57 +1,109 @@
-![Azurite Logo](./azuritelogo.png)
-
 # Azurite
 
-[![Version](https://img.shields.io/badge/Version-v0.3.5-blue)](https://github.com/AbstractMelon/Azurite/)
-[![Contributers](https://img.shields.io/badge/Contributers-3-red)](https://github.com/AbstractMelon/Azurite/)
-[![GitHub issues](https://img.shields.io/github/issues/AbstractMelon/Azurite)](https://github.com/AbstractMelon/Azurite/issues)
-[![GitHub commits](https://img.shields.io/github/commit-activity/m/AbstractMelon/Azurite)](https://github.com/AbstractMelon/Azurite/commits)
+A complete modding website platform built for community-driven mod management.
 
-Welcome to Azurite, a platform for sharing and discovering mods for various games. It's similar to Thunderstore, but with a few tweaks to make it more user-friendly.
+## Overview
 
-## Table of Contents
-
-- [Introduction](#introduction)
-- [Features](#features)
-- [Demo](#demo)
-- [Installation](#installation)
-- [Usage](#usage)
-- [Contributing](#contributing)
-- [License](#license)
-
-## Introduction
-
-Azurite is a website where users can upload, share, and download mods for their favorite games. It provides a user-friendly interface for browsing mods, searching for specific ones, and managing your own uploads. I'm working on making it a mod manager too, but that's a ways off.
+Azurite is a full-stack modding platform that allows users to:
+- **Discover** mods for their favorite games
+- **Share** their own mods with the community
+- **Manage** mod versions, dependencies, and files
+- **Interact** with other modders through comments and ratings
+- **Document** games with community-maintained wikis
+- **Moderate** content with role-based permissions
 
 ## Features
 
-- **Exsists**: The site exsists! New stuff comming soon!
+- **User Authentication**: Email/password and OAuth (GitHub, Discord, Google)
+- **Game Management**: Complete game catalog with request system
+- **Mod System**: Upload, version, dependency management with malware scanning
+- **Community Features**: Comments, likes, ratings, and user profiles
+- **Documentation**: Markdown-based game wikis with collaborative editing
+- **Search & Discovery**: Advanced filtering, sorting, and search capabilities
+- **Role-Based Access Control**: Users, Moderators, Wiki Maintainers, Admins
+- **Notification System**: In-app and email notifications
+- **File Management**: Custom CDN with WebP image conversion
+- **Moderation Tools**: Content approval, user/IP banning, soft deletion
+- **Analytics**: Download tracking, user statistics, activity monitoring
+- **API-First**: Complete REST API for third-party integrations
 
-## Demo
+## Tech Stack
 
-[Link to Demo](azurite-dev.vercel.app) - Check out the demo if you want to see what it looks like in action.
+### Backend
+- **Language**: Go 1.21+
+- **Framework**: Gin (HTTP router)
+- **Database**: SQLite3
+- **Authentication**: JWT with OAuth integration
+- **File Storage**: Local filesystem with custom CDN
+- **Email**: SMTP integration for notifications
 
-## Installation
+### Frontend
+- **Framework**: SvelteKit
+- **Styling**: Tailwind CSS
+- **Package Manager**: pnpm
 
-To run azurite locally, follow these steps:
+## Backend Setup
 
-1. Clone the repository: `git clone https://github.com/Abstractmelon/azurite.git`
-2. Navigate to the project directory: `cd azurite`
-3. Setup needed files: `pnpm run setup`
-4. Start the development server: `pnpm run dev`
+### Prerequisites
 
-## Usage
+- Go 1.21 or higher
+- Git
 
-Once the development server is running, you can access the site in your web browser at `http://localhost:5173`.
+1. **Enter the backend directory**
+```bash
+cd backend
+```
 
-## Contributing
+2. **Setup environment**
+```bash
+make setup-dev
+```
 
-Contributions to Azurite are welcome! If you'd like to contribute, please follow these guidelines:
+3. **Configure environment variables**
+Edit the `.env` file with your settings.
 
-1. Fork the repository and create a new branch for your feature or bug fix.
-2. Commit your changes with clear and descriptive messages.
-3. Push your branch to your fork and submit a pull request to the main repository.
+4. **Start the development server**
+```bash
+make dev
+```
+
+The API will be available at `http://localhost:8080`
+
+## Frontend Setup
+
+### Prerequisites
+
+- Node.js 18 or higher
+- pnpm
+
+1. **Enter the frontend directory**
+```bash
+cd frontend
+```
+
+2. **Setup environment**
+```bash
+pnpm install
+```
+
+3. **Start the development server**
+```bash
+pnpm dev
+```
+
+The frontend will be available at `http://localhost:5173`
+
+## Development
+
+Please refer to the [CONTRIBUTING.md](CONTRIBUTING.md) file for details on how to contribute to this project.
 
 ## License
 
-This project is licensed under the [GNU v3 License](LICENSE). Feel free to use, modify, and distribute it as you see fit.
+This project is licensed under the GNU General Public License - see the [LICENSE](LICENSE) file for details.
+
+## Support
+
+- **Documentation**: Check the README files in each directory
+- **Issues**: Report bugs and request features via GitHub Issues
+- **Discussions**: Join our community discussions
+- **Email**: Contact the maintainers directly

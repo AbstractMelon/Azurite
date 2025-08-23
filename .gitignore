@@ -1,49 +1,210 @@
+# Binaries for programs and plugins
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+# Test binary, built with `go test -c`
+*.test
+
+# Output of the go coverage tool, specifically when used with LiteIDE
+*.out
+
+# Dependency directories (remove the comment below to include it)
+# vendor/
+
+# Go workspace file
+go.work
+
+# Build directories
+/backend/bin/
+/backend/build/
+/backend/dist/
+
+# Database files
+*.db
+*.db-shm
+*.db-wal
+azurite.db*
+
+# Environment variables
+.env
+.env.local
+.env.development
+.env.test
+.env.production
+
 # Logs
-logs
 *.log
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-pnpm-debug.log*
-lerna-debug.log*
+logs/
+*.log.*
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Coverage directory used by tools like istanbul
+coverage/
+*.lcov
+
+# nyc test coverage
+.nyc_output
 
 # Dependency directories
-node_modules
-.pnp
-.pnp.js
+node_modules/
+jspm_packages/
 
-# Production
-dist
-dist-ssr
-build
-*.local
+# TypeScript v1 declaration files
+typings/
 
-# TypeScript
+# TypeScript cache
 *.tsbuildinfo
+
+# Optional npm cache directory
+.npm
+
+# Optional eslint cache
+.eslintcache
+
+# Microbundle cache
+.rpt2_cache/
+.rts2_cache_cjs/
+.rts2_cache_es/
+.rts2_cache_umd/
+
+# Optional REPL history
+.node_repl_history
+
+# Output of 'npm pack'
+*.tgz
+
+# Yarn Integrity file
+.yarn-integrity
+
+# dotenv environment variables file
+.env
+.env.test
+
+# parcel-bundler cache (https://parceljs.org/)
+.cache
+.parcel-cache
+
+# Next.js build output
+.next
+out
+
+# Nuxt.js build / generate output
+.nuxt
+dist
+
+# Gatsby files
+.cache/
+public
+
+# Vuepress build output
+.vuepress/dist
+
+# Serverless directories
+.serverless/
+
+# FuseBox cache
+.fusebox/
+
+# DynamoDB Local files
+.dynamodb/
+
+# TernJS port file
+.tern-port
+
+# Stores VSCode versions used for testing VSCode extensions
+.vscode-test
+
+# yarn v2
+.yarn/cache
+.yarn/unplugged
+.yarn/build-state.yml
+.yarn/install-state.gz
+.pnp.*
+
+# SvelteKit
+.svelte-kit/
+package
+.vercel
+.netlify
+
+# Local storage directories
+storage/
+uploads/
+files/
+temp/
+tmp/
+
+# Backup files
+backups/
+*.backup
+*.bak
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# IDE files
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# Test files
+test_results/
+test_output/
+
+# Documentation builds
+docs/build/
+docs/dist/
+
+# Docker
+.dockerignore
+
+# SSL certificates
+*.pem
+*.key
+*.crt
+*.csr
+
+# Configuration files with secrets
+config.json
+secrets.json
+
+# Temporary files
+*.tmp
+*.temp
+
+# Lock files (keep package-lock.json and go.sum for reproducible builds)
+# package-lock.json should be committed
+# go.sum should be committed
+# yarn.lock should be committed if using yarn
+# pnpm-lock.yaml should be committed if using pnpm
 
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
 .idea
-.DS_Store
 *.suo
 *.ntvs*
 *.njsproj
 *.sln
 *.sw?
 
-# Vue/Vite specific
-.vite
-.vitepress
-.vuepress
-.nuxt
-out
-
-# pnpm specific
-pnpm-lock.yaml
-
-# Others
-coverage
-
-# Mine
-uploads/
+# Local development
+dev.db
+development.db
+local.db

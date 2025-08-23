@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en" class="dark">
+	<head>
+		<!-- Default meta tags -->
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+		<!-- Favicons -->
+		<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+		<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+		<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+		<link rel="manifest" href="/site.webmanifest" />
+		<link rel="shortcut icon" href="/favicon.ico" />
+		<meta name="theme-color" content="#1e3a8a" />
+
+		<!-- Primary Meta Tags -->
+		<title>Azurite - Discover, Share, and Manage Game Mods</title>
+		<meta name="title" content="Azurite - Discover, Share, and Manage Game Mods" />
+		<meta
+			name="description"
+			content="The ultimate platform for discovering, sharing, and managing game modifications. Join thousands of modders and gamers in the Azurite community."
+		/>
+		<meta
+			name="keywords"
+			content="game mods, modding, gaming, minecraft mods, game modifications, mod platform, azurite"
+		/>
+		<meta name="author" content="Azurite Team" />
+
+		<!-- Open Graph / Facebook -->
+		<meta property="og:type" content="website" />
+		<meta property="og:url" content="https://azurite.dev" />
+		<meta property="og:title" content="Azurite - Discover, Share, and Manage Game Mods" />
+		<meta
+			property="og:description"
+			content="The ultimate platform for discovering, sharing, and managing game modifications. Join thousands of modders and gamers in the Azurite community."
+		/>
+		<meta property="og:image" content="%sveltekit.assets%/og-image.png" />
+
+		<!-- Twitter -->
+		<meta property="twitter:card" content="summary_large_image" />
+		<meta property="twitter:url" content="https://azurite.dev" />
+		<meta property="twitter:title" content="Azurite - Discover, Share, and Manage Game Mods" />
+		<meta
+			property="twitter:description"
+			content="The ultimate platform for discovering, sharing, and managing game modifications. Join thousands of modders and gamers in the Azurite community."
+		/>
+		<meta property="twitter:image" content="%sveltekit.assets%/twitter-image.png" />
+
+		<!-- Additional Meta Tags -->
+		<meta name="robots" content="index, follow" />
+		<meta name="language" content="English" />
+		<meta name="theme-color" content="#1e3a8a" />
+		<meta name="msapplication-TileColor" content="#1e3a8a" />
+
+		<!-- Structured Data -->
+		<script type="application/ld+json">
+			{
+				"@context": "https://schema.org",
+				"@type": "WebSite",
+				"name": "Azurite",
+				"description": "The ultimate platform for discovering, sharing, and managing game modifications",
+				"url": "https://azurite.dev",
+				"potentialAction": {
+					"@type": "SearchAction",
+					"target": {
+						"@type": "EntryPoint",
+						"urlTemplate": "https://azurite.dev/search?q={search_term_string}"
+					},
+					"query-input": "required name=search_term_string"
+				}
+			}
+		</script>
+
+		<!-- Preload critical resources -->
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+		<!-- Security headers -->
+		<meta http-equiv="X-Content-Type-Options" content="nosniff" />
+		<meta http-equiv="X-Frame-Options" content="DENY" />
+		<meta http-equiv="X-XSS-Protection" content="1; mode=block" />
+		<meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin" />
+
+		%sveltekit.head%
+	</head>
+	<body
+		data-sveltekit-preload-data="hover"
+		class="bg-background-primary text-text-primary min-h-screen"
+	>
+		<div style="display: contents">%sveltekit.body%</div>
+
+		<!-- Global loading indicator -->
+		<div
+			id="loading-overlay"
+			class="fixed inset-0 bg-background-primary/90 backdrop-blur-sm z-50 items-center justify-center hidden"
+		>
+			<!-- Needs flex to show properly -->
+			<div class="flex flex-col items-center space-y-4">
+				<div class="loading-spinner w-8 h-8"></div>
+				<p class="text-text-secondary text-sm">Loading...</p>
+			</div>
+		</div>
+
+		<!-- Toast notifications container -->
+		<div id="toast-container" class="fixed top-4 right-4 z-50 space-y-2"></div>
+	</body>
+</html>
