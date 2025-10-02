@@ -3,6 +3,7 @@
 	import { goto } from '$app/navigation';
 	import { gamesApi } from '$lib/api/client';
 	import Loading from '$lib/components/Loading.svelte';
+	import { GameCard, ModCard } from '$lib/components/cards';
 	import type { Game, Mod } from '$lib/types';
 	import {
 		Download,
@@ -285,38 +286,7 @@
 
 				<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
 					{#each featuredGames.slice(0, 6) as game (game.id)}
-						<a href="/games/{game.slug}" class="card card-hover group">
-							<div class="p-6">
-								<div class="flex items-center space-x-4 mb-4">
-									{#if game.icon}
-										<img
-											src={game.icon}
-											alt={game.name}
-											class="w-12 h-12 rounded-lg border border-slate-600"
-										/>
-									{:else}
-										<div class="w-12 h-12 bg-slate-600 rounded-lg flex items-center justify-center">
-											<Gamepad2 class="w-6 h-6 text-text-muted" />
-										</div>
-									{/if}
-									<div>
-										<h3
-											class="text-lg font-semibold text-text-primary group-hover:text-primary-400 transition-colors"
-										>
-											{game.name}
-										</h3>
-										<p class="text-text-muted text-sm">
-											{game.mod_count || 0} mods available
-										</p>
-									</div>
-								</div>
-								{#if game.description}
-									<p class="text-text-secondary text-sm line-clamp-2">
-										{game.description}
-									</p>
-								{/if}
-							</div>
-						</a>
+						<GameCard {game} variant="default" />
 					{/each}
 				</div>
 			</div>
@@ -340,52 +310,7 @@
 
 				<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
 					{#each popularMods as mod (mod.id)}
-						<a href="/mods/{mod.game.slug}/{mod.slug}" class="card card-hover group">
-							<div class="p-6">
-								<div class="flex items-start space-x-4 mb-4">
-									{#if mod.icon}
-										<img
-											src={mod.icon}
-											alt={mod.name}
-											class="w-12 h-12 rounded-lg border border-slate-600 flex-shrink-0"
-										/>
-									{:else}
-										<div
-											class="w-12 h-12 bg-slate-600 rounded-lg flex items-center justify-center flex-shrink-0"
-										>
-											<Package class="w-6 h-6 text-text-muted" />
-										</div>
-									{/if}
-									<div class="min-w-0 flex-1">
-										<h3
-											class="text-lg font-semibold text-text-primary group-hover:text-primary-400 transition-colors truncate"
-										>
-											{mod.name}
-										</h3>
-										<p class="text-text-muted text-sm">
-											for {mod.game.name}
-										</p>
-									</div>
-								</div>
-
-								<p class="text-text-secondary text-sm mb-4 line-clamp-2">
-									{mod.short_description}
-								</p>
-
-								<div class="flex items-center justify-between text-sm text-text-muted">
-									<div class="flex items-center space-x-4">
-										<div class="flex items-center">
-											<Download class="w-4 h-4 mr-1" />
-											{formatNumber(mod.downloads)}
-										</div>
-										<div class="flex items-center">
-											<Heart class="w-4 h-4 mr-1" />
-											{formatNumber(mod.likes)}
-										</div>
-									</div>
-								</div>
-							</div>
-						</a>
+						<ModCard {mod} variant="default" />
 					{/each}
 				</div>
 			</div>
@@ -409,48 +334,7 @@
 
 				<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
 					{#each recentMods as mod (mod.id)}
-						<a href="/mods/{mod.game.slug}/{mod.slug}" class="card card-hover group">
-							<div class="p-6">
-								<div class="flex items-start space-x-4">
-									{#if mod.icon}
-										<img
-											src={mod.icon}
-											alt={mod.name}
-											class="w-16 h-16 rounded-lg border border-slate-600 flex-shrink-0"
-										/>
-									{:else}
-										<div
-											class="w-16 h-16 bg-slate-600 rounded-lg flex items-center justify-center flex-shrink-0"
-										>
-											<Package class="w-8 h-8 text-text-muted" />
-										</div>
-									{/if}
-									<div class="min-w-0 flex-1">
-										<h3
-											class="text-xl font-semibold text-text-primary group-hover:text-primary-400 transition-colors mb-1"
-										>
-											{mod.name}
-										</h3>
-										<p class="text-text-muted text-sm mb-2">
-											for {mod.game.name} • {formatDate(mod.created_at)}
-										</p>
-										<p class="text-text-secondary mb-4">
-											{mod.short_description}
-										</p>
-										<div class="flex items-center space-x-4 text-sm text-text-muted">
-											<div class="flex items-center">
-												<Download class="w-4 h-4 mr-1" />
-												{formatNumber(mod.downloads)}
-											</div>
-											<div class="flex items-center">
-												<Heart class="w-4 h-4 mr-1" />
-												{formatNumber(mod.likes)}
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</a>
+						<ModCard {mod} variant="list" />
 					{/each}
 				</div>
 			</div>

@@ -5,6 +5,7 @@
 	import { gamesApi } from '$lib/api/client';
 	import { toast } from '$lib/stores/notifications';
 	import Loading from '$lib/components/Loading.svelte';
+	import { ModCard } from '$lib/components/cards';
 	import type { Game, Mod } from '$lib/types';
 	import {
 		Search,
@@ -535,153 +536,16 @@
 			</div>
 		{:else if viewMode === 'grid'}
 			<!-- Grid View -->
-			<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-8">
+			<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-6 mb-8">
 				{#each mods as mod (mod.id)}
-					<a href="/mods/{mod.game.slug}/{mod.slug}" class="card card-hover group">
-						<div class="p-4">
-							<!-- Mod Icon -->
-							<div class="flex justify-center mb-3">
-								{#if mod.icon}
-									<img
-										src={mod.icon}
-										alt={mod.name}
-										class="w-12 h-12 rounded-lg border border-slate-600"
-									/>
-								{:else}
-									<div class="w-12 h-12 bg-slate-600 rounded-lg flex items-center justify-center">
-										<Package class="w-6 h-6 text-text-muted" />
-									</div>
-								{/if}
-							</div>
-
-							<!-- Mod Info -->
-							<div class="text-center">
-								<h3
-									class="text-lg font-semibold text-text-primary group-hover:text-primary-400 transition-colors mb-1 line-clamp-1"
-								>
-									{mod.name}
-								</h3>
-
-								<p class="text-text-muted text-sm mb-2">
-									{mod.game.name} • v{mod.version}
-								</p>
-
-								<p class="text-text-muted text-xs mb-2">
-									by {mod.owner.display_name}
-								</p>
-
-								{#if mod.short_description}
-									<p class="text-text-secondary text-sm mb-3 line-clamp-2">
-										{mod.short_description}
-									</p>
-								{/if}
-
-								<!-- Tags -->
-								{#if mod.tags && mod.tags.length > 0}
-									<div class="flex flex-wrap justify-center gap-1 mb-3">
-										{#each mod.tags.slice(0, 2) as tag (tag)}
-											<span class="badge badge-secondary text-xs">{tag}</span>
-										{/each}
-										{#if mod.tags.length > 2}
-											<span class="text-text-muted text-xs">+{mod.tags.length - 2} more</span>
-										{/if}
-									</div>
-								{/if}
-
-								<!-- Stats -->
-								<div class="flex items-center justify-center space-x-4 text-xs text-text-muted">
-									<div class="flex items-center">
-										<Download class="w-3 h-3 mr-1" />
-										{formatNumber(mod.downloads)}
-									</div>
-									<div class="flex items-center">
-										<Heart class="w-3 h-3 mr-1" />
-										{formatNumber(mod.likes)}
-									</div>
-								</div>
-							</div>
-						</div>
-					</a>
+					<ModCard {mod} variant="default" />
 				{/each}
 			</div>
 		{:else}
 			<!-- List View -->
 			<div class="space-y-4 mb-8">
 				{#each mods as mod (mod.id)}
-					<a href="/mods/{mod.game.slug}/{mod.slug}" class="card card-hover group">
-						<div class="p-6">
-							<div class="flex items-start space-x-4">
-								<!-- Mod Icon -->
-								{#if mod.icon}
-									<img
-										src={mod.icon}
-										alt={mod.name}
-										class="w-16 h-16 rounded-lg border border-slate-600 flex-shrink-0"
-									/>
-								{:else}
-									<div
-										class="w-16 h-16 bg-slate-600 rounded-lg flex items-center justify-center flex-shrink-0"
-									>
-										<Package class="w-8 h-8 text-text-muted" />
-									</div>
-								{/if}
-
-								<!-- Mod Info -->
-								<div class="flex-1 min-w-0">
-									<div class="flex items-start justify-between">
-										<div class="min-w-0 flex-1">
-											<h3
-												class="text-xl font-semibold text-text-primary group-hover:text-primary-400 transition-colors mb-1"
-											>
-												{mod.name}
-											</h3>
-
-											<p class="text-text-muted text-sm mb-2">
-												{mod.game.name} • v{mod.version} • by {mod.owner.display_name}
-											</p>
-
-											{#if mod.short_description}
-												<p class="text-text-secondary mb-3 line-clamp-2">
-													{mod.short_description}
-												</p>
-											{/if}
-
-											<!-- Tags -->
-											{#if mod.tags && mod.tags.length > 0}
-												<div class="flex flex-wrap gap-1 mb-3">
-													{#each mod.tags as tag (tag)}
-														<span class="badge badge-secondary text-xs">{tag}</span>
-													{/each}
-												</div>
-											{/if}
-
-											<div class="flex items-center space-x-6 text-sm text-text-muted">
-												<div class="flex items-center">
-													<Download class="w-4 h-4 mr-1" />
-													{formatNumber(mod.downloads)} downloads
-												</div>
-												<div class="flex items-center">
-													<Heart class="w-4 h-4 mr-1" />
-													{formatNumber(mod.likes)} likes
-												</div>
-												<div class="flex items-center">
-													<Calendar class="w-4 h-4 mr-1" />
-													Updated {formatRelativeTime(mod.updated_at)}
-												</div>
-											</div>
-										</div>
-
-										<!-- Arrow -->
-										<div
-											class="flex-shrink-0 opacity-0 group-hover:opacity-100 transition-opacity ml-4"
-										>
-											<ArrowRight class="w-5 h-5 text-primary-400" />
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</a>
+					<ModCard {mod} variant="list" />
 				{/each}
 			</div>
 		{/if}

@@ -5,6 +5,7 @@
 	import { toast } from '$lib/stores/notifications';
 	import { isAuthenticated } from '$lib/stores/auth';
 	import Loading from '$lib/components/Loading.svelte';
+	import { GameCard } from '$lib/components/cards';
 	import type { Game } from '$lib/types';
 	import { Search, Gamepad2, Plus, ArrowRight, Package } from 'lucide-svelte';
 
@@ -198,73 +199,9 @@
 			</div>
 		{:else}
 			<!-- Games Grid -->
-			<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+			<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
 				{#each filteredGames as game (game.id)}
-					<a href="/games/{game.slug}" class="card card-hover group">
-						<div class="p-6">
-							<!-- Game Icon -->
-							<div class="flex justify-center mb-4">
-								{#if game.icon}
-									<img
-										src={game.icon}
-										alt={game.name}
-										class="w-16 h-16 rounded-xl border border-slate-600 shadow-lg"
-									/>
-								{:else}
-									<div
-										class="w-16 h-16 bg-gradient-to-br from-slate-600 to-slate-700 rounded-xl flex items-center justify-center shadow-lg"
-									>
-										<Gamepad2 class="w-8 h-8 text-text-muted" />
-									</div>
-								{/if}
-							</div>
-
-							<!-- Game Info -->
-							<div class="text-center">
-								<h3
-									class="text-xl font-semibold text-text-primary group-hover:text-primary-400 transition-colors mb-2"
-								>
-									{game.name}
-								</h3>
-
-								{#if game.description}
-									<p class="text-text-secondary text-sm mb-4 line-clamp-2 leading-relaxed">
-										{game.description}
-									</p>
-								{/if}
-
-								<!-- Stats -->
-								<div class="flex items-center justify-center space-x-4 text-sm text-text-muted">
-									<div class="flex items-center">
-										<Package class="w-4 h-4 mr-1" />
-										<span>{formatNumber(game.mod_count || 0)} mods</span>
-									</div>
-								</div>
-
-								<!-- Status Badge -->
-								{#if game.is_active}
-									<div
-										class="inline-flex items-center mt-3 px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800"
-									>
-										Active
-									</div>
-								{:else}
-									<div
-										class="inline-flex items-center mt-3 px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800"
-									>
-										Coming Soon
-									</div>
-								{/if}
-							</div>
-						</div>
-
-						<!-- Hover Arrow -->
-						<div
-							class="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity"
-						>
-							<ArrowRight class="w-5 h-5 text-primary-400" />
-						</div>
-					</a>
+					<GameCard {game} variant="default" />
 				{/each}
 			</div>
 

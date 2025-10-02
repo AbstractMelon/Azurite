@@ -5,6 +5,7 @@
 	import { toast } from '$lib/stores/notifications';
 	import { authApi } from '$lib/api/client';
 	import Loading from '$lib/components/Loading.svelte';
+	import { ModCard } from '$lib/components/cards';
 	import {
 		User,
 		Calendar,
@@ -13,6 +14,7 @@
 		Heart,
 		Settings,
 		Edit,
+		Shield,
 		Grid,
 		List,
 		Search
@@ -430,83 +432,101 @@
 				<!-- List View -->
 				<div class="space-y-4">
 					{#each currentMods as mod (mod.id)}
-						<div class="card card-hover group">
-							<div class="p-6">
-								<div class="flex items-start space-x-4">
-									<!-- Mod Icon -->
+						<div class="card card-hover group relative">
+							<div class="p-4 flex items-start space-x-4">
+								<!-- Large Mod Image -->
+								<div class="flex-shrink-0">
 									{#if mod.icon}
 										<img
 											src={mod.icon}
 											alt={mod.name}
-											class="w-16 h-16 rounded-lg border border-slate-600 flex-shrink-0"
+											class="w-20 h-20 rounded-xl object-cover shadow-md"
 										/>
 									{:else}
 										<div
-											class="w-16 h-16 bg-slate-600 rounded-lg flex items-center justify-center flex-shrink-0"
+											class="w-20 h-20 bg-gradient-to-br from-primary-600 to-primary-700 rounded-xl flex items-center justify-center shadow-md"
 										>
-											<Package class="w-8 h-8 text-text-muted" />
+											<Package class="w-10 h-10 text-white" />
 										</div>
 									{/if}
+								</div>
 
-									<!-- Mod Info -->
-									<div class="flex-1 min-w-0">
-										<div class="flex items-start justify-between">
-											<div class="min-w-0 flex-1">
-												<div class="flex items-center space-x-2 mb-1">
-													<h3
-														class="text-xl font-semibold text-text-primary group-hover:text-primary-400 transition-colors"
-													>
-														<a href="/mods/{mod.game?.slug}/{mod.slug}">{mod.name}</a>
-													</h3>
-													{#if activeTab === 'mods' && mod.status}
-														<span class="badge {getStatusBadge(mod.status)} text-xs">
-															{getStatusText(mod.status)}
-														</span>
-													{/if}
-												</div>
-
-												<p class="text-text-muted text-sm mb-2">
-													for {mod.game?.name}
-													{#if activeTab === 'liked' && mod.owner}
-														• by {mod.owner.display_name || mod.owner.username}
-													{/if}
-												</p>
-
-												{#if mod.short_description}
-													<p class="text-text-secondary mb-3 line-clamp-2">
-														{mod.short_description}
-													</p>
+								<!-- Content -->
+								<div class="flex-grow min-w-0">
+									<div class="flex items-start justify-between mb-2">
+										<div class="min-w-0 flex-1">
+											<div class="flex items-center space-x-2 mb-1">
+												<h3
+													class="text-lg font-bold text-text-primary group-hover:text-primary-400 transition-colors truncate"
+												>
+													<a href="/mods/{mod.game?.slug}/{mod.slug}">{mod.name}</a>
+												</h3>
+												{#if activeTab === 'mods' && mod.status}
+													<span class="badge {getStatusBadge(mod.status)} text-xs">
+														{getStatusText(mod.status)}
+													</span>
 												{/if}
-
-												<div class="flex items-center space-x-6 text-sm text-text-muted">
-													<div class="flex items-center">
-														<Download class="w-4 h-4 mr-1" />
-														{formatNumber(mod.downloads || 0)} downloads
-													</div>
-													<div class="flex items-center">
-														<Heart class="w-4 h-4 mr-1" />
-														{formatNumber(mod.likes || 0)} likes
-													</div>
-													<div class="flex items-center">
-														<Calendar class="w-4 h-4 mr-1" />
-														Updated {formatRelativeTime(mod.updated_at)}
-													</div>
-												</div>
 											</div>
 
-											<!-- Actions -->
-											{#if activeTab === 'mods'}
-												<div class="flex items-center space-x-2 ml-4">
-													<a
-														href="/dashboard/mods/{mod.id}/edit"
-														class="btn btn-outline btn-sm"
-														title="Edit Mod"
+											<div class="flex items-center space-x-2 mb-1">
+												<span class="text-text-muted text-sm">for {mod.game?.name}</span>
+												{#if activeTab === 'liked' && mod.owner}
+													<span class="text-text-muted text-sm"
+														>• by {mod.owner.display_name || mod.owner.username}</span
 													>
-														<Edit class="w-4 h-4" />
-													</a>
-												</div>
-											{/if}
+												{/if}
+												{#if mod.version}
+													<span
+														class="px-2 py-0.5 bg-slate-700/50 text-text-muted text-xs rounded-full"
+														>v{mod.version}</span
+													>
+												{/if}
+											</div>
 										</div>
+
+										<!-- Actions -->
+										{#if activeTab === 'mods'}
+											<div class="flex items-center space-x-2 flex-shrink-0">
+												<a
+													href="/dashboard/mods/{mod.id}/edit"
+													class="btn btn-outline btn-sm"
+													title="Edit Mod"
+												>
+													<Edit class="w-4 h-4" />
+												</a>
+											</div>
+										{/if}
+									</div>
+
+									{#if mod.short_description}
+										<p class="text-text-secondary text-sm line-clamp-2 mb-3 leading-relaxed">
+											{mod.short_description}
+										</p>
+									{/if}
+
+									<div class="flex items-center justify-between">
+										<div class="flex items-center space-x-4 text-sm text-text-muted">
+											<div class="flex items-center">
+												<Download class="w-4 h-4 mr-1" />
+												<span class="font-medium">{formatNumber(mod.downloads || 0)}</span>
+											</div>
+											<div class="flex items-center">
+												<Heart class="w-4 h-4 mr-1" />
+												<span class="font-medium">{formatNumber(mod.likes || 0)}</span>
+											</div>
+											<div class="flex items-center">
+												<Calendar class="w-4 h-4 mr-1" />
+												<span>Updated {formatRelativeTime(mod.updated_at)}</span>
+											</div>
+										</div>
+										{#if mod.is_scanned}
+											<div
+												class="flex items-center px-2 py-1 bg-green-500/10 text-green-400 text-xs font-medium rounded-full border border-green-500/20"
+											>
+												<Shield class="w-3 h-3 mr-1" />
+												Verified
+											</div>
+										{/if}
 									</div>
 								</div>
 							</div>
