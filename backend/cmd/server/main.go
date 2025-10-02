@@ -228,6 +228,41 @@ func setupRoutes(
 	{
 		users.GET("/:id", authHandler.GetUserByID)
 		users.GET("/username/:username", authHandler.GetUserByUsername)
+		users.GET("/:id/mods", func(c *gin.Context) {
+			userID, err := strconv.Atoi(c.Param("id"))
+			if err != nil {
+				c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid user ID"})
+				return
+			}
+
+			page, _ := strconv.Atoi(c.DefaultQuery("page", "1"))
+			perPage, _ := strconv.Atoi(c.DefaultQuery("per_page", "20"))
+
+			mods, total, err := modService.ListByOwner(userID, page, perPage)
+			if err != nil {
+				c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+				return
+			}
+
+			// Check if current user likes these mods
+			if user, exists := c.Get("user"); exists {
+				userModel := user.(*models.User)
+				for i := range mods {
+					mods[i].IsLiked = modService.IsLiked(mods[i].ID, userModel.ID)
+				}
+			}
+
+			c.JSON(http.StatusOK, gin.H{
+				"success": true,
+				"data": gin.H{
+					"data":        mods,
+					"page":        page,
+					"per_page":    perPage,
+					"total":       total,
+					"total_pages": (total + int64(perPage) - 1) / int64(perPage),
+				},
+			})
+		})
 	}
 
 	// Game routes

@@ -429,6 +429,10 @@ export const usersApi = {
 
 	async getUserByUsername(username: string) {
 		return api.get(`/users/username/${username}`);
+	},
+
+	async getUserMods(userId: number, params?: { page?: number; per_page?: number }) {
+		return api.get(`/users/${userId}/mods`, params);
 	}
 };
 

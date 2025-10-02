@@ -352,7 +352,7 @@
 				</div>
 			{:else if viewMode === 'grid'}
 				<!-- Grid View -->
-				<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+				<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
 					{#each currentMods as mod (mod.id)}
 						<div class="card card-hover group relative">
 							<div class="p-4">
