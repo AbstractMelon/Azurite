@@ -308,6 +308,18 @@ export const modsApi = {
 		return api.post('/mods', data);
 	},
 
+	getDownloadUrl(gameSlug: string, modSlug: string): string {
+		const authState = get(auth);
+		const url = `${API_BASE_URL}/download/${gameSlug}/${modSlug}`;
+
+		// If authenticated, append token as query param for download
+		if (authState.token) {
+			return `${url}?token=${authState.token}`;
+		}
+
+		return url;
+	},
+
 	async downloadMod(gameSlug: string, modSlug: string) {
 		return api.get(`/download/${gameSlug}/${modSlug}`);
 	},

@@ -117,12 +117,11 @@
 	}
 
 	// Handle download
-	function handleDownload() {
-		if (mod?.files?.length > 0) {
-			// Download the main file or first available file
-			window.open(`/download/${gameSlug}/${modSlug}`, '_blank');
-		}
-	}
+  function handleDownload() {
+    if (mod?.files?.length > 0) {
+      window.open(`/download/${gameSlug}/${modSlug}`, '_blank');
+    }
+  }
 
 	// Handle comment submission
 	async function postComment(parentId?: number) {
