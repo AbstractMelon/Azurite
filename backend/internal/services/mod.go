@@ -213,47 +213,51 @@ func (s *ModService) GetByID(id int) (*models.Mod, error) {
 }
 
 func (s *ModService) GetBySlug(gameSlug, modSlug string) (*models.Mod, error) {
-	mod := &models.Mod{}
+    mod := &models.Mod{
+        Game:  &models.Game{},
+        Owner: &models.User{},
+    }
 
 	// Use sql.NullString for nullable fields
-	var icon, rejectionReason sql.NullString
+    var icon, rejectionReason sql.NullString
 
-	err := s.db.QueryRow(`
-		SELECT m.id, m.name, m.slug, m.description, m.short_description, m.icon,
-		       m.version, m.game_version, m.game_id, m.owner_id, m.downloads, m.likes,
-		       m.source_website, m.contact_info, m.is_rejected, m.rejection_reason,
-		       m.is_scanned, m.scan_result, m.created_at, m.updated_at,
-		       g.name, g.slug, u.username, u.display_name
-		FROM mods m
-		JOIN games g ON m.game_id = g.id
-		JOIN users u ON m.owner_id = u.id
-		WHERE m.slug = ? AND g.slug = ?
-	`, modSlug, gameSlug).Scan(
-		&mod.ID, &mod.Name, &mod.Slug, &mod.Description, &mod.ShortDescription,
-		&icon, &mod.Version, &mod.GameVersion, &mod.GameID, &mod.OwnerID,
-		&mod.Downloads, &mod.Likes, &mod.SourceWebsite, &mod.ContactInfo,
-		&mod.IsRejected, &rejectionReason, &mod.IsScanned, &mod.ScanResult,
-		&mod.CreatedAt, &mod.UpdatedAt, &mod.Game.Name, &mod.Game.Slug,
-		&mod.Owner.Username, &mod.Owner.DisplayName,
-	)
+    err := s.db.QueryRow(`
+        SELECT m.id, m.name, m.slug, m.description, m.short_description, m.icon,
+               m.version, m.game_version, m.game_id, m.owner_id, m.downloads, m.likes,
+               m.source_website, m.contact_info, m.is_rejected, m.rejection_reason,
+               m.is_scanned, m.scan_result, m.created_at, m.updated_at,
+               g.name, g.slug, u.username, u.display_name
+        FROM mods m
+        JOIN games g ON m.game_id = g.id
+        JOIN users u ON m.owner_id = u.id
+        WHERE m.slug = ? AND g.slug = ?
+    `, modSlug, gameSlug).Scan(
+        &mod.ID, &mod.Name, &mod.Slug, &mod.Description, &mod.ShortDescription,
+        &icon, &mod.Version, &mod.GameVersion, &mod.GameID, &mod.OwnerID,
+        &mod.Downloads, &mod.Likes, &mod.SourceWebsite, &mod.ContactInfo,
+        &mod.IsRejected, &rejectionReason, &mod.IsScanned, &mod.ScanResult,
+        &mod.CreatedAt, &mod.UpdatedAt, &mod.Game.Name, &mod.Game.Slug,
+        &mod.Owner.Username, &mod.Owner.DisplayName,
+    )
 
-	if err != nil {
-		if err == sql.ErrNoRows {
-			return nil, errors.New("mod not found")
-		}
-		return nil, fmt.Errorf("failed to get mod: %w", err)
-	}
+    if err != nil {
+        if err == sql.ErrNoRows {
+            return nil, errors.New("mod not found")
+        }
+        return nil, fmt.Errorf("failed to get mod: %w", err)
+    }
 
 	// Convert nullable fields
-	if icon.Valid {
-		mod.Icon = icon.String
-	}
-	if rejectionReason.Valid {
-		mod.RejectionReason = rejectionReason.String
-	}
+    if icon.Valid {
+        mod.Icon = icon.String
+    }
+    if rejectionReason.Valid {
+        mod.RejectionReason = rejectionReason.String
+    }
 
-	mod.Game = &models.Game{ID: mod.GameID}
-	mod.Owner = &models.User{ID: mod.OwnerID}
+    // set nested IDs on already initialized structs
+    mod.Game.ID = mod.GameID
+    mod.Owner.ID = mod.OwnerID
 
 	tags, err := s.getModTags(mod.ID)
 	if err == nil {

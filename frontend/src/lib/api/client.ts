@@ -41,15 +41,22 @@ class ApiClient {
 		return headers;
 	}
 
-	// Handle API response
 	private async handleResponse<T>(response: Response): Promise<ApiResponse<T>> {
 		try {
-			const data = await response.json();
+			// Always read body once
+			const raw = await response.text();
+			let data: any;
+
+			try {
+				data = raw ? JSON.parse(raw) : {};
+			} catch {
+				data = { error: raw || 'Invalid JSON response' };
+			}
 
 			if (!response.ok) {
-				// Handle different error types
+				console.error(`API request failed [${response.status} ${response.statusText}]`, data);
+
 				if (response.status === 401) {
-					// Unauthorized - logout user
 					if (browser) {
 						auth.logout();
 						toast.error('Session expired', 'Please log in again');
@@ -64,7 +71,7 @@ class ApiClient {
 				};
 			}
 
-			return data;
+			return data as ApiResponse<T>;
 		} catch (error) {
 			console.error('API Response Error:', error);
 			return {
@@ -299,6 +306,10 @@ export const modsApi = {
 		dependencies?: number[];
 	}) {
 		return api.post('/mods', data);
+	},
+
+	async downloadMod(gameSlug: string, modSlug: string) {
+		return api.get(`/download/${gameSlug}/${modSlug}`);
 	},
 
 	async updateMod(id: number, data: Record<string, unknown>) {
