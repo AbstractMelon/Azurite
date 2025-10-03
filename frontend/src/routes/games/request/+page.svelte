@@ -18,7 +18,11 @@
 	// Form data
 	let formData = {
 		name: '',
-		description: ''
+		reason: '',
+		description: '',
+		existing_community: '',
+		mod_loader: '',
+		contact: ''
 	};
 
 	// UI state
@@ -37,6 +41,14 @@
 			errors.name = 'Game name must be at least 2 characters';
 		} else if (formData.name.trim().length > 100) {
 			errors.name = 'Game name must be less than 100 characters';
+		}
+
+		if (!formData.reason.trim()) {
+			errors.reason = 'Reason is required';
+		} else if (formData.reason.trim().length < 20) {
+			errors.reason = 'Reason must be at least 20 characters';
+		} else if (formData.reason.trim().length > 500) {
+			errors.reason = 'Reason must be less than 500 characters';
 		}
 
 		if (!formData.description.trim()) {
@@ -62,7 +74,11 @@
 		try {
 			const response = await gamesApi.createGameRequest({
 				name: formData.name.trim(),
-				description: formData.description.trim()
+				reason: formData.reason.trim(),
+				description: formData.description.trim(),
+				existing_community: formData.existing_community.trim(),
+				mod_loader: formData.mod_loader.trim(),
+				contact: formData.contact.trim()
 			});
 
 			if (response.success) {
@@ -159,15 +175,41 @@
 									</p>
 								</div>
 
+								<!-- Reason -->
+								<div>
+									<label for="reason" class="block text-sm font-medium text-text-primary mb-2">
+										Why should this game be added? *
+									</label>
+									<textarea
+										id="reason"
+										bind:value={formData.reason}
+										placeholder="Briefly explain why this game would be a great addition to Azurite..."
+										class="textarea w-full h-24 {errors.reason ? 'border-red-500' : ''}"
+										required
+										maxlength="500"
+									></textarea>
+									{#if errors.reason}
+										<p class="mt-1 text-sm text-red-400">{errors.reason}</p>
+									{/if}
+									<div class="flex justify-between mt-1">
+										<p class="text-sm text-text-muted">
+											Provide a concise reason for adding this game
+										</p>
+										<span class="text-sm text-text-muted">
+											{formData.reason.length}/500
+										</span>
+									</div>
+								</div>
+
 								<!-- Description -->
 								<div>
 									<label for="description" class="block text-sm font-medium text-text-primary mb-2">
-										Why should this game be added? *
+										Game Description *
 									</label>
 									<textarea
 										id="description"
 										bind:value={formData.description}
-										placeholder="Explain why this game would be a great addition to Azurite. Include information about the game's popularity, modding community, and potential for user-generated content..."
+										placeholder="Provide detailed information about the game, its popularity, modding community, and potential for user-generated content..."
 										class="textarea w-full h-32 {errors.description ? 'border-red-500' : ''}"
 										required
 										maxlength="1000"
@@ -177,12 +219,69 @@
 									{/if}
 									<div class="flex justify-between mt-1">
 										<p class="text-sm text-text-muted">
-											Provide details about the game and its modding potential
+											Detailed description of the game and its modding potential
 										</p>
 										<span class="text-sm text-text-muted">
 											{formData.description.length}/1000
 										</span>
 									</div>
+								</div>
+
+								<!-- Existing Community -->
+								<div>
+									<label
+										for="existing_community"
+										class="block text-sm font-medium text-text-primary mb-2"
+									>
+										Existing Community
+									</label>
+									<input
+										id="existing_community"
+										type="text"
+										bind:value={formData.existing_community}
+										placeholder="e.g., Discord server, subreddit, forum URL"
+										class="input w-full"
+										maxlength="200"
+									/>
+									<p class="mt-1 text-sm text-text-muted">
+										Link to existing modding community or forums (optional)
+									</p>
+								</div>
+
+								<!-- Mod Loader -->
+								<div>
+									<label for="mod_loader" class="block text-sm font-medium text-text-primary mb-2">
+										Mod Loader / Framework
+									</label>
+									<input
+										id="mod_loader"
+										type="text"
+										bind:value={formData.mod_loader}
+										placeholder="e.g., Forge, Fabric, BepInEx, MelonLoader"
+										class="input w-full"
+										maxlength="100"
+									/>
+									<p class="mt-1 text-sm text-text-muted">
+										Popular mod loader or framework used for this game (optional)
+									</p>
+								</div>
+
+								<!-- Contact -->
+								<div>
+									<label for="contact" class="block text-sm font-medium text-text-primary mb-2">
+										Contact Information
+									</label>
+									<input
+										id="contact"
+										type="text"
+										bind:value={formData.contact}
+										placeholder="e.g., Discord username, email"
+										class="input w-full"
+										maxlength="100"
+									/>
+									<p class="mt-1 text-sm text-text-muted">
+										How we can reach you for follow-up questions (optional)
+									</p>
 								</div>
 
 								<!-- Submit Button -->

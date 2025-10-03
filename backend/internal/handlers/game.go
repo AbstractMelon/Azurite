@@ -69,6 +69,32 @@ func (h *GameHandler) GetGame(c *gin.Context) {
 	})
 }
 
+func (h *GameHandler) GetGameByID(c *gin.Context) {
+	gameIDStr := c.Param("id")
+	gameID, err := strconv.Atoi(gameIDStr)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, models.APIResponse{
+			Success: false,
+			Error:   "Invalid game ID",
+		})
+		return
+	}
+
+	game, err := h.gameService.GetByID(gameID)
+	if err != nil {
+		c.JSON(http.StatusNotFound, models.APIResponse{
+			Success: false,
+			Error:   "Game not found",
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, models.APIResponse{
+		Success: true,
+		Data:    game,
+	})
+}
+
 func (h *GameHandler) ListGames(c *gin.Context) {
 	page, _ := strconv.Atoi(c.DefaultQuery("page", "1"))
 	perPage, _ := strconv.Atoi(c.DefaultQuery("per_page", "20"))
@@ -557,5 +583,101 @@ func (h *GameHandler) GetGameModerators(c *gin.Context) {
 	c.JSON(http.StatusOK, models.APIResponse{
 		Success: true,
 		Data:    moderators,
+	})
+}
+
+func (h *GameHandler) UpdateGameRequest(c *gin.Context) {
+	requestIDStr := c.Param("id")
+	requestID, err := strconv.Atoi(requestIDStr)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, models.APIResponse{
+			Success: false,
+			Error:   "Invalid request ID",
+		})
+		return
+	}
+
+	var req models.GameRequestUpdate
+	if err := c.ShouldBindJSON(&req); err != nil {
+		c.JSON(http.StatusBadRequest, models.APIResponse{
+			Success: false,
+			Error:   "Invalid request data",
+		})
+		return
+	}
+
+	gameRequest, err := h.gameService.UpdateRequest(requestID, &req)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, models.APIResponse{
+			Success: false,
+			Error:   err.Error(),
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, models.APIResponse{
+		Success: true,
+		Data:    gameRequest,
+		Message: "Game request updated successfully",
+	})
+}
+
+func (h *GameHandler) GetGameRequest(c *gin.Context) {
+	requestIDStr := c.Param("id")
+	requestID, err := strconv.Atoi(requestIDStr)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, models.APIResponse{
+			Success: false,
+			Error:   "Invalid request ID",
+		})
+		return
+	}
+
+	gameRequest, err := h.gameService.GetRequestByID(requestID)
+	if err != nil {
+		c.JSON(http.StatusNotFound, models.APIResponse{
+			Success: false,
+			Error:   "Game request not found",
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, models.APIResponse{
+		Success: true,
+		Data:    gameRequest,
+	})
+}
+
+func (h *GameHandler) ListAllGames(c *gin.Context) {
+	page, _ := strconv.Atoi(c.DefaultQuery("page", "1"))
+	perPage, _ := strconv.Atoi(c.DefaultQuery("per_page", "20"))
+
+	if page < 1 {
+		page = 1
+	}
+	if perPage < 1 || perPage > 100 {
+		perPage = 20
+	}
+
+	games, total, err := h.gameService.ListAllGames(page, perPage)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, models.APIResponse{
+			Success: false,
+			Error:   err.Error(),
+		})
+		return
+	}
+
+	totalPages := int((total + int64(perPage) - 1) / int64(perPage))
+
+	c.JSON(http.StatusOK, models.APIResponse{
+		Success: true,
+		Data: models.PaginatedResponse{
+			Data:       games,
+			Page:       page,
+			PerPage:    perPage,
+			Total:      total,
+			TotalPages: totalPages,
+		},
 	})
 }

@@ -118,16 +118,20 @@ type Comment struct {
 }
 
 type GameRequest struct {
-	ID          int       `json:"id" db:"id"`
-	Name        string    `json:"name" db:"name"`
-	Description string    `json:"description" db:"description"`
-	Icon        string    `json:"icon" db:"icon"`
-	RequestedBy int       `json:"requested_by" db:"requested_by"`
-	Status      string    `json:"status" db:"status"`
-	AdminNotes  string    `json:"admin_notes" db:"admin_notes"`
-	CreatedAt   time.Time `json:"created_at" db:"created_at"`
-	UpdatedAt   time.Time `json:"updated_at" db:"updated_at"`
-	User        *User     `json:"user,omitempty"`
+	ID                int       `json:"id" db:"id"`
+	Name              string    `json:"name" db:"name"`
+	Reason            string    `json:"reason" db:"reason"`
+	Description       string    `json:"description" db:"description"`
+	Icon              string    `json:"icon" db:"icon"`
+	ExistingCommunity string    `json:"existing_community" db:"existing_community"`
+	ModLoader         string    `json:"mod_loader" db:"mod_loader"`
+	Contact           string    `json:"contact" db:"contact"`
+	RequestedBy       int       `json:"-" db:"requested_by"`
+	Status            string    `json:"status" db:"status"`
+	AdminNotes        string    `json:"admin_notes" db:"admin_notes"`
+	CreatedAt         time.Time `json:"created_at" db:"created_at"`
+	UpdatedAt         time.Time `json:"updated_at" db:"updated_at"`
+	RequestedByUser   *User     `json:"requested_by,omitempty"`
 }
 
 type Documentation struct {
@@ -228,8 +232,25 @@ type CommentCreateRequest struct {
 }
 
 type GameRequestCreate struct {
-	Name        string `json:"name" binding:"required,min=1,max=200"`
-	Description string `json:"description" binding:"required"`
+	Name              string `json:"name" binding:"required,min=1,max=200"`
+	Reason            string `json:"reason" binding:"required"`
+	Description       string `json:"description" binding:"required"`
+	Icon              string `json:"icon"`
+	ExistingCommunity string `json:"existing_community"`
+	ModLoader         string `json:"mod_loader"`
+	Contact           string `json:"contact"`
+}
+
+type GameRequestUpdate struct {
+	Name              string `json:"name" binding:"required,min=1,max=200"`
+	Reason            string `json:"reason"`
+	Description       string `json:"description"`
+	Icon              string `json:"icon"`
+	ExistingCommunity string `json:"existing_community"`
+	ModLoader         string `json:"mod_loader"`
+	Contact           string `json:"contact"`
+	Status            string `json:"status"`
+	AdminNotes        string `json:"admin_notes"`
 }
 
 type DocumentationCreateRequest struct {

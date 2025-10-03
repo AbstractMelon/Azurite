@@ -103,14 +103,17 @@ export interface Comment {
 export interface GameRequest {
 	id: number;
 	name: string;
+	reason: string;
 	description: string;
 	icon: string;
-	requested_by: number;
+	existing_community: string;
+	mod_loader: string;
+	contact: string;
+	requested_by?: User;
 	status: 'pending' | 'approved' | 'denied';
 	admin_notes: string;
 	created_at: string;
 	updated_at: string;
-	user?: User;
 }
 
 // Documentation types

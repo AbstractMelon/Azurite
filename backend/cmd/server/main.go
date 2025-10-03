@@ -273,11 +273,21 @@ func setupRoutes(
 		games.GET("/:slug/mods", gameHandler.GetGameMods)
 		games.GET("/:slug/tags", gameHandler.GetGameTags)
 
+		// Games by ID
+		gamesByID := games.Group("/id")
+		{
+			gamesByID.GET("/:id", gameHandler.GetGameByID)
+			gamesByID.PUT("/:id", gameHandler.UpdateGame)
+			gamesByID.DELETE("/:id", gameHandler.DeleteGame)
+		}
+
 		// Game requests
 		gameRequests := games.Group("/requests")
 		{
 			gameRequests.POST("", authService.RequireAuth(), gameHandler.CreateGameRequest)
 			gameRequests.GET("", authService.RequireAuth(), authService.RequireRole("admin"), gameHandler.ListGameRequests)
+			gameRequests.GET("/:id", authService.RequireAuth(), authService.RequireRole("admin"), gameHandler.GetGameRequest)
+			gameRequests.PUT("/:id", authService.RequireAuth(), authService.RequireRole("admin"), gameHandler.UpdateGameRequest)
 			gameRequests.POST("/:id/approve", authService.RequireAuth(), authService.RequireRole("admin"), gameHandler.ApproveGameRequest)
 			gameRequests.POST("/:id/deny", authService.RequireAuth(), authService.RequireRole("admin"), gameHandler.DenyGameRequest)
 		}
@@ -295,11 +305,11 @@ func setupRoutes(
 		}
 
 		// Game management by ID (separate group to avoid conflicts)
-		gamesByID := api.Group("/games/manage")
-		gamesByID.Use(authService.RequireAuth(), authService.RequireRole("admin"))
+		gameManagementByID := api.Group("/games/manage")
+		gameManagementByID.Use(authService.RequireAuth(), authService.RequireRole("admin"))
 		{
-			gamesByID.PUT("/:id", gameHandler.UpdateGame)
-			gamesByID.DELETE("/:id", gameHandler.DeleteGame)
+			gameManagementByID.PUT("/:id", gameHandler.UpdateGame)
+			gameManagementByID.DELETE("/:id", gameHandler.DeleteGame)
 		}
 	}
 
@@ -804,15 +814,37 @@ func setupRoutes(
 			modStats, _ := adminService.GetModStats()
 			systemStats, _ := adminService.GetSystemStats()
 
+			// Get game count from system stats
+			gameCount := 0
+			if val, ok := systemStats["total_games"].(int); ok {
+				gameCount = val
+			}
+
 			c.JSON(http.StatusOK, gin.H{
 				"success": true,
 				"data": gin.H{
-					"users":  userStats,
-					"mods":   modStats,
+					"users": gin.H{
+						"total":          userStats["total_users"],
+						"active":         userStats["total_users"],
+						"new_this_month": userStats["new_users_30_days"],
+					},
+					"mods": gin.H{
+						"total":    modStats["total_mods"],
+						"approved": modStats["active_mods"],
+						"pending":  modStats["pending_mods"],
+						"rejected": modStats["rejected_mods"],
+					},
+					"games": gin.H{
+						"total":  gameCount,
+						"active": gameCount,
+					},
 					"system": systemStats,
 				},
 			})
 		})
+
+		// Admin game management
+		admin.GET("/games", gameHandler.ListAllGames)
 
 		admin.GET("/activity", func(c *gin.Context) {
 			limit, _ := strconv.Atoi(c.DefaultQuery("limit", "50"))

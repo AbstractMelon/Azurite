@@ -258,6 +258,10 @@ export const gamesApi = {
 		return api.get(`/games/${slug}`);
 	},
 
+	async getGameById(id: number) {
+		return api.get(`/games/id/${id}`);
+	},
+
 	async getGameMods(
 		slug: string,
 		params?: {
@@ -278,7 +282,23 @@ export const gamesApi = {
 		return api.get(`/games/${slug}/moderators`);
 	},
 
-	async createGameRequest(data: { name: string; description: string }) {
+	async assignModerator(slug: string, userId: number) {
+		return api.post(`/games/${slug}/moderators`, { user_id: userId });
+	},
+
+	async removeModerator(slug: string, userId: number) {
+		return api.delete(`/games/${slug}/moderators/${userId}`);
+	},
+
+	async createGameRequest(data: {
+		name: string;
+		reason: string;
+		description: string;
+		icon?: string;
+		existing_community?: string;
+		mod_loader?: string;
+		contact?: string;
+	}) {
 		return api.post('/games/requests', data);
 	}
 };
@@ -490,6 +510,26 @@ export const adminApi = {
 
 	async rejectGameRequest(requestId: number, adminNotes?: string) {
 		return api.post(`/games/requests/${requestId}/deny`, { admin_notes: adminNotes });
+	},
+
+	async getAllGames(params?: { page?: number; per_page?: number }) {
+		return api.get('/admin/games', params);
+	},
+
+	async getGameRequest(requestId: number) {
+		return api.get(`/games/requests/${requestId}`);
+	},
+
+	async updateGameRequest(requestId: number, data: Record<string, unknown>) {
+		return api.put(`/games/requests/${requestId}`, data);
+	},
+
+	async approveMod(modId: number) {
+		return api.post(`/mods/${modId}/approve`);
+	},
+
+	async rejectMod(modId: number, reason: string) {
+		return api.post(`/mods/${modId}/reject`, { reason });
 	}
 };
 

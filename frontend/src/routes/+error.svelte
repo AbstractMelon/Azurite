@@ -1,13 +1,13 @@
 <script lang="ts">
 	export let data: { error?: Error & { status?: number }; status?: number };
 	$: error = data?.error;
-	$: status = data?.status || error?.status || 500;
+	$: status = data?.status || error?.status || 404;
 </script>
 
 <div class="flex flex-col items-center justify-center min-h-screen text-center px-6">
 	<div class="glass rounded-2xl p-10 max-w-lg w-full fade-in">
 		<h1 class="text-6xl font-extrabold text-gradient mb-4">
-			{status || 500}
+			{status || 404}
 		</h1>
 		<p class="text-2xl font-semibold text-text-primary mb-2">
 			{error?.message || 'Something went wrong'}

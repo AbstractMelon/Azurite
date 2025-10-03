@@ -167,9 +167,9 @@ func (s *GameService) Delete(gameID int) error {
 
 func (s *GameService) CreateRequest(req *models.GameRequestCreate, userID int) (*models.GameRequest, error) {
 	result, err := s.db.Exec(`
-		INSERT INTO game_requests (name, description, requested_by, status, icon, admin_notes)
-		VALUES (?, ?, ?, ?, ?, ?)
-	`, req.Name, req.Description, userID, models.GameRequestStatusPending, "", "No admin notes at this time")
+		INSERT INTO game_requests (name, reason, description, icon, existing_community, mod_loader, contact, requested_by, status, admin_notes)
+		VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+	`, req.Name, req.Reason, req.Description, req.Icon, req.ExistingCommunity, req.ModLoader, req.Contact, userID, models.GameRequestStatusPending, "")
 
 	if err != nil {
 		return nil, fmt.Errorf("failed to create game request: %w", err)
@@ -188,14 +188,16 @@ func (s *GameService) GetRequestByID(id int) (*models.GameRequest, error) {
 	var username, displayName string
 
 	err := s.db.QueryRow(`
-		SELECT gr.id, gr.name, gr.description, gr.icon, gr.requested_by, gr.status,
+		SELECT gr.id, gr.name, gr.reason, gr.description, gr.icon, gr.existing_community,
+		       gr.mod_loader, gr.contact, gr.requested_by, gr.status,
 		       gr.admin_notes, gr.created_at, gr.updated_at,
 		       u.username, u.display_name
 		FROM game_requests gr
 		JOIN users u ON gr.requested_by = u.id
 		WHERE gr.id = ?
 	`, id).Scan(
-		&request.ID, &request.Name, &request.Description, &request.Icon,
+		&request.ID, &request.Name, &request.Reason, &request.Description, &request.Icon,
+		&request.ExistingCommunity, &request.ModLoader, &request.Contact,
 		&request.RequestedBy, &request.Status, &request.AdminNotes,
 		&request.CreatedAt, &request.UpdatedAt, &username, &displayName,
 	)
@@ -207,7 +209,7 @@ func (s *GameService) GetRequestByID(id int) (*models.GameRequest, error) {
 		return nil, fmt.Errorf("failed to get game request: %w", err)
 	}
 
-	request.User = &models.User{
+	request.RequestedByUser = &models.User{
 		ID:          request.RequestedBy,
 		Username:    username,
 		DisplayName: displayName,
@@ -240,7 +242,8 @@ func (s *GameService) ListRequests(page, perPage int, status string) ([]models.G
 	}
 
 	query := fmt.Sprintf(`
-		SELECT gr.id, gr.name, gr.description, gr.icon, gr.requested_by, gr.status,
+		SELECT gr.id, gr.name, gr.reason, gr.description, gr.icon, gr.existing_community,
+		       gr.mod_loader, gr.contact, gr.requested_by, gr.status,
 		       gr.admin_notes, gr.created_at, gr.updated_at,
 		       u.username, u.display_name
 		FROM game_requests gr
@@ -264,7 +267,8 @@ func (s *GameService) ListRequests(page, perPage int, status string) ([]models.G
 		var username, displayName string
 
 		err := rows.Scan(
-			&request.ID, &request.Name, &request.Description, &request.Icon,
+			&request.ID, &request.Name, &request.Reason, &request.Description, &request.Icon,
+			&request.ExistingCommunity, &request.ModLoader, &request.Contact,
 			&request.RequestedBy, &request.Status, &request.AdminNotes,
 			&request.CreatedAt, &request.UpdatedAt, &username, &displayName,
 		)
@@ -272,7 +276,7 @@ func (s *GameService) ListRequests(page, perPage int, status string) ([]models.G
 			return nil, 0, fmt.Errorf("failed to scan game request: %w", err)
 		}
 
-		request.User = &models.User{
+		request.RequestedByUser = &models.User{
 			ID:          request.RequestedBy,
 			Username:    username,
 			DisplayName: displayName,
@@ -491,4 +495,56 @@ func (s *GameService) GetModerators(gameID int) ([]models.User, error) {
 	}
 
 	return moderators, nil
+}
+
+func (s *GameService) UpdateRequest(requestID int, req *models.GameRequestUpdate) (*models.GameRequest, error) {
+	_, err := s.db.Exec(`
+		UPDATE game_requests 
+		SET name = ?, reason = ?, description = ?, icon = ?, existing_community = ?,
+		    mod_loader = ?, contact = ?, status = ?, admin_notes = ?
+		WHERE id = ?
+	`, req.Name, req.Reason, req.Description, req.Icon, req.ExistingCommunity,
+		req.ModLoader, req.Contact, req.Status, req.AdminNotes, requestID)
+
+	if err != nil {
+		return nil, fmt.Errorf("failed to update game request: %w", err)
+	}
+
+	return s.GetRequestByID(requestID)
+}
+
+func (s *GameService) ListAllGames(page, perPage int) ([]models.Game, int64, error) {
+	offset := (page - 1) * perPage
+
+	var total int64
+	err := s.db.QueryRow("SELECT COUNT(*) FROM games").Scan(&total)
+	if err != nil {
+		return nil, 0, fmt.Errorf("failed to count games: %w", err)
+	}
+
+	rows, err := s.db.Query(`
+		SELECT id, name, slug, description, icon, is_active, mod_count, created_at, updated_at
+		FROM games
+		ORDER BY name ASC
+		LIMIT ? OFFSET ?
+	`, perPage, offset)
+	if err != nil {
+		return nil, 0, fmt.Errorf("failed to get games: %w", err)
+	}
+	defer rows.Close()
+
+	var games []models.Game
+	for rows.Next() {
+		var game models.Game
+		err := rows.Scan(
+			&game.ID, &game.Name, &game.Slug, &game.Description, &game.Icon,
+			&game.IsActive, &game.ModCount, &game.CreatedAt, &game.UpdatedAt,
+		)
+		if err != nil {
+			return nil, 0, fmt.Errorf("failed to scan game: %w", err)
+		}
+		games = append(games, game)
+	}
+
+	return games, total, nil
 }
