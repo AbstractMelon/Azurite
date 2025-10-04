@@ -16,8 +16,8 @@
 - [x] User dashboard
 - [WIP] Admin panel
 - [ ] Mobile responsiveness
-- [ ] Mod Pages
-- [ ] 0Auth Authentication
+- [x] Mod Pages
+- [x] OAuth Authentication
 
 ### Phase 3 - Enhanced Features
 - [ ] Advanced search and filtering
