@@ -8,7 +8,10 @@
 	let loading = false;
 	let success = false;
 
-	async function handleSubmit() {
+	async function handleSubmit(event: Event) {
+		// Prevent default form submission
+		event.preventDefault();
+
 		if (!email) {
 			toast.error('Validation Error', 'Please enter your email address');
 			return;
@@ -89,13 +92,13 @@
 						</p>
 
 						<div class="space-y-3">
-							<button on:click={goToLogin} class="btn btn-primary w-full">
+							<button onclick={goToLogin} class="btn btn-primary w-full">
 								<ArrowLeft class="w-4 h-4 mr-2" />
 								Back to Login
 							</button>
 
 							<button
-								on:click={() => {
+								onclick={() => {
 									success = false;
 									email = '';
 								}}
@@ -116,7 +119,7 @@
 						</p>
 					</div>
 
-					<form on:submit|preventDefault={handleSubmit} class="space-y-6">
+					<form onsubmit={handleSubmit} class="space-y-6">
 						<div>
 							<label for="email" class="block text-sm font-medium text-text-primary mb-2">
 								Email address
@@ -178,7 +181,7 @@
 						<div class="text-center pt-4 border-t border-slate-700">
 							<button
 								type="button"
-								on:click={goToLogin}
+								onclick={goToLogin}
 								class="text-sm text-primary-400 hover:text-primary-300 font-medium transition-colors"
 							>
 								<ArrowLeft class="w-4 h-4 inline mr-1" />

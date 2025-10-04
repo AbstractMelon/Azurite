@@ -318,7 +318,10 @@
 	}
 
 	// Submit form
-	async function handleSubmit() {
+	async function handleSubmit(event: Event) {
+		// Prevent default form submission
+		event.preventDefault();
+
 		if (!validateForm()) {
 			toast.error('Validation Error', 'Please fix the errors below');
 			return;
@@ -407,7 +410,7 @@
 			<!-- Header -->
 			<div class="mb-8">
 				<button
-					on:click={() => goto('/dashboard')}
+					onclick={() => goto('/dashboard')}
 					class="flex items-center text-text-muted hover:text-text-secondary mb-6"
 				>
 					<ArrowLeft class="w-4 h-4 mr-2" />
@@ -431,7 +434,7 @@
 								View
 							</a>
 						{/if}
-						<button on:click={deleteMod} class="btn btn-danger" title="Delete Mod">
+						<button onclick={deleteMod} class="btn btn-danger" title="Delete Mod">
 							<Trash2 class="w-4 h-4 mr-2" />
 							Delete
 						</button>
@@ -447,7 +450,7 @@
 						<div class="p-6">
 							<h2 class="text-xl font-semibold text-text-primary mb-6">Basic Information</h2>
 
-							<form on:submit|preventDefault={handleSubmit} class="space-y-4">
+							<form onsubmit={handleSubmit} class="space-y-4">
 								<!-- Mod Name -->
 								<div>
 									<label for="name" class="block text-sm font-medium text-text-primary mb-2">
@@ -499,7 +502,7 @@
 									<select
 										id="game_id"
 										bind:value={formData.game_id}
-										on:change={onGameChange}
+										onchange={onGameChange}
 										class="select w-full {errors.game_id ? 'border-red-500' : ''}"
 										required
 									>
@@ -612,7 +615,7 @@
 												{#each selectedGameTags as tag (tag.id)}
 													<button
 														type="button"
-														on:click={() => addPredefinedTag(tag)}
+														onclick={() => addPredefinedTag(tag)}
 														class="px-3 py-1 bg-slate-700 hover:bg-slate-600 text-text-secondary text-sm rounded-full border border-slate-600 hover:border-primary-500 transition-colors"
 														disabled={formData.tags.includes(tag.slug)}
 													>
@@ -630,11 +633,11 @@
 											bind:value={tagInput}
 											placeholder="Add a custom tag..."
 											class="input flex-1"
-											on:keypress={(e) => e.key === 'Enter' && (e.preventDefault(), addTag())}
+											onkeypress={(e) => e.key === 'Enter' && (e.preventDefault(), addTag())}
 										/>
 										<button
 											type="button"
-											on:click={addTag}
+											onclick={addTag}
 											class="btn btn-outline px-4"
 											disabled={!tagInput.trim()}
 										>
@@ -652,7 +655,7 @@
 													{tag}
 													<button
 														type="button"
-														on:click={() => removeTag(tag)}
+														onclick={() => removeTag(tag)}
 														class="ml-2 hover:text-primary-200"
 													>
 														×
@@ -730,7 +733,7 @@
 													</div>
 												</div>
 												<button
-													on:click={() => deleteFile(file.id, file.filename)}
+													onclick={() => deleteFile(file.id, file.filename)}
 													class="btn btn-outline btn-sm text-red-400 hover:text-red-300 hover:border-red-500"
 													title="Delete File"
 												>
@@ -749,7 +752,7 @@
 									<input
 										type="file"
 										bind:this={fileInput}
-										on:change={handleFileSelect}
+										onchange={handleFileSelect}
 										accept=".jar,.zip,.rar,.7z,.tar.gz"
 										class="hidden"
 									/>
@@ -764,7 +767,7 @@
 											<div class="flex justify-center space-x-2">
 												<button
 													type="button"
-													on:click={uploadNewFile}
+													onclick={uploadNewFile}
 													disabled={isUploadingFile}
 													class="btn btn-primary btn-sm"
 												>
@@ -778,7 +781,7 @@
 												</button>
 												<button
 													type="button"
-													on:click={() => fileInput.click()}
+													onclick={() => fileInput.click()}
 													class="btn btn-outline btn-sm"
 												>
 													Change File
@@ -794,7 +797,7 @@
 											</p>
 											<button
 												type="button"
-												on:click={() => fileInput.click()}
+												onclick={() => fileInput.click()}
 												class="btn btn-outline"
 											>
 												Choose File
@@ -875,7 +878,7 @@
 							<p class="text-red-200 text-sm mb-3">
 								Deleting your mod is permanent and cannot be undone.
 							</p>
-							<button on:click={deleteMod} class="btn btn-danger btn-sm w-full">
+							<button onclick={deleteMod} class="btn btn-danger btn-sm w-full">
 								<Trash2 class="w-4 h-4 mr-2" />
 								Delete Mod
 							</button>

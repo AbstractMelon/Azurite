@@ -191,7 +191,7 @@
 								<button
 									type="button"
 									class="text-text-muted hover:text-text-primary transition-colors"
-									on:click={togglePasswordVisibility}
+									onclick={togglePasswordVisibility}
 									disabled={isLoading}
 								>
 									{#if showPassword}
@@ -225,7 +225,7 @@
 						<div class="text-sm">
 							<button
 								type="button"
-								on:click={handleForgotPassword}
+								onclick={handleForgotPassword}
 								class="text-primary-400 hover:text-primary-300 transition-colors"
 								disabled={isLoading}
 							>
@@ -267,7 +267,7 @@
 					<!-- GitHub -->
 					<button
 						type="button"
-						on:click={() => handleOAuthLogin('github')}
+						onclick={() => handleOAuthLogin('github')}
 						disabled={isLoading}
 						class="btn btn-outline w-full flex items-center justify-center"
 					>
@@ -278,7 +278,7 @@
 					<!-- Google -->
 					<button
 						type="button"
-						on:click={() => handleOAuthLogin('google')}
+						onclick={() => handleOAuthLogin('google')}
 						disabled={isLoading}
 						class="btn btn-outline w-full flex items-center justify-center"
 					>
@@ -289,7 +289,7 @@
 					<!-- Discord -->
 					<button
 						type="button"
-						on:click={() => handleOAuthLogin('discord')}
+						onclick={() => handleOAuthLogin('discord')}
 						disabled={isLoading}
 						class="btn btn-outline w-full flex items-center justify-center"
 					>

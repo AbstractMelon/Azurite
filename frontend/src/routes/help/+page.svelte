@@ -270,7 +270,7 @@
 			<!-- Topic Detail View -->
 			<div class="mb-6">
 				<button
-					on:click={clearTopic}
+					onclick={clearTopic}
 					class="btn btn-outline flex items-center gap-2 mb-4"
 				>
 					← Back to Help Center
@@ -321,7 +321,7 @@
 						<div class="flex flex-wrap gap-2">
 							{#each helpTopics.filter(t => t.popular) as topic}
 								<button
-									on:click={() => selectTopic(topic)}
+									onclick={() => selectTopic(topic)}
 									class="btn btn-outline btn-sm"
 								>
 									{topic.title}
@@ -376,7 +376,7 @@
 						<div class="space-y-4">
 							{#each filteredTopics as topic}
 								<button
-									on:click={() => selectTopic(topic)}
+									onclick={() => selectTopic(topic)}
 									class="w-full text-left p-4 rounded-lg border border-slate-600 hover:border-primary-500 hover:bg-background-secondary transition-colors"
 								>
 									<div class="flex items-center justify-between">

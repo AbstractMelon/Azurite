@@ -250,7 +250,7 @@
 			<div class="flex items-center justify-between mb-8">
 				<div class="flex space-x-1 bg-slate-800 rounded-lg p-1">
 					<button
-						on:click={() => (activeTab = 'mods')}
+						onclick={() => (activeTab = 'mods')}
 						class="px-4 py-2 rounded-md text-sm font-medium transition-colors {activeTab === 'mods'
 							? 'bg-primary-600 text-white'
 							: 'text-text-secondary hover:text-text-primary'}"
@@ -259,7 +259,7 @@
 						My Mods ({userMods.length})
 					</button>
 					<button
-						on:click={() => (activeTab = 'liked')}
+						onclick={() => (activeTab = 'liked')}
 						class="px-4 py-2 rounded-md text-sm font-medium transition-colors {activeTab === 'liked'
 							? 'bg-primary-600 text-white'
 							: 'text-text-secondary hover:text-text-primary'}"
@@ -287,7 +287,7 @@
 					<!-- View Toggle -->
 					<div class="flex border border-slate-600 rounded-lg p-1">
 						<button
-							on:click={() => (viewMode = 'grid')}
+							onclick={() => (viewMode = 'grid')}
 							class="p-2 rounded {viewMode === 'grid'
 								? 'bg-primary-600 text-white'
 								: 'text-text-muted hover:text-text-primary'} transition-colors"
@@ -296,7 +296,7 @@
 							<Grid class="w-4 h-4" />
 						</button>
 						<button
-							on:click={() => (viewMode = 'list')}
+							onclick={() => (viewMode = 'list')}
 							class="p-2 rounded {viewMode === 'list'
 								? 'bg-primary-600 text-white'
 								: 'text-text-muted hover:text-text-primary'} transition-colors"

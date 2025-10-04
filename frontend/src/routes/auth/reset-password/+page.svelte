@@ -29,7 +29,10 @@
 		}
 	});
 
-	async function handleSubmit() {
+	async function handleSubmit(event: Event) {
+		// Prevent default form submission
+		event.preventDefault();
+
 		if (!password || !confirmPassword) {
 			toast.error('Validation Error', 'Please fill in all fields');
 			return;
@@ -130,7 +133,7 @@
 							You will be redirected to the login page shortly.
 						</p>
 
-						<button on:click={goToLogin} class="btn btn-primary w-full">
+						<button onclick={goToLogin} class="btn btn-primary w-full">
 							<ArrowLeft class="w-4 h-4 mr-2" />
 							Go to Login
 						</button>
@@ -143,7 +146,7 @@
 								Invalid or missing reset token. This link may have expired or been used already.
 							</p>
 						</div>
-						<button on:click={goToLogin} class="btn btn-primary w-full">
+						<button onclick={goToLogin} class="btn btn-primary w-full">
 							<ArrowLeft class="w-4 h-4 mr-2" />
 							Back to Login
 						</button>
@@ -159,7 +162,7 @@
 						</p>
 					</div>
 
-					<form on:submit|preventDefault={handleSubmit} class="space-y-6">
+					<form onsubmit={handleSubmit} class="space-y-6">
 						<!-- New Password Field -->
 						<div>
 							<label for="password" class="block text-sm font-medium text-text-primary mb-2">
@@ -183,7 +186,7 @@
 								/>
 								<button
 									type="button"
-									on:click={togglePasswordVisibility}
+									onclick={togglePasswordVisibility}
 									class="absolute inset-y-0 right-0 pr-3 flex items-center text-text-muted hover:text-text-secondary transition-colors"
 									disabled={loading}
 								>
@@ -222,7 +225,7 @@
 								/>
 								<button
 									type="button"
-									on:click={toggleConfirmPasswordVisibility}
+									onclick={toggleConfirmPasswordVisibility}
 									class="absolute inset-y-0 right-0 pr-3 flex items-center text-text-muted hover:text-text-secondary transition-colors"
 									disabled={loading}
 								>
@@ -300,7 +303,7 @@
 						<div class="text-center pt-4 border-t border-slate-700">
 							<button
 								type="button"
-								on:click={goToLogin}
+								onclick={goToLogin}
 								class="text-sm text-primary-400 hover:text-primary-300 font-medium transition-colors"
 							>
 								<ArrowLeft class="w-4 h-4 inline mr-1" />

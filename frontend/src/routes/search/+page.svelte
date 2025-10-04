@@ -218,7 +218,7 @@
 
 				<!-- Main Search -->
 				<div class="max-w-2xl mx-auto">
-					<form on:submit|preventDefault={handleSearch}>
+					<form onsubmit={handleSearch}>
 						<div class="relative">
 							<Search
 								class="absolute left-4 top-1/2 transform -translate-y-1/2 text-text-muted w-6 h-6"
@@ -233,7 +233,7 @@
 							{#if searchQuery}
 								<button
 									type="button"
-									on:click={() => {
+									onclick={() => {
 										searchQuery = '';
 										results = [];
 										searchPerformed = false;
@@ -271,7 +271,7 @@
 						<!-- Game Filter -->
 						<select
 							bind:value={selectedGameId}
-							on:change={handleGameFilter}
+							onchange={handleGameFilter}
 							class="select min-w-[150px]"
 							disabled={loading}
 						>
@@ -283,7 +283,7 @@
 
 						<!-- Filter Toggle -->
 						<button
-							on:click={() => (showFilters = !showFilters)}
+							onclick={() => (showFilters = !showFilters)}
 							class="btn btn-outline"
 							disabled={loading}
 						>
@@ -296,7 +296,7 @@
 
 						{#if selectedGameId > 0}
 							<button
-								on:click={clearFilters}
+								onclick={clearFilters}
 								class="btn btn-outline text-red-400 hover:text-red-300 hover:border-red-500"
 							>
 								<X class="w-4 h-4 mr-2" />
@@ -318,7 +318,7 @@
 					<!-- View Mode Toggle -->
 					<div class="flex border border-slate-600 rounded-lg p-1">
 						<button
-							on:click={() => (viewMode = 'grid')}
+							onclick={() => (viewMode = 'grid')}
 							class="p-2 rounded {viewMode === 'grid'
 								? 'bg-primary-600 text-white'
 								: 'text-text-muted hover:text-text-primary'} transition-colors"
@@ -327,7 +327,7 @@
 							<Grid class="w-4 h-4" />
 						</button>
 						<button
-							on:click={() => (viewMode = 'list')}
+							onclick={() => (viewMode = 'list')}
 							class="p-2 rounded {viewMode === 'list'
 								? 'bg-primary-600 text-white'
 								: 'text-text-muted hover:text-text-primary'} transition-colors"
@@ -345,7 +345,7 @@
 					<div class="flex items-center justify-between mb-4">
 						<h3 class="text-lg font-semibold text-text-primary">Advanced Filters</h3>
 						<button
-							on:click={() => (showFilters = false)}
+							onclick={() => (showFilters = false)}
 							class="text-text-muted hover:text-text-primary"
 						>
 							<X class="w-5 h-5" />
@@ -363,7 +363,7 @@
 							<select
 								id="game-filter-advanced"
 								bind:value={selectedGameId}
-								on:change={handleGameFilter}
+								onchange={handleGameFilter}
 								class="select w-full"
 								disabled={loading}
 							>
@@ -551,7 +551,7 @@
 				{#if totalPages > 1}
 					<div class="flex justify-center items-center space-x-2">
 						<button
-							on:click={() => handlePageChange(currentPage - 1)}
+							onclick={() => handlePageChange(currentPage - 1)}
 							disabled={currentPage <= 1 || loading}
 							class="btn btn-outline btn-sm disabled:opacity-50 disabled:cursor-not-allowed"
 						>
@@ -565,7 +565,7 @@
 							return start + i <= end ? start + i : null;
 						}).filter((n): n is number => n !== null) as pageNum (pageNum)}
 							<button
-								on:click={() => handlePageChange(pageNum)}
+								onclick={() => handlePageChange(pageNum)}
 								disabled={loading}
 								class="btn btn-sm {pageNum === currentPage ? 'btn-primary' : 'btn-outline'}"
 							>
@@ -574,7 +574,7 @@
 						{/each}
 
 						<button
-							on:click={() => handlePageChange(currentPage + 1)}
+							onclick={() => handlePageChange(currentPage + 1)}
 							disabled={currentPage >= totalPages || loading}
 							class="btn btn-outline btn-sm disabled:opacity-50 disabled:cursor-not-allowed"
 						>
@@ -607,7 +607,7 @@
 						</ul>
 					</div>
 					<div class="flex flex-col sm:flex-row gap-3 justify-center">
-						<button on:click={clearFilters} class="btn btn-outline"> Clear Search </button>
+						<button onclick={clearFilters} class="btn btn-outline"> Clear Search </button>
 						<a href="/browse" class="btn btn-primary"> Browse All Mods </a>
 					</div>
 				</div>
@@ -673,7 +673,7 @@
 					<div class="flex flex-wrap justify-center gap-2">
 						{#each ['OptiFine', 'JEI', 'Biomes O Plenty', 'Applied Energistics', 'Tinkers Construct', 'JourneyMap', 'Iron Chests', 'Thermal Expansion'] as term}
 							<button
-								on:click={() => {
+								onclick={() => {
 									searchQuery = term;
 									handleSearch(new Event('submit'));
 								}}

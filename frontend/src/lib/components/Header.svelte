@@ -28,7 +28,10 @@
 	}
 
 	// Handle search
-	function handleSearch() {
+	function handleSearch(event: Event) {
+		// Prevent default form submission
+		event.preventDefault();
+
 		if (searchQuery.trim()) {
 			goto(`/search?q=${encodeURIComponent(searchQuery.trim())}`);
 			searchQuery = '';
@@ -139,7 +142,7 @@
 
 			<!-- Search Bar (Desktop) -->
 			<div class="hidden md:flex flex-1 max-w-lg mx-8">
-				<form on:submit|preventDefault={handleSearch} class="w-full">
+				<form onsubmit={handleSearch} class="w-full">
 					<div class="relative">
 						<Search
 							class="absolute left-3 top-1/2 transform -translate-y-1/2 text-text-muted w-4 h-4"
@@ -165,7 +168,7 @@
 					<!-- Notifications -->
 					<div class="relative notifications-container">
 						<button
-							on:click={toggleNotifications}
+							onclick={toggleNotifications}
 							class="p-2 text-text-secondary hover:text-text-primary transition-colors relative"
 							title="Notifications"
 						>
@@ -206,7 +209,7 @@
 					<!-- User Menu -->
 					<div class="relative user-menu-container">
 						<button
-							on:click={toggleUserMenu}
+							onclick={toggleUserMenu}
 							class="flex items-center space-x-2 p-2 rounded-lg hover:bg-slate-700 transition-colors"
 						>
 							{#if $user?.avatar}
@@ -251,7 +254,7 @@
 
 								<div class="border-t border-slate-600 my-1"></div>
 								<button
-									on:click={handleLogout}
+									onclick={handleLogout}
 									class="dropdown-item text-red-400 hover:bg-red-500/10"
 								>
 									<LogOut class="w-4 h-4 mr-2" />
@@ -270,7 +273,7 @@
 
 				<!-- Mobile Menu Button -->
 				<button
-					on:click={toggleMobileMenu}
+					onclick={toggleMobileMenu}
 					class="md:hidden p-2 text-text-secondary hover:text-text-primary transition-colors mobile-menu-button"
 				>
 					<Menu class="w-5 h-5" />
@@ -283,7 +286,7 @@
 			<div class="md:hidden mobile-menu-container">
 				<div class="px-2 pt-2 pb-3 space-y-1 bg-background-secondary border-t border-slate-700">
 					<!-- Mobile Search -->
-					<form on:submit|preventDefault={handleSearch} class="mb-4">
+					<form onsubmit={handleSearch} class="mb-4">
 						<div class="relative">
 							<Search
 								class="absolute left-3 top-1/2 transform -translate-y-1/2 text-text-muted w-4 h-4"
@@ -304,7 +307,7 @@
 							class="block px-3 py-2 text-base font-medium {isActive(link.href)
 								? 'text-primary-400 bg-slate-700'
 								: 'text-text-secondary hover:text-text-primary hover:bg-slate-700'} rounded-md transition-colors"
-							on:click={() => (showMobileMenu = false)}
+							onclick={() => (showMobileMenu = false)}
 						>
 							{link.label}
 						</a>
@@ -315,7 +318,7 @@
 							<a
 								href="/profile"
 								class="block px-3 py-2 text-base font-medium text-text-secondary hover:text-text-primary hover:bg-slate-700 rounded-md transition-colors"
-								on:click={() => (showMobileMenu = false)}
+								onclick={() => (showMobileMenu = false)}
 							>
 								<User class="w-4 h-4 inline mr-2" />
 								Profile
@@ -323,7 +326,7 @@
 							<a
 								href="/dashboard"
 								class="block px-3 py-2 text-base font-medium text-text-secondary hover:text-text-primary hover:bg-slate-700 rounded-md transition-colors"
-								on:click={() => (showMobileMenu = false)}
+								onclick={() => (showMobileMenu = false)}
 							>
 								<Plus class="w-4 h-4 inline mr-2" />
 								Creator Dashboard
@@ -331,7 +334,7 @@
 							<a
 								href="/settings"
 								class="block px-3 py-2 text-base font-medium text-text-secondary hover:text-text-primary hover:bg-slate-700 rounded-md transition-colors"
-								on:click={() => (showMobileMenu = false)}
+								onclick={() => (showMobileMenu = false)}
 							>
 								<Settings class="w-4 h-4 inline mr-2" />
 								Settings
@@ -341,7 +344,7 @@
 								<a
 									href="/admin"
 									class="block px-3 py-2 text-base font-medium text-text-secondary hover:text-text-primary hover:bg-slate-700 rounded-md transition-colors"
-									on:click={() => (showMobileMenu = false)}
+									onclick={() => (showMobileMenu = false)}
 								>
 									<Shield class="w-4 h-4 inline mr-2" />
 									Admin Panel
@@ -349,7 +352,7 @@
 							{/if}
 
 							<button
-								on:click={() => {
+								onclick={() => {
 									handleLogout();
 									showMobileMenu = false;
 								}}
@@ -364,14 +367,14 @@
 							<a
 								href="/auth/login"
 								class="btn btn-outline flex-1 text-center"
-								on:click={() => (showMobileMenu = false)}
+								onclick={() => (showMobileMenu = false)}
 							>
 								Login
 							</a>
 							<a
 								href="/auth/register"
 								class="btn btn-primary flex-1 text-center"
-								on:click={() => (showMobileMenu = false)}
+								onclick={() => (showMobileMenu = false)}
 							>
 								Sign Up
 							</a>

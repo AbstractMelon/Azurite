@@ -316,7 +316,7 @@
 					<!-- View Toggle -->
 					<div class="flex border border-slate-600 rounded-lg p-1">
 						<button
-							on:click={() => (viewMode = 'grid')}
+							onclick={() => (viewMode = 'grid')}
 							class="p-2 rounded {viewMode === 'grid'
 								? 'bg-primary-600 text-white'
 								: 'text-text-muted hover:text-text-primary'} transition-colors"
@@ -325,7 +325,7 @@
 							<Grid class="w-4 h-4" />
 						</button>
 						<button
-							on:click={() => (viewMode = 'list')}
+							onclick={() => (viewMode = 'list')}
 							class="p-2 rounded {viewMode === 'list'
 								? 'bg-primary-600 text-white'
 								: 'text-text-muted hover:text-text-primary'} transition-colors"
@@ -384,7 +384,7 @@
 				{#if modsResponse && currentPage < modsResponse.total_pages && !searchQuery}
 					<div class="text-center">
 						<button
-							on:click={loadMore}
+							onclick={loadMore}
 							disabled={isLoadingMore}
 							class="btn btn-outline"
 						>
@@ -409,7 +409,7 @@
 				{#if modsResponse && currentPage < modsResponse.total_pages && !searchQuery}
 					<div class="text-center">
 						<button
-							on:click={loadMore}
+							onclick={loadMore}
 							disabled={isLoadingMore}
 							class="btn btn-outline"
 						>

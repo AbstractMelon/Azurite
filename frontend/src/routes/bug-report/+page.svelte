@@ -145,7 +145,7 @@
 						</ul>
 					</div>
 					<div class="flex gap-4 justify-center">
-						<button on:click={resetForm} class="btn btn-outline">
+						<button onclick={resetForm} class="btn btn-outline">
 							Submit Another Report
 						</button>
 						<a href="/" class="btn btn-primary">
@@ -178,7 +178,7 @@
 						</div>
 					{/if}
 
-					<form on:submit={handleSubmit} class="space-y-6">
+					<form onsubmit={handleSubmit} class="space-y-6">
 						<!-- Title -->
 						<div>
 							<label for="title" class="block text-sm font-medium text-text-primary mb-2">

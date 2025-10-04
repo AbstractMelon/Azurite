@@ -114,7 +114,7 @@
 			<!-- Header -->
 			<div class="mb-8">
 				<button
-					on:click={() => goto('/admin?tab=games')}
+					onclick={() => goto('/admin?tab=games')}
 					class="flex items-center text-text-muted hover:text-text-secondary mb-6"
 				>
 					<ArrowLeft class="w-4 h-4 mr-2" />
@@ -150,7 +150,7 @@
 							/>
 						</div>
 						<button
-							on:click={addModerator}
+							onclick={addModerator}
 							disabled={isAddingModerator}
 							class="btn btn-primary"
 						>
@@ -205,7 +205,7 @@
 										</div>
 									</div>
 									<button
-										on:click={() => removeModerator(moderator.id, moderator.username)}
+										onclick={() => removeModerator(moderator.id, moderator.username)}
 										class="btn btn-sm btn-outline text-red-400 hover:text-red-300"
 									>
 										<Trash2 class="w-4 h-4" />

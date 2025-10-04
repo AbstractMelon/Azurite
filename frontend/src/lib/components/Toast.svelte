@@ -101,7 +101,7 @@
 
 							<!-- Close Button -->
 							<button
-								on:click={() => removeNotification(notification.id)}
+								onclick={() => removeNotification(notification.id)}
 								class="ml-2 flex-shrink-0 p-1 rounded-md transition-colors {styles.button}"
 								title="Dismiss"
 							>
@@ -114,7 +114,7 @@
 							<div class="mt-3 flex space-x-2">
 								{#each notification.actions as action, index (index)}
 									<button
-										on:click={() => handleAction(action.action, notification.id)}
+										onclick={() => handleAction(action.action, notification.id)}
 										class="text-xs font-medium px-3 py-1 rounded-md transition-colors bg-white/10 hover:bg-white/20"
 									>
 										{action.label}

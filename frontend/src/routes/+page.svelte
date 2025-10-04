@@ -226,11 +226,11 @@
 
 				<!-- CTA Buttons -->
 				<div class="flex flex-col sm:flex-row gap-4 justify-center mb-12">
-					<button on:click={() => goto('/games')} class="btn btn-primary btn-lg">
+					<button onclick={() => goto('/games')} class="btn btn-primary btn-lg">
 						<Gamepad2 class="w-5 h-5 mr-2" />
 						Browse Games
 					</button>
-					<button on:click={() => goto('/browse')} class="btn btn-outline btn-lg">
+					<button onclick={() => goto('/browse')} class="btn btn-outline btn-lg">
 						<Package class="w-5 h-5 mr-2" />
 						Discover Mods
 					</button>

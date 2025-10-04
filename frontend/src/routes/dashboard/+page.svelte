@@ -297,7 +297,7 @@
 						performing.
 					</p>
 				</div>
-				<button on:click={createMod} class="btn btn-primary">
+				<button onclick={createMod} class="btn btn-primary">
 					<Plus class="w-5 h-5 mr-2" />
 					Upload New Mod
 				</button>
@@ -418,13 +418,13 @@
 							<div class="flex items-center space-x-2">
 								{#if showBulkActions}
 									<span class="text-sm text-text-muted">{selectedCount} selected</span>
-									<button on:click={bulkDelete} class="btn btn-danger btn-sm">
+									<button onclick={bulkDelete} class="btn btn-danger btn-sm">
 										<Trash2 class="w-4 h-4 mr-1" />
 										Delete Selected
 									</button>
-									<button on:click={clearSelection} class="btn btn-outline btn-sm"> Clear </button>
+									<button onclick={clearSelection} class="btn btn-outline btn-sm"> Clear </button>
 								{:else}
-									<button on:click={selectAllMods} class="btn btn-outline btn-sm">
+									<button onclick={selectAllMods} class="btn btn-outline btn-sm">
 										Select All
 									</button>
 								{/if}
@@ -442,7 +442,7 @@
 								<p class="text-text-secondary mb-4">
 									Upload your first mod to start sharing with the community!
 								</p>
-								<button on:click={createMod} class="btn btn-primary">
+								<button onclick={createMod} class="btn btn-primary">
 									<Plus class="w-4 h-4 mr-2" />
 									Upload Your First Mod
 								</button>
@@ -456,7 +456,7 @@
 										<input
 											type="checkbox"
 											checked={selectedMods.has(mod.id)}
-											on:change={() => toggleModSelection(mod.id)}
+											onchange={() => toggleModSelection(mod.id)}
 											class="h-4 w-4 text-primary-600 focus:ring-primary-500 border-slate-600 bg-slate-800 rounded mr-4"
 										/>
 
@@ -527,14 +527,14 @@
 													<Eye class="w-4 h-4" />
 												</a>
 												<button
-													on:click={() => editMod(mod.id)}
+													onclick={() => editMod(mod.id)}
 													class="btn btn-outline btn-sm"
 													title="Edit Mod"
 												>
 													<Edit class="w-4 h-4" />
 												</button>
 												<button
-													on:click={() => deleteMod(mod.id, mod.name)}
+													onclick={() => deleteMod(mod.id, mod.name)}
 													class="btn btn-outline btn-sm text-red-400 hover:text-red-300 hover:border-red-500"
 													title="Delete Mod"
 												>
@@ -557,7 +557,7 @@
 					<div class="p-4">
 						<h3 class="text-lg font-semibold text-text-primary mb-4">Quick Actions</h3>
 						<div class="space-y-3">
-							<button on:click={createMod} class="btn btn-primary w-full">
+							<button onclick={createMod} class="btn btn-primary w-full">
 								<Plus class="w-4 h-4 mr-2" />
 								Upload New Mod
 							</button>

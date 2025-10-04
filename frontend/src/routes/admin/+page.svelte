@@ -290,7 +290,7 @@
 		<div class="flex space-x-1 bg-slate-800 rounded-lg p-1 mb-8 overflow-x-auto">
 			{#each tabs as tab (tab.id)}
 				<button
-					on:click={() => (activeTab = tab.id)}
+					onclick={() => (activeTab = tab.id)}
 					class="flex items-center px-4 py-2 rounded-md text-sm font-medium whitespace-nowrap transition-colors {activeTab ===
 					tab.id
 						? 'bg-primary-600 text-white'

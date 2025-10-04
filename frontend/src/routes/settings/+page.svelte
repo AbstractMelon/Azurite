@@ -86,7 +86,10 @@
 	}
 
 	// Save profile changes
-	async function saveProfile() {
+	async function saveProfile(event: Event) {
+		// Prevent default form submission
+		event.preventDefault();
+
 		// Clear previous errors
 		profileErrors = {};
 
@@ -129,7 +132,10 @@
 	}
 
 	// Change password
-	async function changePassword() {
+	async function changePassword(event: Event) {
+		// Prevent default form submission
+		event.preventDefault();
+
 		// Clear previous errors
 		passwordErrors = {};
 
@@ -322,7 +328,7 @@
 					<nav class="space-y-1">
 						{#each tabs as tab (tab.id)}
 							<button
-								on:click={() => (activeTab = tab.id)}
+								onclick={() => (activeTab = tab.id)}
 								class="w-full flex items-center px-4 py-3 text-left rounded-lg transition-colors {activeTab ===
 								tab.id
 									? 'bg-primary-600 text-white'
@@ -343,7 +349,7 @@
 							<div class="p-6">
 								<h2 class="text-xl font-semibold text-text-primary mb-6">Profile Information</h2>
 
-								<form on:submit|preventDefault={saveProfile} class="space-y-6">
+								<form on:submit={saveProfile} class="space-y-6">
 									<!-- Avatar Section -->
 									<div>
 										<label class="block text-sm font-medium text-text-primary mb-3">
@@ -360,7 +366,7 @@
 													/>
 													<button
 														type="button"
-														on:click={removeAvatarPreview}
+														onclick={removeAvatarPreview}
 														class="absolute -top-2 -right-2 bg-red-600 text-white rounded-full p-1 hover:bg-red-700 transition-colors"
 													>
 														<X class="w-4 h-4" />
@@ -388,7 +394,7 @@
 													<input
 														type="file"
 														accept="image/*"
-														on:change={handleAvatarChange}
+														onchange={handleAvatarChange}
 														class="hidden"
 													/>
 												</label>
@@ -396,7 +402,7 @@
 												{#if avatarFile}
 													<button
 														type="button"
-														on:click={uploadAvatar}
+														onclick={uploadAvatar}
 														disabled={isUploadingAvatar}
 														class="btn btn-primary btn-sm block"
 													>
@@ -427,7 +433,7 @@
 											id="display_name"
 											type="text"
 											bind:value={profileData.display_name}
-											on:input={() => validateField('display_name', profileData.display_name)}
+											oninput={() => validateField('display_name', profileData.display_name)}
 											class="input {profileErrors.display_name ? 'input-error' : ''}"
 											placeholder="How others will see you"
 											required
@@ -506,7 +512,7 @@
 							<div class="p-6">
 								<h2 class="text-xl font-semibold text-text-primary mb-6">Security Settings</h2>
 
-								<form on:submit|preventDefault={changePassword} class="space-y-6">
+								<form on:submit={changePassword} class="space-y-6">
 									<!-- Current Password -->
 									<div>
 										<label
@@ -528,7 +534,7 @@
 											<button
 												type="button"
 												class="absolute inset-y-0 right-0 pr-3 flex items-center"
-												on:click={() => togglePasswordVisibility('current')}
+												onclick={() => togglePasswordVisibility('current')}
 											>
 												{#if showCurrentPassword}
 													<EyeOff class="h-5 w-5 text-text-muted" />
@@ -556,7 +562,7 @@
 												id="new_password"
 												type={showNewPassword ? 'text' : 'password'}
 												bind:value={passwordData.new_password}
-												on:input={() => validateField('new_password', passwordData.new_password)}
+												oninput={() => validateField('new_password', passwordData.new_password)}
 												class="input pr-10 {passwordErrors.new_password ? 'input-error' : ''}"
 												placeholder="Enter a new password"
 												required
@@ -564,7 +570,7 @@
 											<button
 												type="button"
 												class="absolute inset-y-0 right-0 pr-3 flex items-center"
-												on:click={() => togglePasswordVisibility('new')}
+												onclick={() => togglePasswordVisibility('new')}
 											>
 												{#if showNewPassword}
 													<EyeOff class="h-5 w-5 text-text-muted" />
@@ -597,7 +603,7 @@
 												id="confirm_password"
 												type={showConfirmPassword ? 'text' : 'password'}
 												bind:value={passwordData.confirm_password}
-												on:input={() =>
+												oninput={() =>
 													validateField('confirm_password', passwordData.confirm_password)}
 												class="input pr-10 {passwordErrors.confirm_password ? 'input-error' : ''}"
 												placeholder="Confirm your new password"
@@ -606,7 +612,7 @@
 											<button
 												type="button"
 												class="absolute inset-y-0 right-0 pr-3 flex items-center"
-												on:click={() => togglePasswordVisibility('confirm')}
+												onclick={() => togglePasswordVisibility('confirm')}
 											>
 												{#if showConfirmPassword}
 													<EyeOff class="h-5 w-5 text-text-muted" />
@@ -662,7 +668,7 @@
 									Notification Preferences
 								</h2>
 
-								<form on:submit|preventDefault={saveProfile} class="space-y-6">
+								<form on:submit={saveProfile} class="space-y-6">
 									<div class="space-y-4">
 										<!-- Email Notifications -->
 										<div class="flex items-start">

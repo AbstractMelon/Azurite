@@ -209,7 +209,10 @@
 	}
 
 	// Submit form
-	async function handleSubmit() {
+	async function handleSubmit(event: Event) {
+		// Prevent default form submission
+		event.preventDefault();
+
 		if (!validateStep(3)) {
 			toast.error('Validation Error', 'Please fix the errors below');
 			return;
@@ -285,7 +288,7 @@
 			<!-- Header -->
 			<div class="mb-8">
 				<button
-					on:click={() => goto('/dashboard')}
+					onclick={() => goto('/dashboard')}
 					class="flex items-center text-text-muted hover:text-text-secondary mb-6"
 				>
 					<ArrowLeft class="w-4 h-4 mr-2" />
@@ -339,7 +342,7 @@
 			<!-- Form -->
 			<div class="card">
 				<div class="p-8">
-					<form on:submit|preventDefault={handleSubmit}>
+					<form onsubmit={handleSubmit}>
 						<!-- Step 1: Basic Information -->
 						{#if currentStep === 1}
 							<div class="space-y-6">
@@ -399,7 +402,7 @@
 									<select
 										id="game_id"
 										bind:value={formData.game_id}
-										on:change={onGameChange}
+										onchange={onGameChange}
 										class="select w-full {errors.game_id ? 'border-red-500' : ''}"
 										required
 									>
@@ -496,7 +499,7 @@
 												{#each selectedGameTags as tag (tag.id)}
 													<button
 														type="button"
-														on:click={() => addPredefinedTag(tag)}
+														onclick={() => addPredefinedTag(tag)}
 														class="px-3 py-1 bg-slate-700 hover:bg-slate-600 text-text-secondary text-sm rounded-full border border-slate-600 hover:border-primary-500 transition-colors"
 														disabled={formData.tags.includes(tag.slug)}
 													>
@@ -514,11 +517,11 @@
 											bind:value={tagInput}
 											placeholder="Add a custom tag..."
 											class="input flex-1"
-											on:keypress={(e) => e.key === 'Enter' && (e.preventDefault(), addTag())}
+											onkeypress={(e) => e.key === 'Enter' && (e.preventDefault(), addTag())}
 										/>
 										<button
 											type="button"
-											on:click={addTag}
+											onclick={addTag}
 											class="btn btn-outline px-4"
 											disabled={!tagInput.trim()}
 										>
@@ -536,7 +539,7 @@
 													{tag}
 													<button
 														type="button"
-														on:click={() => removeTag(tag)}
+														onclick={() => removeTag(tag)}
 														class="ml-2 hover:text-primary-200"
 													>
 														×
@@ -606,7 +609,7 @@
 										<input
 											type="file"
 											bind:this={fileInput}
-											on:change={handleFileSelect}
+											onchange={handleFileSelect}
 											accept=".jar,.zip,.rar,.7z,.tar.gz"
 											class="hidden"
 										/>
@@ -620,7 +623,7 @@
 												</p>
 												<button
 													type="button"
-													on:click={() => fileInput.click()}
+													onclick={() => fileInput.click()}
 													class="btn btn-outline btn-sm"
 												>
 													Choose Different File
@@ -635,7 +638,7 @@
 												</p>
 												<button
 													type="button"
-													on:click={() => fileInput.click()}
+													onclick={() => fileInput.click()}
 													class="btn btn-primary"
 												>
 													Choose File
@@ -671,7 +674,7 @@
 						<div class="flex justify-between mt-8 pt-6 border-t border-slate-700">
 							<div>
 								{#if currentStep > 1}
-									<button type="button" on:click={prevStep} class="btn btn-outline">
+									<button type="button" onclick={prevStep} class="btn btn-outline">
 										<ArrowLeft class="w-4 h-4 mr-2" />
 										Previous
 									</button>
@@ -680,7 +683,7 @@
 
 							<div>
 								{#if currentStep < totalSteps}
-									<button type="button" on:click={nextStep} class="btn btn-primary">
+									<button type="button" onclick={nextStep} class="btn btn-primary">
 										Next
 										<ArrowLeft class="w-4 h-4 ml-2 rotate-180" />
 									</button>

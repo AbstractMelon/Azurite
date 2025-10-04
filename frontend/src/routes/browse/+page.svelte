@@ -248,7 +248,10 @@
 	}
 
 	// Handle search
-	function handleSearch() {
+	function handleSearch(event: Event) {
+		// Prevent default form submission
+		event.preventDefault();
+
 		currentPage = 1;
 		updateURL();
 		loadMods();
@@ -336,7 +339,7 @@
 
 				<!-- Main Search -->
 				<div class="max-w-2xl mx-auto">
-					<form on:submit|preventDefault={handleSearch}>
+					<form onsubmit={handleSearch}>
 						<div class="relative">
 							<Search
 								class="absolute left-4 top-1/2 transform -translate-y-1/2 text-text-muted w-6 h-6"
@@ -363,7 +366,7 @@
 					<!-- Game Filter -->
 					<select
 						bind:value={selectedGame}
-						on:change={handleFilterChange}
+						onchange={handleFilterChange}
 						class="select min-w-[150px]"
 					>
 						<option value="">All Games</option>
@@ -380,7 +383,7 @@
 					</select>
 
 					<!-- Filter Toggle -->
-					<button on:click={() => (showFilters = !showFilters)} class="btn btn-outline">
+					<button onclick={() => (showFilters = !showFilters)} class="btn btn-outline">
 						<Filter class="w-4 h-4 mr-2" />
 						Filters
 						{#if selectedTags.length > 0}
@@ -392,7 +395,7 @@
 
 					{#if searchQuery || selectedGame || selectedTags.length > 0}
 						<button
-							on:click={clearFilters}
+							onclick={clearFilters}
 							class="btn btn-outline text-red-400 hover:text-red-300 hover:border-red-500"
 						>
 							<X class="w-4 h-4 mr-2" />
@@ -412,7 +415,7 @@
 				<!-- View Mode Toggle -->
 				<div class="flex border border-slate-600 rounded-lg p-1">
 					<button
-						on:click={() => (viewMode = 'grid')}
+						onclick={() => (viewMode = 'grid')}
 						class="p-2 rounded {viewMode === 'grid'
 							? 'bg-primary-600 text-white'
 							: 'text-text-muted hover:text-text-primary'} transition-colors"
@@ -421,7 +424,7 @@
 						<Grid class="w-4 h-4" />
 					</button>
 					<button
-						on:click={() => (viewMode = 'list')}
+						onclick={() => (viewMode = 'list')}
 						class="p-2 rounded {viewMode === 'list'
 							? 'bg-primary-600 text-white'
 							: 'text-text-muted hover:text-text-primary'} transition-colors"
@@ -439,7 +442,7 @@
 				<div class="flex items-center justify-between mb-4">
 					<h3 class="text-lg font-semibold text-text-primary">Advanced Filters</h3>
 					<button
-						on:click={() => (showFilters = false)}
+						onclick={() => (showFilters = false)}
 						class="text-text-muted hover:text-text-primary"
 					>
 						<X class="w-5 h-5" />
@@ -452,7 +455,7 @@
 					<div class="flex flex-wrap gap-2">
 						{#each availableTags as tag (tag)}
 							<button
-								on:click={() => (selectedTags.includes(tag) ? removeTag(tag) : addTag(tag))}
+								onclick={() => (selectedTags.includes(tag) ? removeTag(tag) : addTag(tag))}
 								class="px-3 py-1 text-sm rounded-full border transition-colors {selectedTags.includes(
 									tag
 								)
@@ -473,7 +476,7 @@
 							<span class="badge badge-secondary">
 								{tag}
 								<button
-									on:click={() => removeTag(tag)}
+									onclick={() => removeTag(tag)}
 									class="ml-1 text-text-muted hover:text-text-primary"
 								>
 									×
@@ -501,7 +504,7 @@
 						: 'Be the first to upload a mod to get the community started!'}
 				</p>
 				{#if searchQuery || selectedGame || selectedTags.length > 0}
-					<button on:click={clearFilters} class="btn btn-outline"> Clear All Filters </button>
+					<button onclick={clearFilters} class="btn btn-outline"> Clear All Filters </button>
 				{:else}
 					<a href="/dashboard" class="btn btn-primary">
 						<Package class="w-4 h-4 mr-2" />
@@ -529,7 +532,7 @@
 		{#if totalPages > 1}
 			<div class="flex justify-center items-center space-x-2 mb-8">
 				<button
-					on:click={() => changePage(currentPage - 1)}
+					onclick={() => changePage(currentPage - 1)}
 					disabled={currentPage <= 1}
 					class="btn btn-outline btn-sm disabled:opacity-50 disabled:cursor-not-allowed"
 				>
@@ -543,7 +546,7 @@
 					return start + i <= end ? start + i : null;
 				}).filter(Boolean) as pageNum (pageNum)}
 					<button
-						on:click={() => changePage(pageNum)}
+						onclick={() => changePage(pageNum)}
 						class="btn btn-sm {currentPage === pageNum ? 'btn-primary' : 'btn-outline'}"
 					>
 						{pageNum}
@@ -551,7 +554,7 @@
 				{/each}
 
 				<button
-					on:click={() => changePage(currentPage + 1)}
+					onclick={() => changePage(currentPage + 1)}
 					disabled={currentPage >= totalPages}
 					class="btn btn-outline btn-sm disabled:opacity-50 disabled:cursor-not-allowed"
 				>

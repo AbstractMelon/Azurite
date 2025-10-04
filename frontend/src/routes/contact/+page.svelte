@@ -135,7 +135,7 @@
 							</ul>
 						</div>
 						<div class="flex gap-4 justify-center">
-							<button on:click={resetForm} class="btn btn-outline">
+							<button onclick={resetForm} class="btn btn-outline">
 								Send Another Message
 							</button>
 							<a href="/" class="btn btn-primary">
@@ -258,7 +258,7 @@
 								</div>
 							</div>
 
-							<form on:submit={handleSubmit} class="space-y-6">
+							<form onsubmit={handleSubmit} class="space-y-6">
 								<!-- Name and Email -->
 								<div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
 									<div>

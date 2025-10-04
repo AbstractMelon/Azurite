@@ -176,14 +176,14 @@
 										</div>
 										<div class="flex space-x-1">
 											<button
-												on:click={() => onApproveMod(mod.id, mod.name)}
+												onclick={() => onApproveMod(mod.id, mod.name)}
 												class="btn btn-sm bg-green-600 text-white hover:bg-green-700"
 												title="Approve"
 											>
 												<CheckCircle class="w-4 h-4" />
 											</button>
 											<button
-												on:click={() => onRejectMod(mod.id, mod.name)}
+												onclick={() => onRejectMod(mod.id, mod.name)}
 												class="btn btn-sm bg-red-600 text-white hover:bg-red-700"
 												title="Reject"
 											>
@@ -212,14 +212,14 @@
 										</div>
 										<div class="flex space-x-1">
 											<button
-												on:click={() => onApproveGameRequest(request.id, request.name)}
+												onclick={() => onApproveGameRequest(request.id, request.name)}
 												class="btn btn-sm bg-green-600 text-white hover:bg-green-700"
 												title="Approve"
 											>
 												<CheckCircle class="w-4 h-4" />
 											</button>
 											<button
-												on:click={() => onRejectGameRequest(request.id, request.name)}
+												onclick={() => onRejectGameRequest(request.id, request.name)}
 												class="btn btn-sm bg-red-600 text-white hover:bg-red-700"
 												title="Reject"
 											>

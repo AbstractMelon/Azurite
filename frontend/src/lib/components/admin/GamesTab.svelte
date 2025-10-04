@@ -83,7 +83,7 @@
 					<Gamepad2 class="w-5 h-5 mr-2" />
 					Games ({allGames.length})
 				</h2>
-				<button class="btn btn-primary" on:click={() => goto('/admin/games/new')}>
+				<button class="btn btn-primary" onclick={() => goto('/admin/games/new')}>
 					<Plus class="w-4 h-4 mr-2" />
 					Add Game
 				</button>
@@ -151,28 +151,28 @@
 									<td class="py-3 px-4">
 										<div class="flex items-center justify-end space-x-2">
 											<button
-												on:click={() => goto(`/games/${game.slug}`)}
+												onclick={() => goto(`/games/${game.slug}`)}
 												class="btn btn-sm btn-outline"
 												title="View"
 											>
 												<Eye class="w-4 h-4" />
 											</button>
 											<button
-												on:click={() => goto(`/admin/games/${game.id}/edit`)}
+												onclick={() => goto(`/admin/games/${game.id}/edit`)}
 												class="btn btn-sm btn-outline"
 												title="Edit"
 											>
 												<Edit class="w-4 h-4" />
 											</button>
 											<button
-												on:click={() => goto(`/admin/games/${game.slug}/moderators`)}
+												onclick={() => goto(`/admin/games/${game.slug}/moderators`)}
 												class="btn btn-sm btn-outline"
 												title="Manage Moderators"
 											>
 												<UserCog class="w-4 h-4" />
 											</button>
 											<button
-												on:click={() => deleteGame(game.id, game.name)}
+												onclick={() => deleteGame(game.id, game.name)}
 												class="btn btn-sm btn-outline text-red-400 hover:text-red-300"
 												title="Delete"
 											>
@@ -280,14 +280,14 @@
 							<div class="flex items-center space-x-2">
 								{#if request.status === 'pending'}
 									<button
-										on:click={() => approveGameRequest(request.id, request.name)}
+										onclick={() => approveGameRequest(request.id, request.name)}
 										class="btn btn-sm bg-green-600 text-white hover:bg-green-700"
 										title="Approve"
 									>
 										<CheckCircle class="w-4 h-4" />
 									</button>
 									<button
-										on:click={() => rejectGameRequest(request.id, request.name)}
+										onclick={() => rejectGameRequest(request.id, request.name)}
 										class="btn btn-sm bg-red-600 text-white hover:bg-red-700"
 										title="Reject"
 									>

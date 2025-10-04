@@ -19,7 +19,7 @@
 		</p>
 		<div class="flex gap-4 justify-center">
 			<a href="/" class="btn btn-primary">Go Home</a>
-			<button class="btn btn-secondary" on:click={() => location.reload()}> Retry </button>
+			<button class="btn btn-secondary" onclick={() => location.reload()}> Retry </button>
 		</div>
 	</div>
 </div>

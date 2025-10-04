@@ -62,7 +62,10 @@
 		return Object.keys(errors).length === 0;
 	}
 
-	async function handleSubmit() {
+	async function handleSubmit(event: Event) {
+		// Prevent default form submission
+		event.preventDefault();
+
 		if (!validateForm()) {
 			toast.error('Validation Error', 'Please fix the errors below');
 			return;
@@ -110,7 +113,7 @@
 			<!-- Header -->
 			<div class="mb-8">
 				<button
-					on:click={() => goto('/admin?tab=games')}
+					onclick={() => goto('/admin?tab=games')}
 					class="flex items-center text-text-muted hover:text-text-secondary mb-6"
 				>
 					<ArrowLeft class="w-4 h-4 mr-2" />
@@ -131,7 +134,7 @@
 			<!-- Form -->
 			<div class="card">
 				<div class="p-8">
-					<form on:submit|preventDefault={handleSubmit} class="space-y-6">
+					<form onsubmit={handleSubmit} class="space-y-6">
 						<!-- Game Name -->
 						<div>
 							<label for="name" class="block text-sm font-medium text-text-primary mb-2">
@@ -186,7 +189,7 @@
 						<div class="flex justify-end space-x-3">
 							<button
 								type="button"
-								on:click={() => goto('/admin?tab=games')}
+								onclick={() => goto('/admin?tab=games')}
 								class="btn btn-outline"
 							>
 								Cancel

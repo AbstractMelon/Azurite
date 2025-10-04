@@ -252,7 +252,7 @@
 								autocomplete="username"
 								required
 								bind:value={formData.username}
-								on:input={() => {
+								oninput={() => {
 									validateField('username');
 									generateDisplayName();
 								}}
@@ -282,7 +282,7 @@
 							type="text"
 							required
 							bind:value={formData.display_name}
-							on:input={() => validateField('display_name')}
+							oninput={() => validateField('display_name')}
 							class="input {errors.display_name ? 'input-error' : ''}"
 							placeholder="How others will see you"
 							disabled={isLoading}
@@ -313,7 +313,7 @@
 								autocomplete="email"
 								required
 								bind:value={formData.email}
-								on:input={() => validateField('email')}
+								oninput={() => validateField('email')}
 								class="input pl-10 {errors.email ? 'input-error' : ''}"
 								placeholder="Enter your email"
 								disabled={isLoading}
@@ -345,7 +345,7 @@
 								autocomplete="new-password"
 								required
 								bind:value={formData.password}
-								on:input={() => validateField('password')}
+								oninput={() => validateField('password')}
 								class="input pl-10 pr-10 {errors.password ? 'input-error' : ''}"
 								placeholder="Create a strong password"
 								disabled={isLoading}
@@ -354,7 +354,7 @@
 								<button
 									type="button"
 									class="text-text-muted hover:text-text-primary transition-colors"
-									on:click={togglePasswordVisibility}
+									onclick={togglePasswordVisibility}
 									disabled={isLoading}
 								>
 									{#if showPassword}
@@ -391,7 +391,7 @@
 								autocomplete="new-password"
 								required
 								bind:value={formData.confirmPassword}
-								on:input={() => validateField('confirmPassword')}
+								oninput={() => validateField('confirmPassword')}
 								class="input pl-10 pr-10 {errors.confirmPassword ? 'input-error' : ''}"
 								placeholder="Confirm your password"
 								disabled={isLoading}
@@ -400,7 +400,7 @@
 								<button
 									type="button"
 									class="text-text-muted hover:text-text-primary transition-colors"
-									on:click={toggleConfirmPasswordVisibility}
+									onclick={toggleConfirmPasswordVisibility}
 									disabled={isLoading}
 								>
 									{#if showConfirmPassword}
@@ -484,7 +484,7 @@
 					<!-- GitHub -->
 					<button
 						type="button"
-						on:click={() => handleOAuthRegister('github')}
+						onclick={() => handleOAuthRegister('github')}
 						disabled={isLoading}
 						class="btn btn-outline w-full flex items-center justify-center"
 					>
@@ -495,7 +495,7 @@
 					<!-- Google -->
 					<button
 						type="button"
-						on:click={() => handleOAuthRegister('google')}
+						onclick={() => handleOAuthRegister('google')}
 						disabled={isLoading}
 						class="btn btn-outline w-full flex items-center justify-center"
 					>
@@ -506,7 +506,7 @@
 					<!-- Discord -->
 					<button
 						type="button"
-						on:click={() => handleOAuthRegister('discord')}
+						onclick={() => handleOAuthRegister('discord')}
 						disabled={isLoading}
 						class="btn btn-outline w-full flex items-center justify-center"
 					>

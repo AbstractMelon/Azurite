@@ -145,12 +145,12 @@
 	>
 		<div
 			class="bg-slate-900 rounded-lg max-w-md w-full p-6"
-			on:click|stopPropagation
+			onclick|stopPropagation
 		>
 			<div class="flex items-center justify-between mb-6">
 				<h2 class="text-2xl font-bold text-text-primary">Create Ban</h2>
 				<button
-					on:click={() => (showCreateModal = false)}
+					onclick={() => (showCreateModal = false)}
 					class="text-text-muted hover:text-text-primary"
 				>
 					<X class="w-6 h-6" />
@@ -201,10 +201,10 @@
 			</div>
 
 			<div class="flex items-center justify-end space-x-3 mt-6">
-				<button on:click={() => (showCreateModal = false)} class="btn btn-outline">
+				<button onclick={() => (showCreateModal = false)} class="btn btn-outline">
 					Cancel
 				</button>
-				<button on:click={createBan} class="btn btn-primary">
+				<button onclick={createBan} class="btn btn-primary">
 					Create Ban
 				</button>
 			</div>

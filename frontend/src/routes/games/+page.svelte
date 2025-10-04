@@ -65,7 +65,10 @@
 	}
 
 	// Handle search
-	function handleSearch() {
+	function handleSearch(event: Event) {
+		// Prevent default form submission
+		event.preventDefault();
+
 		currentPage = 1;
 		loadGames();
 	}
@@ -117,7 +120,7 @@
 
 				<!-- Search Bar -->
 				<div class="max-w-md mx-auto">
-					<form on:submit|preventDefault={handleSearch}>
+					<form onsubmit={handleSearch}>
 						<div class="relative">
 							<Search
 								class="absolute left-3 top-1/2 transform -translate-y-1/2 text-text-muted w-5 h-5"
@@ -126,7 +129,7 @@
 								type="search"
 								placeholder="Search games..."
 								bind:value={searchQuery}
-								on:input={filterGames}
+								oninput={filterGames}
 								class="input pl-10 pr-4 py-3 w-full text-center"
 							/>
 						</div>
@@ -147,7 +150,7 @@
 				{/if}
 			</div>
 
-			<button on:click={handleGameRequest} class="btn btn-primary">
+			<button onclick={handleGameRequest} class="btn btn-primary">
 				<Plus class="w-4 h-4 mr-2" />
 				Request Game
 			</button>
@@ -171,7 +174,7 @@
 				</p>
 				{#if searchQuery}
 					<button
-						on:click={() => {
+						onclick={() => {
 							searchQuery = '';
 							filterGames();
 						}}
@@ -180,7 +183,7 @@
 						Clear Search
 					</button>
 				{:else}
-					<button on:click={handleGameRequest} class="btn btn-primary">
+					<button onclick={handleGameRequest} class="btn btn-primary">
 						<Plus class="w-4 h-4 mr-2" />
 						Request Game
 					</button>
@@ -198,7 +201,7 @@
 			{#if !searchQuery && totalPages > 1}
 				<div class="flex justify-center items-center space-x-2 mt-12">
 					<button
-						on:click={() => changePage(currentPage - 1)}
+						onclick={() => changePage(currentPage - 1)}
 						disabled={currentPage <= 1}
 						class="btn btn-outline btn-sm disabled:opacity-50 disabled:cursor-not-allowed"
 					>
@@ -212,7 +215,7 @@
 						return start + i <= end ? start + i : null;
 					}).filter(Boolean) as pageNum (pageNum)}
 						<button
-							on:click={() => changePage(pageNum)}
+							onclick={() => changePage(pageNum)}
 							class="btn btn-sm {currentPage === pageNum ? 'btn-primary' : 'btn-outline'}"
 						>
 							{pageNum}
@@ -220,7 +223,7 @@
 					{/each}
 
 					<button
-						on:click={() => changePage(currentPage + 1)}
+						onclick={() => changePage(currentPage + 1)}
 						disabled={currentPage >= totalPages}
 						class="btn btn-outline btn-sm disabled:opacity-50 disabled:cursor-not-allowed"
 					>
@@ -237,7 +240,7 @@
 				<p class="text-text-secondary mb-4">
 					Request support for your favorite game and help grow the community.
 				</p>
-				<button on:click={handleGameRequest} class="btn btn-primary m-auto">
+				<button onclick={handleGameRequest} class="btn btn-primary m-auto">
 					<Plus class="w-4 h-4 mr-2" />
 					Request Game Support
 				</button>

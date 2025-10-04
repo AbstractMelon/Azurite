@@ -374,7 +374,7 @@
 					<!-- Actions -->
 					<div class="flex flex-col sm:flex-row gap-3 w-full lg:w-auto">
 						<button
-							on:click={handleDownload}
+							onclick={handleDownload}
 							disabled={!mod.files || mod.files.length === 0}
 							class="btn btn-primary btn-lg flex-1 sm:flex-initial"
 						>
@@ -384,7 +384,7 @@
 
 						<div class="flex gap-2">
 							<button
-								on:click={toggleLike}
+								onclick={toggleLike}
 								disabled={isLiking}
 								class="btn {isLiked ? 'btn-primary' : 'btn-outline'} flex items-center"
 								title={isLiked ? 'Unlike' : 'Like'}
@@ -392,7 +392,7 @@
 								<Heart class="w-5 h-5 {isLiked ? 'fill-current' : ''}" />
 							</button>
 
-							<button on:click={shareMod} class="btn btn-outline" title="Share">
+							<button onclick={shareMod} class="btn btn-outline" title="Share">
 								<Share2 class="w-5 h-5" />
 							</button>
 						</div>
@@ -457,7 +457,7 @@
 											></textarea>
 											<div class="flex justify-end">
 												<button
-													on:click={() => postComment()}
+													onclick={() => postComment()}
 													disabled={!newComment.trim() || isPostingComment}
 													class="btn btn-primary btn-sm"
 												>
@@ -534,12 +534,12 @@
 															></textarea>
 															<div class="flex space-x-2">
 																<button
-																	on:click={() => updateComment(comment.id)}
+																	onclick={() => updateComment(comment.id)}
 																	class="btn btn-primary btn-sm"
 																>
 																	Save
 																</button>
-																<button on:click={cancelEditing} class="btn btn-outline btn-sm">
+																<button onclick={cancelEditing} class="btn btn-outline btn-sm">
 																	Cancel
 																</button>
 															</div>
@@ -555,7 +555,7 @@
 														<div class="flex items-center space-x-4 text-sm">
 															{#if $isAuthenticated}
 																<button
-																	on:click={() => startReplying(comment.id)}
+																	onclick={() => startReplying(comment.id)}
 																	class="text-text-muted hover:text-primary-400 transition-colors flex items-center"
 																>
 																	<Reply class="w-4 h-4 mr-1" />
@@ -565,14 +565,14 @@
 
 															{#if canEditComment(comment)}
 																<button
-																	on:click={() => startEditing(comment)}
+																	onclick={() => startEditing(comment)}
 																	class="text-text-muted hover:text-primary-400 transition-colors flex items-center"
 																>
 																	<Edit class="w-4 h-4 mr-1" />
 																	Edit
 																</button>
 																<button
-																	on:click={() => deleteComment(comment.id)}
+																	onclick={() => deleteComment(comment.id)}
 																	class="text-text-muted hover:text-red-400 transition-colors flex items-center"
 																>
 																	<Trash2 class="w-4 h-4 mr-1" />
@@ -593,7 +593,7 @@
 															></textarea>
 															<div class="flex space-x-2">
 																<button
-																	on:click={() => postComment(comment.id)}
+																	onclick={() => postComment(comment.id)}
 																	disabled={!newComment.trim() || isPostingComment}
 																	class="btn btn-primary btn-sm"
 																>
@@ -604,7 +604,7 @@
 																	{/if}
 																</button>
 																<button
-																	on:click={() => (replyingTo = null)}
+																	onclick={() => (replyingTo = null)}
 																	class="btn btn-outline btn-sm"
 																>
 																	Cancel
@@ -652,7 +652,7 @@
 
 									{#if mod.files.length > 3}
 										<button
-											on:click={() => (showAllFiles = !showAllFiles)}
+											onclick={() => (showAllFiles = !showAllFiles)}
 											class="text-primary-400 hover:text-primary-300 text-sm font-medium transition-colors"
 										>
 											{showAllFiles ? 'Show Less' : `Show ${mod.files.length - 3} More`}
@@ -660,7 +660,7 @@
 									{/if}
 								</div>
 
-								<button on:click={handleDownload} class="btn btn-primary w-full mt-4">
+								<button onclick={handleDownload} class="btn btn-primary w-full mt-4">
 									<Download class="w-4 h-4 mr-2" />
 									Download Now
 								</button>
@@ -781,7 +781,7 @@
 									</a>
 								{/if}
 								<button
-									on:click={shareMod}
+									onclick={shareMod}
 									class="flex items-center text-primary-400 hover:text-primary-300 transition-colors text-sm w-full text-left"
 								>
 									<Share2 class="w-4 h-4 mr-2" />
