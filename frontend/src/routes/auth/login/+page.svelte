@@ -5,6 +5,7 @@
 	import { auth, isAuthenticated } from '$lib/stores/auth';
 	import { toast } from '$lib/stores/notifications';
 	import { authApi } from '$lib/api/client';
+	import type { AuthResponse } from '$lib/types';
 	import Loading from '$lib/components/Loading.svelte';
 	import { Eye, EyeOff, Mail, Lock, Github, Chrome } from 'lucide-svelte';
 
@@ -53,7 +54,8 @@
 			const response = await authApi.login({ email: email.trim(), password });
 
 			if (response.success && response.data) {
-				auth.login(response.data.user, response.data.token);
+				const authData = response.data as AuthResponse;
+				auth.login(authData.user, authData.token);
 				toast.success('Welcome back!', 'You have been successfully logged in.');
 
 				// Redirect to the intended page or homepage
@@ -78,8 +80,20 @@
 	}
 
 	// Handle OAuth login
-	function handleOAuthLogin(provider: string) {
-		window.location.href = `/api/auth/${provider}`;
+	async function handleOAuthLogin(provider: string) {
+		try {
+			const response = await authApi.getOAuthURL(provider);
+
+			if (response.success && response.data && (response.data as any).url) {
+				// Redirect to the OAuth provider's authorization page
+				window.location.href = (response.data as any).url;
+			} else {
+				toast.error('OAuth Error', response.error || `${provider} OAuth is not configured`);
+			}
+		} catch (error) {
+			console.error(`${provider} OAuth error:`, error);
+			toast.error('OAuth Error', 'Failed to initiate OAuth flow. Please try again.');
+		}
 	}
 
 	// Toggle password visibility

@@ -15,6 +15,7 @@
 		Grid,
 		List
 	} from 'lucide-svelte';
+	import { gamesApi } from '$lib/api/client';
 	import Loading from '$lib/components/Loading.svelte';
 
 	interface Mod {
@@ -83,11 +84,10 @@
 
 	async function loadGames() {
 		try {
-			const response = await fetch('/api/games');
-			const data = await response.json();
+			const response = await gamesApi.getGames();
 
-			if (data.success) {
-				games = data.data;
+			if (response.success && response.data) {
+				games = (response.data as any).data || response.data;
 			}
 		} catch (error) {
 			console.error('Failed to load games:', error);
@@ -562,7 +562,7 @@
 							const start = Math.max(1, currentPage - 3);
 							const end = Math.min(totalPages, start + 6);
 							return start + i <= end ? start + i : null;
-						}).filter(Boolean) as pageNum (pageNum)}
+						}).filter((n): n is number => n !== null) as pageNum (pageNum)}
 							<button
 								on:click={() => handlePageChange(pageNum)}
 								disabled={loading}
@@ -692,6 +692,7 @@
 	.line-clamp-2 {
 		display: -webkit-box;
 		-webkit-line-clamp: 2;
+		line-clamp: 2;
 		-webkit-box-orient: vertical;
 		overflow: hidden;
 	}
@@ -699,6 +700,7 @@
 	.line-clamp-3 {
 		display: -webkit-box;
 		-webkit-line-clamp: 3;
+		line-clamp: 3;
 		-webkit-box-orient: vertical;
 		overflow: hidden;
 	}

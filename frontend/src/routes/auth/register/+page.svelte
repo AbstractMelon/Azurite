@@ -5,6 +5,7 @@
 	import { auth, isAuthenticated } from '$lib/stores/auth';
 	import { toast } from '$lib/stores/notifications';
 	import { authApi } from '$lib/api/client';
+	import type { AuthResponse } from '$lib/types';
 	import Loading from '$lib/components/Loading.svelte';
 	import { Eye, EyeOff, Mail, Lock, User, Github, Chrome } from 'lucide-svelte';
 
@@ -92,7 +93,8 @@
 			});
 
 			if (response.success && response.data) {
-				auth.login(response.data.user, response.data.token);
+				const authData = response.data as AuthResponse;
+				auth.login(authData.user, authData.token);
 				toast.success('Welcome to Azurite!', 'Your account has been created successfully.');
 
 				// Redirect to the intended page or homepage
@@ -126,8 +128,20 @@
 	}
 
 	// Handle OAuth registration
-	function handleOAuthRegister(provider: string) {
-		window.location.href = `/api/auth/${provider}`;
+	async function handleOAuthRegister(provider: string) {
+		try {
+			const response = await authApi.getOAuthURL(provider);
+
+			if (response.success && response.data && (response.data as any).url) {
+				// Redirect to the OAuth provider's authorization page
+				window.location.href = (response.data as any).url;
+			} else {
+				toast.error('OAuth Error', response.error || `${provider} OAuth is not configured`);
+			}
+		} catch (error) {
+			console.error(`${provider} OAuth error:`, error);
+			toast.error('OAuth Error', 'Failed to initiate OAuth flow. Please try again.');
+		}
 	}
 
 	// Toggle password visibility
@@ -454,7 +468,7 @@
 				<div class="mt-6">
 					<div class="relative">
 						<div class="absolute inset-0 flex items-center">
-							<div class="w-full border-t border-slate-600" />
+							<div class="w-full border-t border-slate-600"></div>
 						</div>
 						<div class="relative flex justify-center text-sm">
 							<span class="px-2 bg-background-secondary text-text-muted">Or sign up with</span>

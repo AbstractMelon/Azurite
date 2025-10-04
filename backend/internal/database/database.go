@@ -3,8 +3,9 @@ package database
 import (
 	"database/sql"
 	"fmt"
-	"io/ioutil"
+	"os"
 	"path/filepath"
+	"sort"
 
 	_ "github.com/mattn/go-sqlite3"
 )
@@ -27,19 +28,65 @@ func New(dbPath string) (*DB, error) {
 }
 
 func (db *DB) Migrate() error {
-	migrationFiles := []string{
-		"001_initial_schema.sql",
+	migrationsDir := "migrations"
+
+	// Ensure schema_migrations table exists
+	_, err := db.Exec(`
+		CREATE TABLE IF NOT EXISTS schema_migrations (
+			filename TEXT PRIMARY KEY,
+			applied_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+		)
+	`)
+	if err != nil {
+		return fmt.Errorf("failed to create schema_migrations table: %w", err)
 	}
 
+	entries, err := os.ReadDir(migrationsDir)
+	if err != nil {
+		return fmt.Errorf("failed to read migrations directory: %w", err)
+	}
+
+	// Collect SQL files
+	var migrationFiles []string
+	for _, entry := range entries {
+		if !entry.IsDir() && filepath.Ext(entry.Name()) == ".sql" {
+			migrationFiles = append(migrationFiles, entry.Name())
+		}
+	}
+
+	// Sort files to make sure they run in order
+	sort.Strings(migrationFiles)
+
 	for _, file := range migrationFiles {
-		path := filepath.Join("migrations", file)
-		content, err := ioutil.ReadFile(path)
+		// Check if migration already applied
+		var exists bool
+		err := db.QueryRow(
+			"SELECT EXISTS(SELECT 1 FROM schema_migrations WHERE filename = ?)", file,
+		).Scan(&exists)
+		if err != nil {
+			return fmt.Errorf("failed to check migration %s: %w", file, err)
+		}
+
+		if exists {
+			// Skip already applied migration
+			continue
+		}
+
+		// Run migration
+		path := filepath.Join(migrationsDir, file)
+		content, err := os.ReadFile(path)
 		if err != nil {
 			return fmt.Errorf("failed to read migration file %s: %w", file, err)
 		}
 
 		if _, err := db.Exec(string(content)); err != nil {
 			return fmt.Errorf("failed to execute migration %s: %w", file, err)
+		}
+
+		// Mark as applied
+		_, err = db.Exec("INSERT INTO schema_migrations (filename) VALUES (?)", file)
+		if err != nil {
+			return fmt.Errorf("failed to record migration %s: %w", file, err)
 		}
 	}
 

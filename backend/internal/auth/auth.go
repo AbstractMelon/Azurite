@@ -44,7 +44,7 @@ func NewService(cfg *config.Config) *Service {
 			ClientSecret: cfg.Auth.GitHubSecret,
 			Scopes:       []string{"user:email"},
 			Endpoint:     github.Endpoint,
-			RedirectURL:  fmt.Sprintf("http://%s:%s/api/auth/callback/github", cfg.Server.Host, cfg.Server.Port),
+			RedirectURL:  cfg.Auth.GitHubRedirect,
 		}
 	}
 
@@ -54,7 +54,7 @@ func NewService(cfg *config.Config) *Service {
 			ClientSecret: cfg.Auth.GoogleSecret,
 			Scopes:       []string{"openid", "profile", "email"},
 			Endpoint:     google.Endpoint,
-			RedirectURL:  fmt.Sprintf("http://%s:%s/api/auth/callback/google", cfg.Server.Host, cfg.Server.Port),
+			RedirectURL:  cfg.Auth.GoogleRedirect,
 		}
 	}
 
@@ -67,7 +67,7 @@ func NewService(cfg *config.Config) *Service {
 				AuthURL:  "https://discord.com/api/oauth2/authorize",
 				TokenURL: "https://discord.com/api/oauth2/token",
 			},
-			RedirectURL: fmt.Sprintf("http://%s:%s/api/auth/callback/discord", cfg.Server.Host, cfg.Server.Port),
+			RedirectURL: cfg.Auth.DiscordRedirect,
 		}
 	}
 

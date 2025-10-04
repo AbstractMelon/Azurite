@@ -84,7 +84,8 @@ class ApiClient {
 	// Generic GET request
 	async get<T = unknown>(
 		endpoint: string,
-		params?: Record<string, unknown>
+		params?: Record<string, unknown>,
+		withCredentials: boolean = false
 	): Promise<ApiResponse<T>> {
 		try {
 			const url = new URL(`${this.baseURL}${endpoint}`);
@@ -98,10 +99,16 @@ class ApiClient {
 				});
 			}
 
-			const response = await fetch(url.toString(), {
+			const fetchOptions: RequestInit = {
 				method: 'GET',
 				headers: this.getAuthHeaders()
-			});
+			};
+
+			if (withCredentials) {
+				fetchOptions.credentials = 'include';
+			}
+
+			const response = await fetch(url.toString(), fetchOptions);
 
 			return this.handleResponse<T>(response);
 		} catch (error) {
@@ -245,6 +252,14 @@ export const authApi = {
 
 	async getUserMods(params?: { page?: number; per_page?: number }) {
 		return api.get('/auth/mods', params);
+	},
+
+	async getOAuthURL(provider: string) {
+		return api.get(`/auth/${provider}`, {}, true);
+	},
+
+	async handleOAuthCallback(provider: string, code: string, state: string) {
+		return api.get(`/auth/callback/${provider}`, { code, state }, true);
 	}
 };
 

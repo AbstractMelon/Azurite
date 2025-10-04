@@ -77,6 +77,11 @@ func (s *UserService) Login(req *models.LoginRequest) (*models.AuthResponse, err
 		return nil, errors.New("invalid credentials")
 	}
 
+	// Check if user has a password (OAuth users don't have passwords)
+	if user.PasswordHash == "" {
+		return nil, errors.New("this account uses OAuth authentication. Please sign in with your OAuth provider")
+	}
+
 	if !utils.CheckPasswordHash(req.Password, user.PasswordHash) {
 		return nil, errors.New("invalid credentials")
 	}
@@ -187,6 +192,11 @@ func (s *UserService) UpdatePassword(userID int, currentPassword, newPassword st
 	user, err := s.GetByID(userID)
 	if err != nil {
 		return err
+	}
+
+	// Check if user has a password (OAuth users don't have passwords)
+	if user.PasswordHash == "" {
+		return errors.New("this account uses OAuth authentication and does not have a password")
 	}
 
 	if !utils.CheckPasswordHash(currentPassword, user.PasswordHash) {
@@ -463,10 +473,19 @@ func (s *UserService) createOAuthUser(provider, providerID, email, username, dis
 		discordID = sql.NullString{String: providerID, Valid: true}
 	}
 
+	// Set default values for OAuth users
+	if avatar == "" {
+		avatar = "/static/placeholders/avatar.jpg"
+	}
+	if bio == "" {
+		bio = "User has not provided a bio"
+	}
+
+	// Insert with NULL password_hash for OAuth users
 	result, err := s.db.Exec(`
-		INSERT INTO users (username, email, display_name, avatar, bio, role, is_active, email_verified,
+		INSERT INTO users (username, email, password_hash, display_name, avatar, bio, role, is_active, email_verified,
 		                  github_id, google_id, discord_id, last_login_at)
-		VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP)
+		VALUES (?, ?, NULL, ?, ?, ?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP)
 	`, finalUsername, email, displayName, avatar, bio, models.RoleUser, true, true,
 		githubID, googleID, discordID)
 

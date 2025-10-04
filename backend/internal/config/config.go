@@ -24,13 +24,16 @@ type DatabaseConfig struct {
 }
 
 type AuthConfig struct {
-	JWTSecret     string
-	GitHubID      string
-	GitHubSecret  string
-	DiscordID     string
-	DiscordSecret string
-	GoogleID      string
-	GoogleSecret  string
+	JWTSecret       string
+	GitHubID        string
+	GitHubSecret    string
+	GitHubRedirect  string
+	GoogleID        string
+	GoogleSecret    string
+	GoogleRedirect  string
+	DiscordID       string
+	DiscordSecret   string
+	DiscordRedirect string
 }
 
 type StorageConfig struct {
@@ -58,13 +61,16 @@ func Load() *Config {
 			Path: getEnv("DB_PATH", "./azurite.db"),
 		},
 		Auth: AuthConfig{
-			JWTSecret:     getEnv("JWT_SECRET", "your-secret-key-change-in-production"),
-			GitHubID:      getEnv("GITHUB_CLIENT_ID", ""),
-			GitHubSecret:  getEnv("GITHUB_CLIENT_SECRET", ""),
-			DiscordID:     getEnv("DISCORD_CLIENT_ID", ""),
-			DiscordSecret: getEnv("DISCORD_CLIENT_SECRET", ""),
-			GoogleID:      getEnv("GOOGLE_CLIENT_ID", ""),
-			GoogleSecret:  getEnv("GOOGLE_CLIENT_SECRET", ""),
+			JWTSecret:       getEnv("JWT_SECRET", "your-secret-key-change-in-production"),
+			GitHubID:        getEnv("GITHUB_CLIENT_ID", ""),
+			GitHubSecret:    getEnv("GITHUB_CLIENT_SECRET", ""),
+			GitHubRedirect:  getEnv("GITHUB_REDIRECT_URL", ""),
+			DiscordID:       getEnv("DISCORD_CLIENT_ID", ""),
+			DiscordSecret:   getEnv("DISCORD_CLIENT_SECRET", ""),
+			DiscordRedirect: getEnv("DISCORD_REDIRECT_URL", ""),
+			GoogleID:        getEnv("GOOGLE_CLIENT_ID", ""),
+			GoogleSecret:    getEnv("GOOGLE_CLIENT_SECRET", ""),
+			GoogleRedirect:  getEnv("GOOGLE_REDIRECT_URL", ""),
 		},
 		Storage: StorageConfig{
 			ModsPath:    getEnv("MODS_PATH", "./storage/mods"),
