@@ -315,11 +315,28 @@ export const gamesApi = {
 		contact?: string;
 	}) {
 		return api.post('/games/requests', data);
+	},
+
+	async uploadGameIcon(gameId: number, file: File) {
+		const formData = new FormData();
+		formData.append('icon', file);
+		return api.uploadFile(`/games/manage/${gameId}/icon`, formData);
 	}
 };
 
 // Mods API
 export const modsApi = {
+	async searchMods(params?: {
+		q?: string;
+		game_id?: number;
+		tags?: string;
+		sort?: string;
+		page?: number;
+		per_page?: number;
+	}) {
+		return api.get('/search/mods', params);
+	},
+
 	async getMod(gameSlug: string, modSlug: string) {
 		return api.get(`/mods/${gameSlug}/${modSlug}`);
 	},
@@ -341,6 +358,12 @@ export const modsApi = {
 		dependencies?: number[];
 	}) {
 		return api.post('/mods', data);
+	},
+
+	async uploadModIcon(modId: number, file: File) {
+		const formData = new FormData();
+		formData.append('icon', file);
+		return api.uploadFile(`/mods/${modId}/icon`, formData);
 	},
 
 	getDownloadUrl(gameSlug: string, modSlug: string): string {
@@ -545,6 +568,13 @@ export const adminApi = {
 
 	async rejectMod(modId: number, reason: string) {
 		return api.post(`/mods/${modId}/reject`, { reason });
+	}
+};
+
+// Public API
+export const publicApi = {
+	async getStats() {
+		return api.get('/stats');
 	}
 };
 

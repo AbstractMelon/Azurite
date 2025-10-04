@@ -385,6 +385,41 @@ func (s *AdminService) GetSystemStats() (map[string]interface{}, error) {
 	return stats, nil
 }
 
+// GetStats returns public statistics for the platform
+func (s *AdminService) GetStats() (map[string]interface{}, error) {
+	stats := make(map[string]interface{})
+
+	var totalUsers int
+	err := s.db.QueryRow("SELECT COUNT(*) FROM users WHERE is_active = 1").Scan(&totalUsers)
+	if err != nil {
+		return nil, fmt.Errorf("failed to get total users: %w", err)
+	}
+	stats["total_users"] = totalUsers
+
+	var totalMods int
+	err = s.db.QueryRow("SELECT COUNT(*) FROM mods").Scan(&totalMods)
+	if err != nil {
+		return nil, fmt.Errorf("failed to get total mods: %w", err)
+	}
+	stats["total_mods"] = totalMods
+
+	var totalGames int
+	err = s.db.QueryRow("SELECT COUNT(*) FROM games WHERE is_active = 1").Scan(&totalGames)
+	if err != nil {
+		return nil, fmt.Errorf("failed to get total games: %w", err)
+	}
+	stats["total_games"] = totalGames
+
+	var totalDownloads int
+	err = s.db.QueryRow("SELECT COALESCE(SUM(downloads), 0) FROM mods").Scan(&totalDownloads)
+	if err != nil {
+		return nil, fmt.Errorf("failed to get total downloads: %w", err)
+	}
+	stats["total_downloads"] = totalDownloads
+
+	return stats, nil
+}
+
 func (s *AdminService) UpdateUserRole(userID int, role string) error {
 	validRoles := []string{models.RoleUser, models.RoleAdmin, models.RoleCommunityModerator, models.RoleWikiMaintainer}
 	isValid := false

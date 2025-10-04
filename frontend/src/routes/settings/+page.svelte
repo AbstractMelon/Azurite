@@ -349,7 +349,7 @@
 							<div class="p-6">
 								<h2 class="text-xl font-semibold text-text-primary mb-6">Profile Information</h2>
 
-								<form on:submit={saveProfile} class="space-y-6">
+								<form onsubmit={saveProfile} class="space-y-6">
 									<!-- Avatar Section -->
 									<div>
 										<label class="block text-sm font-medium text-text-primary mb-3">
@@ -512,7 +512,7 @@
 							<div class="p-6">
 								<h2 class="text-xl font-semibold text-text-primary mb-6">Security Settings</h2>
 
-								<form on:submit={changePassword} class="space-y-6">
+								<form onsubmit={changePassword} class="space-y-6">
 									<!-- Current Password -->
 									<div>
 										<label
@@ -668,7 +668,7 @@
 									Notification Preferences
 								</h2>
 
-								<form on:submit={saveProfile} class="space-y-6">
+								<form onsubmit={saveProfile} class="space-y-6">
 									<div class="space-y-4">
 										<!-- Email Notifications -->
 										<div class="flex items-start">

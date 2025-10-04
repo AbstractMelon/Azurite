@@ -78,6 +78,12 @@
 	}[] = [];
 	let fileInput: HTMLInputElement;
 	let selectedFile: File | null = null;
+
+	// Icon upload
+	let iconInput: HTMLInputElement;
+	let selectedIcon: File | null = null;
+	let iconPreview: string | null = null;
+	let currentIcon: string = '';
 	let fileError = '';
 	let isUploadingFile = false;
 
@@ -123,6 +129,7 @@
 				};
 
 				modFiles = originalMod.files || [];
+				currentIcon = (originalMod as any).icon || '';
 
 				// Load game tags
 				if (originalMod.game) {
@@ -173,6 +180,43 @@
 		} else {
 			selectedGameTags = [];
 		}
+	}
+
+	// Handle icon selection
+	function handleIconSelect(event: Event) {
+		const input = event.target as HTMLInputElement;
+		const file = input.files?.[0];
+
+		if (!file) {
+			selectedIcon = null;
+			iconPreview = null;
+			return;
+		}
+
+		// Validate file type
+		if (!file.type.startsWith('image/')) {
+			toast.error('Invalid File', 'Please select an image file');
+			selectedIcon = null;
+			iconPreview = null;
+			return;
+		}
+
+		// Validate file size (max 2MB)
+		if (file.size > 2 * 1024 * 1024) {
+			toast.error('File Too Large', 'Icon must be less than 2MB');
+			selectedIcon = null;
+			iconPreview = null;
+			return;
+		}
+
+		selectedIcon = file;
+
+		// Create preview
+		const reader = new FileReader();
+		reader.onload = (e) => {
+			iconPreview = e.target?.result as string;
+		};
+		reader.readAsDataURL(file);
 	}
 
 	// Handle file selection
@@ -330,6 +374,15 @@
 		isSubmitting = true;
 
 		try {
+			// Upload icon if selected
+			if (selectedIcon) {
+				const iconResponse = await modsApi.uploadModIcon(modId, selectedIcon);
+				if (!iconResponse.success) {
+					console.warn('Icon upload failed:', iconResponse.error);
+					// Don't fail the whole process if icon upload fails
+				}
+			}
+
 			const response = await modsApi.updateMod(modId, {
 				name: formData.name.trim(),
 				description: formData.description.trim(),
@@ -514,6 +567,56 @@
 									{#if errors.game_id}
 										<p class="mt-1 text-sm text-red-400">{errors.game_id}</p>
 									{/if}
+								</div>
+
+								<!-- Mod Icon -->
+								<div>
+									<label class="block text-sm font-medium text-text-primary mb-2">
+										Mod Icon
+									</label>
+									<div class="flex items-center gap-4">
+										{#if iconPreview || currentIcon}
+											<div class="relative">
+												<img
+													src={iconPreview || currentIcon}
+													alt="Icon preview"
+													class="w-20 h-20 rounded-lg object-cover border-2 border-slate-600"
+												/>
+												{#if iconPreview}
+													<button
+														type="button"
+														onclick={() => {
+															selectedIcon = null;
+															iconPreview = null;
+															if (iconInput) iconInput.value = '';
+														}}
+														class="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center hover:bg-red-600"
+													>
+														×
+													</button>
+												{/if}
+											</div>
+										{/if}
+										<label
+											class="flex-1 flex flex-col items-center px-4 py-6 bg-background-secondary border-2 border-dashed border-slate-600 rounded-lg cursor-pointer hover:border-primary-500 transition-colors"
+										>
+											<Upload class="w-8 h-8 text-text-muted mb-2" />
+											<span class="text-sm text-text-secondary">
+												{selectedIcon ? 'Change Icon' : currentIcon ? 'Update Icon' : 'Upload Icon'}
+											</span>
+											<span class="text-xs text-text-muted mt-1">PNG, JPG up to 2MB</span>
+											<input
+												type="file"
+												bind:this={iconInput}
+												onchange={handleIconSelect}
+												accept="image/*"
+												class="hidden"
+											/>
+										</label>
+									</div>
+									<p class="mt-2 text-sm text-text-muted">
+										Recommended: 256x256px square image
+									</p>
 								</div>
 
 								<!-- Version Info -->

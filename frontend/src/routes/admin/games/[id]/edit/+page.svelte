@@ -4,7 +4,7 @@
 	import { page } from '$app/stores';
 	import { adminApi, gamesApi } from '$lib/api/client';
 	import { toast } from '$lib/stores/notifications';
-	import { ArrowLeft, Save, Gamepad2 } from 'lucide-svelte';
+	import { ArrowLeft, Save, Gamepad2, Upload } from 'lucide-svelte';
 	import Loading from '$lib/components/Loading.svelte';
 	import type { Game } from '$lib/types';
 
@@ -20,6 +20,12 @@
 	let isSubmitting = false;
 	let errors: { [key: string]: string } = {};
 
+	// Icon upload
+	let iconInput: HTMLInputElement;
+	let selectedIcon: File | null = null;
+	let iconPreview: string | null = null;
+	let currentIcon: string = '';
+
 	$: gameId = parseInt($page.params.id);
 
 	async function loadGame() {
@@ -33,6 +39,7 @@
 					description: game.description,
 					icon: game.icon || ''
 				};
+				currentIcon = game.icon || '';
 			} else {
 				toast.error('Error', 'Failed to load game');
 				goto('/admin?tab=games');
@@ -62,6 +69,43 @@
 		return Object.keys(errors).length === 0;
 	}
 
+	// Handle icon selection
+	function handleIconSelect(event: Event) {
+		const input = event.target as HTMLInputElement;
+		const file = input.files?.[0];
+
+		if (!file) {
+			selectedIcon = null;
+			iconPreview = null;
+			return;
+		}
+
+		// Validate file type
+		if (!file.type.startsWith('image/')) {
+			toast.error('Invalid File', 'Please select an image file');
+			selectedIcon = null;
+			iconPreview = null;
+			return;
+		}
+
+		// Validate file size (max 2MB)
+		if (file.size > 2 * 1024 * 1024) {
+			toast.error('File Too Large', 'Icon must be less than 2MB');
+			selectedIcon = null;
+			iconPreview = null;
+			return;
+		}
+
+		selectedIcon = file;
+
+		// Create preview
+		const reader = new FileReader();
+		reader.onload = (e) => {
+			iconPreview = e.target?.result as string;
+		};
+		reader.readAsDataURL(file);
+	}
+
 	async function handleSubmit(event: Event) {
 		// Prevent default form submission
 		event.preventDefault();
@@ -74,6 +118,14 @@
 		isSubmitting = true;
 
 		try {
+			// Upload icon if selected
+			if (selectedIcon) {
+				const iconResponse = await gamesApi.uploadGameIcon(gameId, selectedIcon);
+				if (!iconResponse.success) {
+					console.warn('Icon upload failed:', iconResponse.error);
+				}
+			}
+
 			const response = await adminApi.updateGame(gameId, {
 				name: formData.name.trim(),
 				description: formData.description.trim(),

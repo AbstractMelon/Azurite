@@ -1,10 +1,10 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import { goto } from '$app/navigation';
-	import { gamesApi } from '$lib/api/client';
+	import { gamesApi, modsApi, publicApi } from '$lib/api/client';
 	import Loading from '$lib/components/Loading.svelte';
 	import { GameCard, ModCard } from '$lib/components/cards';
-	import type { Game, Mod } from '$lib/types';
+	import type { Game, Mod, PaginatedResponse } from '$lib/types';
 	import {
 		Users,
 		TrendingUp,
@@ -33,189 +33,61 @@
 			// Load featured games
 			const gamesResponse = await gamesApi.getGames({ per_page: 6 });
 			if (gamesResponse.success) {
-				featuredGames = gamesResponse.data?.data || [];
+				const gamesData = gamesResponse.data as PaginatedResponse<Game> | Game[];
+				featuredGames = Array.isArray(gamesData) ? gamesData : gamesData.data || [];
 			}
 
-			// Mock popular mods (should be replaced with actual API call)
-			popularMods = [
-				{
-					id: 1,
-					name: 'OptiFine',
-					slug: 'optifine',
-					description: 'Boost FPS and add advanced graphics features to Minecraft',
-					short_description: 'Boost FPS and add advanced graphics features',
-					icon: '/api/files/images/optifine-icon.png',
-					version: '1.0.0',
-					game_version: '1.20.1',
-					game_id: 1,
-					owner_id: 1,
-					downloads: 125000,
-					likes: 8500,
-					source_website: '',
-					contact_info: '',
-					is_rejected: false,
-					rejection_reason: '',
-					is_scanned: true,
-					scan_result: 'clean',
-					created_at: new Date().toISOString(),
-					updated_at: new Date().toISOString(),
-					game: {
-						id: 1,
-						name: 'Minecraft',
-						slug: 'minecraft',
-						description: '',
-						icon: '',
-						is_active: true,
-						created_at: '',
-						updated_at: '',
-						mod_count: 0
-					}
-				},
-				{
-					id: 2,
-					name: 'JEI',
-					slug: 'jei',
-					description: 'Just Enough Items - Recipe and item viewer for Minecraft',
-					short_description: 'Just Enough Items - Recipe and item viewer',
-					icon: '/api/files/images/jei-icon.png',
-					version: '1.0.0',
-					game_version: '1.20.1',
-					game_id: 1,
-					owner_id: 1,
-					downloads: 98000,
-					likes: 6200,
-					source_website: '',
-					contact_info: '',
-					is_rejected: false,
-					rejection_reason: '',
-					is_scanned: true,
-					scan_result: 'clean',
-					created_at: new Date().toISOString(),
-					updated_at: new Date().toISOString(),
-					game: {
-						id: 1,
-						name: 'Minecraft',
-						slug: 'minecraft',
-						description: '',
-						icon: '',
-						is_active: true,
-						created_at: '',
-						updated_at: '',
-						mod_count: 0
-					}
-				},
-				{
-					id: 3,
-					name: 'Biomes O Plenty',
-					slug: 'biomes-o-plenty',
-					description: 'Adds 80+ new biomes to explore in Minecraft',
-					short_description: 'Adds 80+ new biomes to explore',
-					icon: '/api/files/images/bop-icon.png',
-					version: '1.0.0',
-					game_version: '1.20.1',
-					game_id: 1,
-					owner_id: 1,
-					downloads: 87000,
-					likes: 5400,
-					source_website: '',
-					contact_info: '',
-					is_rejected: false,
-					rejection_reason: '',
-					is_scanned: true,
-					scan_result: 'clean',
-					created_at: new Date().toISOString(),
-					updated_at: new Date().toISOString(),
-					game: {
-						id: 1,
-						name: 'Minecraft',
-						slug: 'minecraft',
-						description: '',
-						icon: '',
-						is_active: true,
-						created_at: '',
-						updated_at: '',
-						mod_count: 0
-					}
-				}
-			] as Mod[];
+			// Load popular mods (sorted by downloads)
+			const popularResponse = await modsApi.searchMods({
+				sort: 'downloads',
+				per_page: 3
+			});
+			if (popularResponse.success) {
+				const popularData = popularResponse.data as PaginatedResponse<Mod> | Mod[];
+				popularMods = Array.isArray(popularData) ? popularData : popularData.data || [];
+			}
 
-			// Mock recent mods
-			recentMods = [
-				{
-					id: 4,
-					name: 'Create Mod',
-					slug: 'create',
-					description: 'Contraptions and automation for Minecraft',
-					short_description: 'Contraptions and automation',
-					icon: '/api/files/images/create-icon.png',
-					version: '1.0.0',
-					game_version: '1.20.1',
-					game_id: 1,
-					owner_id: 1,
-					downloads: 45000,
-					likes: 3200,
-					source_website: '',
-					contact_info: '',
-					is_rejected: false,
-					rejection_reason: '',
-					is_scanned: true,
-					scan_result: 'clean',
-					created_at: new Date(Date.now() - 86400000).toISOString(),
-					updated_at: new Date(Date.now() - 86400000).toISOString(),
-					game: {
-						id: 1,
-						name: 'Minecraft',
-						slug: 'minecraft',
-						description: '',
-						icon: '',
-						is_active: true,
-						created_at: '',
-						updated_at: '',
-						mod_count: 0
-					}
-				},
-				{
-					id: 5,
-					name: 'Twilight Forest',
-					slug: 'twilight-forest',
-					description: 'Explore a mysterious twilight dimension in Minecraft',
-					short_description: 'Explore a mysterious twilight dimension',
-					icon: '/api/files/images/tf-icon.png',
-					version: '1.0.0',
-					game_version: '1.20.1',
-					game_id: 1,
-					owner_id: 1,
-					downloads: 32000,
-					likes: 2100,
-					source_website: '',
-					contact_info: '',
-					is_rejected: false,
-					rejection_reason: '',
-					is_scanned: true,
-					scan_result: 'clean',
-					created_at: new Date(Date.now() - 172800000).toISOString(),
-					updated_at: new Date(Date.now() - 172800000).toISOString(),
-					game: {
-						id: 1,
-						name: 'Minecraft',
-						slug: 'minecraft',
-						description: '',
-						icon: '',
-						is_active: true,
-						created_at: '',
-						updated_at: '',
-						mod_count: 0
-					}
-				}
-			] as Mod[];
+			// Load recent mods (sorted by newest)
+			const recentResponse = await modsApi.searchMods({
+				sort: 'newest',
+				per_page: 2
+			});
+			if (recentResponse.success) {
+				const recentData = recentResponse.data as PaginatedResponse<Mod> | Mod[];
+				recentMods = Array.isArray(recentData) ? recentData : recentData.data || [];
+			}
 
-			// Mock stats
-			stats = {
-				totalMods: 15420,
-				totalDownloads: 2500000,
-				totalUsers: 45000,
-				totalGames: 12
-			};
+			// Load stats from public API
+			try {
+				const statsResponse = await publicApi.getStats();
+				if (statsResponse.success && statsResponse.data) {
+					const publicStats = statsResponse.data as any;
+					stats = {
+						totalMods: publicStats.total_mods || 0,
+						totalDownloads: publicStats.total_downloads || 0,
+						totalUsers: publicStats.total_users || 0,
+						totalGames: publicStats.total_games || 0
+					};
+				}
+			} catch (error) {
+				// If stats API fails, calculate from available data
+				stats = {
+					totalMods: popularMods.length + recentMods.length,
+					totalDownloads: popularMods.reduce((sum, mod) => sum + mod.downloads, 0),
+					totalUsers: 0,
+					totalGames: featuredGames.length
+				};
+			}
+
+			// Make sure stats have default values if still zero
+			if (stats.totalMods === 0 && stats.totalDownloads === 0) {
+				stats = {
+					totalMods: popularMods.length + recentMods.length,
+					totalDownloads: popularMods.reduce((sum, mod) => sum + mod.downloads, 0),
+					totalUsers: 0,
+					totalGames: featuredGames.length
+				};
+			}
 		} catch (error) {
 			console.error('Failed to load homepage data:', error);
 		} finally {

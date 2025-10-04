@@ -708,6 +708,15 @@ func (s *ModService) Search(query string, gameID int, page, perPage int) ([]mode
 	return mods, total, nil
 }
 
+func (s *ModService) UpdateIcon(modID int, iconPath string) error {
+	_, err := s.db.Exec("UPDATE mods SET icon = ?, updated_at = ? WHERE id = ?",
+		iconPath, time.Now(), modID)
+	if err != nil {
+		return fmt.Errorf("failed to update mod icon: %w", err)
+	}
+	return nil
+}
+
 func (s *ModService) Delete(modID int, ownerID int) error {
 	mod, err := s.GetByID(modID)
 	if err != nil {

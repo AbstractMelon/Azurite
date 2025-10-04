@@ -1,8 +1,8 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
-	import { adminApi } from '$lib/api/client';
+	import { adminApi, gamesApi } from '$lib/api/client';
 	import { toast } from '$lib/stores/notifications';
-	import { ArrowLeft, Save, Gamepad2 } from 'lucide-svelte';
+	import { ArrowLeft, Save, Gamepad2, Upload } from 'lucide-svelte';
 	import Loading from '$lib/components/Loading.svelte';
 
 	let formData = {
@@ -13,6 +13,11 @@
 
 	let isSubmitting = false;
 	let errors: { [key: string]: string } = {};
+
+	// Icon upload
+	let iconInput: HTMLInputElement;
+	let selectedIcon: File | null = null;
+	let iconPreview: string | null = null;
 
 	function validateForm() {
 		errors = {};
@@ -28,6 +33,43 @@
 		}
 
 		return Object.keys(errors).length === 0;
+	}
+
+	// Handle icon selection
+	function handleIconSelect(event: Event) {
+		const input = event.target as HTMLInputElement;
+		const file = input.files?.[0];
+
+		if (!file) {
+			selectedIcon = null;
+			iconPreview = null;
+			return;
+		}
+
+		// Validate file type
+		if (!file.type.startsWith('image/')) {
+			toast.error('Invalid File', 'Please select an image file');
+			selectedIcon = null;
+			iconPreview = null;
+			return;
+		}
+
+		// Validate file size (max 2MB)
+		if (file.size > 2 * 1024 * 1024) {
+			toast.error('File Too Large', 'Icon must be less than 2MB');
+			selectedIcon = null;
+			iconPreview = null;
+			return;
+		}
+
+		selectedIcon = file;
+
+		// Create preview
+		const reader = new FileReader();
+		reader.onload = (e) => {
+			iconPreview = e.target?.result as string;
+		};
+		reader.readAsDataURL(file);
 	}
 
 	async function handleSubmit(event: Event) {
@@ -49,6 +91,16 @@
 			});
 
 			if (response.success) {
+				const gameId = (response.data as any)?.id;
+
+				// Upload icon if selected
+				if (selectedIcon && gameId) {
+					const iconResponse = await gamesApi.uploadGameIcon(gameId, selectedIcon);
+					if (!iconResponse.success) {
+						console.warn('Icon upload failed:', iconResponse.error);
+					}
+				}
+
 				toast.success('Game Created', `"${formData.name}" has been added successfully.`);
 				goto('/admin?tab=games');
 			} else {
@@ -129,10 +181,56 @@
 						{/if}
 					</div>
 
-					<!-- Icon URL -->
+					<!-- Game Icon -->
+					<div>
+						<label class="block text-sm font-medium text-text-primary mb-2">
+							Game Icon (Optional)
+						</label>
+						<div class="flex items-center gap-4">
+							{#if iconPreview}
+								<div class="relative">
+									<img
+										src={iconPreview}
+										alt="Icon preview"
+										class="w-20 h-20 rounded-lg object-cover border-2 border-slate-600"
+									/>
+									<button
+										type="button"
+										onclick={() => {
+											selectedIcon = null;
+											iconPreview = null;
+											if (iconInput) iconInput.value = '';
+										}}
+										class="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center hover:bg-red-600"
+									>
+										×
+									</button>
+								</div>
+							{/if}
+							<label
+								class="flex-1 flex flex-col items-center px-4 py-6 bg-background-secondary border-2 border-dashed border-slate-600 rounded-lg cursor-pointer hover:border-primary-500 transition-colors"
+							>
+								<Upload class="w-8 h-8 text-text-muted mb-2" />
+								<span class="text-sm text-text-secondary">
+									{selectedIcon ? 'Change Icon' : 'Upload Icon'}
+								</span>
+								<span class="text-xs text-text-muted mt-1">PNG, JPG up to 2MB</span>
+								<input
+									type="file"
+									bind:this={iconInput}
+									onchange={handleIconSelect}
+									accept="image/*"
+									class="hidden"
+								/>
+							</label>
+						</div>
+						<p class="mt-2 text-sm text-text-muted">Recommended: 256x256px square image</p>
+					</div>
+
+					<!-- Icon URL (fallback) -->
 					<div>
 						<label for="icon" class="block text-sm font-medium text-text-primary mb-2">
-							Icon URL
+							Icon URL (Alternative)
 						</label>
 						<input
 							id="icon"
@@ -141,7 +239,9 @@
 							placeholder="https://example.com/icon.png"
 							class="input w-full"
 						/>
-						<p class="mt-1 text-sm text-text-muted">Optional: URL to the game's icon image</p>
+						<p class="mt-1 text-sm text-text-muted">
+							Optional: Provide a URL if you prefer not to upload
+						</p>
 					</div>
 
 					<!-- Submit Button -->

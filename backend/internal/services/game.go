@@ -146,6 +146,14 @@ func (s *GameService) Update(gameID int, name, description, icon string) (*model
 	return s.GetByID(gameID)
 }
 
+func (s *GameService) UpdateIcon(gameID int, iconPath string) error {
+	_, err := s.db.Exec("UPDATE games SET icon = ? WHERE id = ?", iconPath, gameID)
+	if err != nil {
+		return fmt.Errorf("failed to update game icon: %w", err)
+	}
+	return nil
+}
+
 func (s *GameService) Delete(gameID int) error {
 	var modCount int
 	err := s.db.QueryRow("SELECT COUNT(*) FROM mods WHERE game_id = ?", gameID).Scan(&modCount)

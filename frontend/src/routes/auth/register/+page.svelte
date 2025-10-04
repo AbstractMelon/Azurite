@@ -234,7 +234,7 @@
 		<!-- Registration Form -->
 		<div class="card">
 			<div class="p-6 sm:p-8">
-				<form on:submit={handleRegister} class="space-y-6">
+				<form onsubmit={handleRegister} class="space-y-6">
 					<!-- Username Field -->
 					<div>
 						<label for="username" class="block text-sm font-medium text-text-primary mb-2">

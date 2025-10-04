@@ -122,6 +122,16 @@ func setupRoutes(
 ) {
 	api := router.Group("/api")
 
+	// Public stats endpoint
+	api.GET("/stats", func(c *gin.Context) {
+		stats, err := adminService.GetStats()
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+			return
+		}
+		c.JSON(http.StatusOK, gin.H{"success": true, "data": stats})
+	})
+
 	// Auth routes
 	auth := api.Group("/auth")
 	{
@@ -310,6 +320,32 @@ func setupRoutes(
 		{
 			gameManagementByID.PUT("/:id", gameHandler.UpdateGame)
 			gameManagementByID.DELETE("/:id", gameHandler.DeleteGame)
+			
+			gameManagementByID.POST("/:id/icon", middleware.FileUploadLimit(2*1024*1024), func(c *gin.Context) {
+				gameID, _ := strconv.Atoi(c.Param("id"))
+
+				file, header, err := c.Request.FormFile("icon")
+				if err != nil {
+					c.JSON(http.StatusBadRequest, gin.H{"error": "No icon file provided"})
+					return
+				}
+				defer file.Close()
+
+				iconPath, err := imageService.SaveImage(file, header, "game")
+				if err != nil {
+					c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+					return
+				}
+
+				// Update game icon in database
+				err = gameService.UpdateIcon(gameID, iconPath)
+				if err != nil {
+					c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+					return
+				}
+
+				c.JSON(http.StatusOK, gin.H{"success": true, "data": gin.H{"icon": iconPath}})
+			})
 		}
 	}
 
@@ -435,6 +471,44 @@ func setupRoutes(
 				}
 
 				c.JSON(http.StatusOK, gin.H{"success": true, "message": "Mod unliked"})
+			})
+
+			modsProtected.POST("/:id/icon", middleware.FileUploadLimit(2*1024*1024), func(c *gin.Context) {
+				user, _ := authService.GetCurrentUser(c)
+				modID, _ := strconv.Atoi(c.Param("id"))
+
+				// Verify mod ownership
+				mod, err := modService.GetByID(modID)
+				if err != nil {
+					c.JSON(http.StatusNotFound, gin.H{"error": "Mod not found"})
+					return
+				}
+				if mod.OwnerID != user.ID && user.Role != "admin" {
+					c.JSON(http.StatusForbidden, gin.H{"error": "Unauthorized"})
+					return
+				}
+
+				file, header, err := c.Request.FormFile("icon")
+				if err != nil {
+					c.JSON(http.StatusBadRequest, gin.H{"error": "No icon file provided"})
+					return
+				}
+				defer file.Close()
+
+				iconPath, err := imageService.SaveImage(file, header, "mod")
+				if err != nil {
+					c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+					return
+				}
+
+				// Update mod icon in database
+				err = modService.UpdateIcon(modID, iconPath)
+				if err != nil {
+					c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+					return
+				}
+
+				c.JSON(http.StatusOK, gin.H{"success": true, "data": gin.H{"icon": iconPath}})
 			})
 
 			modsProtected.POST("/:id/files", middleware.FileUploadLimit(cfg.Storage.MaxFileSize), func(c *gin.Context) {

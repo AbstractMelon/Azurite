@@ -140,7 +140,7 @@
 		<!-- Login Form -->
 		<div class="card">
 			<div class="p-6 sm:p-8">
-				<form on:submit={handleLogin} class="space-y-6">
+				<form onsubmit={handleLogin} class="space-y-6">
 					<!-- Email Field -->
 					<div>
 						<label for="email" class="block text-sm font-medium text-text-primary mb-2">

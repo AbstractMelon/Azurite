@@ -143,7 +143,10 @@
 		class="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4"
 		onclick={() => (showCreateModal = false)}
 	>
-		<div class="bg-slate-900 rounded-lg max-w-md w-full p-6" onclick|stopPropagation>
+		<div
+			class="bg-slate-900 rounded-lg max-w-md w-full p-6"
+			onclick={(event) => event.stopPropagation()}
+		>
 			<div class="flex items-center justify-between mb-6">
 				<h2 class="text-2xl font-bold text-text-primary">Create Ban</h2>
 				<button

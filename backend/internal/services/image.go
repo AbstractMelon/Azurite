@@ -60,6 +60,11 @@ func (s *ImageService) ProcessAndSave(file multipart.File, header *multipart.Fil
 	return filepath.Join(subDir, webpFilename), nil
 }
 
+// SaveImage is an alias for ProcessAndSave
+func (s *ImageService) SaveImage(file multipart.File, header *multipart.FileHeader, subDir string) (string, error) {
+	return s.ProcessAndSave(file, header, subDir)
+}
+
 func (s *ImageService) Delete(relativePath string) error {
 	fullPath := filepath.Join(s.storagePath, relativePath)
 	if err := os.Remove(fullPath); err != nil && !os.IsNotExist(err) {
