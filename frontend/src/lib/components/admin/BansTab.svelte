@@ -84,7 +84,7 @@
 				<Gavel class="w-5 h-5 mr-2" />
 				Active Bans ({activeBans.length})
 			</h2>
-			<button class="btn btn-primary" on:click={() => (showCreateModal = true)}>
+			<button class="btn btn-primary" onclick={() => (showCreateModal = true)}>
 				<Plus class="w-4 h-4 mr-2" />
 				Create Ban
 			</button>
@@ -123,7 +123,7 @@
 						</div>
 						<div class="flex items-center space-x-2">
 							<button
-								on:click={() =>
+								onclick={() =>
 									unbanUser(ban.id, ban.user?.display_name || ban.user?.username || 'User')}
 								class="btn btn-outline btn-sm text-green-400 hover:text-green-300"
 							>
@@ -141,7 +141,7 @@
 {#if showCreateModal}
 	<div
 		class="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4"
-		on:click={() => (showCreateModal = false)}
+		onclick={() => (showCreateModal = false)}
 	>
 		<div
 			class="bg-slate-900 rounded-lg max-w-md w-full p-6"

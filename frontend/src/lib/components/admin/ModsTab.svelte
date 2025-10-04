@@ -85,13 +85,13 @@
 						</div>
 						<div class="flex space-x-2">
 							<button
-								on:click={() => approveMod(mod.id, mod.name)}
+								onclick={() => approveMod(mod.id, mod.name)}
 								class="btn btn-sm bg-green-600 text-white hover:bg-green-700"
 							>
 								<CheckCircle class="w-4 h-4" />
 							</button>
 							<button
-								on:click={() => rejectMod(mod.id, mod.name)}
+								onclick={() => rejectMod(mod.id, mod.name)}
 								class="btn btn-sm bg-red-600 text-white hover:bg-red-700"
 							>
 								<AlertTriangle class="w-4 h-4" />
