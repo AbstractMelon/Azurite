@@ -56,7 +56,7 @@
 		try {
 			// Since we don't have a dedicated feature request API endpoint,
 			// we'll simulate submitting it (in a real app, this would go to a product management system)
-			await new Promise(resolve => setTimeout(resolve, 1000)); // Simulate API call
+			await new Promise((resolve) => setTimeout(resolve, 1000)); // Simulate API call
 
 			const featureRequest = {
 				title: title.trim(),
@@ -73,7 +73,10 @@
 			console.log('Feature request submitted:', featureRequest);
 
 			submitted = true;
-			toast.success('Feature request submitted', 'Thank you for helping shape the future of Azurite!');
+			toast.success(
+				'Feature request submitted',
+				'Thank you for helping shape the future of Azurite!'
+			);
 		} catch (error) {
 			console.error('Failed to submit feature request:', error);
 			toast.error('Submission failed', 'Please try again or contact support directly');
@@ -95,11 +98,16 @@
 
 	function getPriorityColor(priorityValue: string): string {
 		switch (priorityValue) {
-			case 'low': return 'text-green-400';
-			case 'medium': return 'text-yellow-400';
-			case 'high': return 'text-orange-400';
-			case 'critical': return 'text-red-400';
-			default: return 'text-gray-400';
+			case 'low':
+				return 'text-green-400';
+			case 'medium':
+				return 'text-yellow-400';
+			case 'high':
+				return 'text-orange-400';
+			case 'critical':
+				return 'text-red-400';
+			default:
+				return 'text-gray-400';
 		}
 	}
 </script>
@@ -115,13 +123,15 @@
 			<!-- Success Message -->
 			<div class="card">
 				<div class="p-8 text-center">
-					<div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+					<div
+						class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4"
+					>
 						<Lightbulb class="w-8 h-8 text-blue-600" />
 					</div>
 					<h1 class="text-3xl font-bold text-text-primary mb-4">Feature Request Submitted</h1>
 					<p class="text-text-secondary mb-6">
-						Thank you for sharing your ideas! Your suggestion helps us understand what our community needs
-						and guides our development priorities.
+						Thank you for sharing your ideas! Your suggestion helps us understand what our community
+						needs and guides our development priorities.
 					</p>
 					<div class="bg-background-secondary p-4 rounded-lg border border-slate-600 mb-6">
 						<p class="text-text-primary font-medium mb-2">What happens next?</p>
@@ -134,12 +144,8 @@
 						</ul>
 					</div>
 					<div class="flex gap-4 justify-center">
-						<button onclick={resetForm} class="btn btn-outline">
-							Submit Another Request
-						</button>
-						<a href="/" class="btn btn-primary">
-							Back to Home
-						</a>
+						<button onclick={resetForm} class="btn btn-outline"> Submit Another Request </button>
+						<a href="/" class="btn btn-primary"> Back to Home </a>
 					</div>
 				</div>
 			</div>
@@ -156,7 +162,9 @@
 					</div>
 
 					{#if !$isAuthenticated}
-						<div class="bg-yellow-100 border border-yellow-400 text-yellow-700 px-4 py-3 rounded mb-6">
+						<div
+							class="bg-yellow-100 border border-yellow-400 text-yellow-700 px-4 py-3 rounded mb-6"
+						>
 							<div class="flex items-center gap-2">
 								<AlertCircle class="h-5 w-5" />
 								<span>You need to be logged in to submit a feature request.</span>
@@ -172,7 +180,9 @@
 						<div class="bg-background-secondary p-4 rounded-lg border border-slate-600">
 							<Heart class="h-6 w-6 text-primary-400 mb-2" />
 							<h3 class="font-medium text-text-primary mb-1">User Experience</h3>
-							<p class="text-sm text-text-secondary">Interface improvements, usability enhancements</p>
+							<p class="text-sm text-text-secondary">
+								Interface improvements, usability enhancements
+							</p>
 						</div>
 						<div class="bg-background-secondary p-4 rounded-lg border border-slate-600">
 							<Users class="h-6 w-6 text-primary-400 mb-2" />
@@ -284,7 +294,10 @@
 
 						<!-- Current Solution -->
 						<div>
-							<label for="current-solution" class="block text-sm font-medium text-text-primary mb-2">
+							<label
+								for="current-solution"
+								class="block text-sm font-medium text-text-primary mb-2"
+							>
 								Current Workaround (if any)
 							</label>
 							<textarea
@@ -335,7 +348,11 @@
 						<div class="flex gap-4">
 							<button
 								type="submit"
-								disabled={loading || !$isAuthenticated || !title.trim() || !description.trim() || !useCase.trim()}
+								disabled={loading ||
+									!$isAuthenticated ||
+									!title.trim() ||
+									!description.trim() ||
+									!useCase.trim()}
 								class="btn btn-primary flex items-center gap-2"
 							>
 								{#if loading}
@@ -347,9 +364,7 @@
 								{/if}
 							</button>
 
-							<a href="/help" class="btn btn-outline">
-								View Help Center
-							</a>
+							<a href="/help" class="btn btn-outline"> View Help Center </a>
 						</div>
 					</form>
 				</div>
@@ -358,7 +373,8 @@
 			<!-- Community Voting Notice -->
 			<div class="mt-6 text-center">
 				<p class="text-text-muted text-sm">
-					Feature requests are reviewed by our team and prioritized based on community feedback and technical feasibility.
+					Feature requests are reviewed by our team and prioritized based on community feedback and
+					technical feasibility.
 				</p>
 			</div>
 		{/if}

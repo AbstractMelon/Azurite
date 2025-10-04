@@ -48,7 +48,9 @@
 			</h2>
 			<div class="flex items-center space-x-3">
 				<div class="relative">
-					<Search class="w-4 h-4 absolute left-3 top-1/2 transform -translate-y-1/2 text-text-muted" />
+					<Search
+						class="w-4 h-4 absolute left-3 top-1/2 transform -translate-y-1/2 text-text-muted"
+					/>
 					<input
 						type="text"
 						placeholder="Search users..."

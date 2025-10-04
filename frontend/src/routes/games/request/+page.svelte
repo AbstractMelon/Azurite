@@ -66,7 +66,7 @@
 	async function handleSubmit(event: Event) {
 		// Prevent default form submission
 		event.preventDefault();
-		
+
 		if (!validateForm()) {
 			toast.error('Validation Error', 'Please fix the errors below');
 			return;

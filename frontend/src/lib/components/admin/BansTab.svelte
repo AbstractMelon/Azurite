@@ -143,10 +143,7 @@
 		class="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4"
 		onclick={() => (showCreateModal = false)}
 	>
-		<div
-			class="bg-slate-900 rounded-lg max-w-md w-full p-6"
-			onclick|stopPropagation
-		>
+		<div class="bg-slate-900 rounded-lg max-w-md w-full p-6" onclick|stopPropagation>
 			<div class="flex items-center justify-between mb-6">
 				<h2 class="text-2xl font-bold text-text-primary">Create Ban</h2>
 				<button
@@ -159,7 +156,9 @@
 
 			<div class="space-y-4">
 				<div>
-					<label class="block text-sm font-medium text-text-secondary mb-2">User ID (optional)</label>
+					<label class="block text-sm font-medium text-text-secondary mb-2"
+						>User ID (optional)</label
+					>
 					<input
 						type="number"
 						bind:value={newBan.user_id}
@@ -169,7 +168,9 @@
 				</div>
 
 				<div>
-					<label class="block text-sm font-medium text-text-secondary mb-2">IP Address (optional)</label>
+					<label class="block text-sm font-medium text-text-secondary mb-2"
+						>IP Address (optional)</label
+					>
 					<input
 						type="text"
 						bind:value={newBan.ip_address}
@@ -201,12 +202,8 @@
 			</div>
 
 			<div class="flex items-center justify-end space-x-3 mt-6">
-				<button onclick={() => (showCreateModal = false)} class="btn btn-outline">
-					Cancel
-				</button>
-				<button onclick={createBan} class="btn btn-primary">
-					Create Ban
-				</button>
+				<button onclick={() => (showCreateModal = false)} class="btn btn-outline"> Cancel </button>
+				<button onclick={createBan} class="btn btn-primary"> Create Ban </button>
 			</div>
 		</div>
 	</div>

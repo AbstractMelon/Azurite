@@ -18,9 +18,17 @@
 	let submitted = false;
 
 	const priorities = [
-		{ value: 'low', label: 'Low', description: 'Minor issue, doesn\'t affect core functionality' },
-		{ value: 'medium', label: 'Medium', description: 'Noticeable issue, affects some functionality' },
-		{ value: 'high', label: 'High', description: 'Significant issue, affects important functionality' },
+		{ value: 'low', label: 'Low', description: "Minor issue, doesn't affect core functionality" },
+		{
+			value: 'medium',
+			label: 'Medium',
+			description: 'Noticeable issue, affects some functionality'
+		},
+		{
+			value: 'high',
+			label: 'High',
+			description: 'Significant issue, affects important functionality'
+		},
 		{ value: 'critical', label: 'Critical', description: 'Severe issue, breaks core functionality' }
 	];
 
@@ -64,7 +72,7 @@
 		try {
 			// Since we don't have a dedicated bug report API endpoint,
 			// we'll simulate submitting it (in a real app, this would go to a support system)
-			await new Promise(resolve => setTimeout(resolve, 1000)); // Simulate API call
+			await new Promise((resolve) => setTimeout(resolve, 1000)); // Simulate API call
 
 			const bugReport = {
 				title: title.trim(),
@@ -105,11 +113,16 @@
 
 	function getPriorityColor(priorityValue: string): string {
 		switch (priorityValue) {
-			case 'low': return 'text-green-400';
-			case 'medium': return 'text-yellow-400';
-			case 'high': return 'text-orange-400';
-			case 'critical': return 'text-red-400';
-			default: return 'text-gray-400';
+			case 'low':
+				return 'text-green-400';
+			case 'medium':
+				return 'text-yellow-400';
+			case 'high':
+				return 'text-orange-400';
+			case 'critical':
+				return 'text-red-400';
+			default:
+				return 'text-gray-400';
 		}
 	}
 </script>
@@ -125,15 +138,27 @@
 			<!-- Success Message -->
 			<div class="card">
 				<div class="p-8 text-center">
-					<div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-						<svg class="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+					<div
+						class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4"
+					>
+						<svg
+							class="w-8 h-8 text-green-600"
+							fill="none"
+							stroke="currentColor"
+							viewBox="0 0 24 24"
+						>
+							<path
+								stroke-linecap="round"
+								stroke-linejoin="round"
+								stroke-width="2"
+								d="M5 13l4 4L19 7"
+							></path>
 						</svg>
 					</div>
 					<h1 class="text-3xl font-bold text-text-primary mb-4">Bug Report Submitted</h1>
 					<p class="text-text-secondary mb-6">
-						Thank you for taking the time to report this issue. Our team will review your report
-						and work on a fix as soon as possible.
+						Thank you for taking the time to report this issue. Our team will review your report and
+						work on a fix as soon as possible.
 					</p>
 					<div class="bg-background-secondary p-4 rounded-lg border border-slate-600 mb-6">
 						<p class="text-text-primary font-medium mb-2">What happens next?</p>
@@ -145,12 +170,8 @@
 						</ul>
 					</div>
 					<div class="flex gap-4 justify-center">
-						<button onclick={resetForm} class="btn btn-outline">
-							Submit Another Report
-						</button>
-						<a href="/" class="btn btn-primary">
-							Back to Home
-						</a>
+						<button onclick={resetForm} class="btn btn-outline"> Submit Another Report </button>
+						<a href="/" class="btn btn-primary"> Back to Home </a>
 					</div>
 				</div>
 			</div>
@@ -162,12 +183,16 @@
 						<Bug class="h-8 w-8 text-primary-400" />
 						<div>
 							<h1 class="text-3xl font-bold text-text-primary">Report a Bug</h1>
-							<p class="text-text-secondary">Help us improve Azurite by reporting issues you encounter</p>
+							<p class="text-text-secondary">
+								Help us improve Azurite by reporting issues you encounter
+							</p>
 						</div>
 					</div>
 
 					{#if !$isAuthenticated}
-						<div class="bg-yellow-100 border border-yellow-400 text-yellow-700 px-4 py-3 rounded mb-6">
+						<div
+							class="bg-yellow-100 border border-yellow-400 text-yellow-700 px-4 py-3 rounded mb-6"
+						>
 							<div class="flex items-center gap-2">
 								<AlertCircle class="h-5 w-5" />
 								<span>You need to be logged in to submit a bug report.</span>
@@ -362,9 +387,7 @@
 								{/if}
 							</button>
 
-							<a href="/help" class="btn btn-outline">
-								View Help Center
-							</a>
+							<a href="/help" class="btn btn-outline"> View Help Center </a>
 						</div>
 					</form>
 				</div>

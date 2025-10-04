@@ -1,6 +1,15 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { Search, Book, MessageCircle, Bug, Lightbulb, Mail, ExternalLink, ChevronRight } from 'lucide-svelte';
+	import {
+		Search,
+		Book,
+		MessageCircle,
+		Bug,
+		Lightbulb,
+		Mail,
+		ExternalLink,
+		ChevronRight
+	} from 'lucide-svelte';
 
 	let searchQuery = '';
 	let selectedCategory = 'all';
@@ -237,9 +246,10 @@
 	let selectedTopic = null;
 
 	function filterTopics() {
-		filteredTopics = helpTopics.filter(topic => {
+		filteredTopics = helpTopics.filter((topic) => {
 			const matchesCategory = selectedCategory === 'all' || topic.category === selectedCategory;
-			const matchesSearch = !searchQuery ||
+			const matchesSearch =
+				!searchQuery ||
 				topic.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
 				topic.description.toLowerCase().includes(searchQuery.toLowerCase());
 			return matchesCategory && matchesSearch;
@@ -261,7 +271,10 @@
 
 <svelte:head>
 	<title>Help Center - Azurite</title>
-	<meta name="description" content="Get help with Azurite mod hosting platform - guides, tutorials, and support" />
+	<meta
+		name="description"
+		content="Get help with Azurite mod hosting platform - guides, tutorials, and support"
+	/>
 </svelte:head>
 
 <div class="min-h-screen bg-background-primary">
@@ -269,10 +282,7 @@
 		{#if selectedTopic}
 			<!-- Topic Detail View -->
 			<div class="mb-6">
-				<button
-					onclick={clearTopic}
-					class="btn btn-outline flex items-center gap-2 mb-4"
-				>
+				<button onclick={clearTopic} class="btn btn-outline flex items-center gap-2 mb-4">
 					← Back to Help Center
 				</button>
 			</div>
@@ -290,7 +300,9 @@
 			<!-- Help Center Main View -->
 			<div class="text-center mb-8">
 				<h1 class="text-4xl font-bold text-text-primary mb-4">How can we help you?</h1>
-				<p class="text-text-secondary text-lg">Find answers, guides, and support for using Azurite</p>
+				<p class="text-text-secondary text-lg">
+					Find answers, guides, and support for using Azurite
+				</p>
 			</div>
 
 			<!-- Search and Filter -->
@@ -319,11 +331,8 @@
 					<div class="mb-4">
 						<h3 class="text-lg font-semibold text-text-primary mb-3">Popular Topics</h3>
 						<div class="flex flex-wrap gap-2">
-							{#each helpTopics.filter(t => t.popular) as topic}
-								<button
-									onclick={() => selectTopic(topic)}
-									class="btn btn-outline btn-sm"
-								>
+							{#each helpTopics.filter((t) => t.popular) as topic}
+								<button onclick={() => selectTopic(topic)} class="btn btn-outline btn-sm">
 									{topic.title}
 								</button>
 							{/each}
@@ -384,7 +393,9 @@
 											<h3 class="font-semibold text-text-primary mb-1">
 												{topic.title}
 												{#if topic.popular}
-													<span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-primary-100 text-primary-800 ml-2">
+													<span
+														class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-primary-100 text-primary-800 ml-2"
+													>
 														Popular
 													</span>
 												{/if}
@@ -414,7 +425,9 @@
 						<div class="p-6">
 							<MessageCircle class="h-6 w-6 text-primary-400 mb-3" />
 							<h3 class="font-semibold text-text-primary mb-2">Community Forum</h3>
-							<p class="text-text-secondary mb-4">Connect with other users, ask questions, and share knowledge.</p>
+							<p class="text-text-secondary mb-4">
+								Connect with other users, ask questions, and share knowledge.
+							</p>
 							<a href="#" class="text-primary-400 hover:text-primary-300 flex items-center gap-1">
 								Visit Forum <ExternalLink class="h-4 w-4" />
 							</a>
@@ -425,8 +438,13 @@
 						<div class="p-6">
 							<Book class="h-6 w-6 text-primary-400 mb-3" />
 							<h3 class="font-semibold text-text-primary mb-2">API Documentation</h3>
-							<p class="text-text-secondary mb-4">Technical documentation for developers and integrators.</p>
-							<a href="/api/docs" class="text-primary-400 hover:text-primary-300 flex items-center gap-1">
+							<p class="text-text-secondary mb-4">
+								Technical documentation for developers and integrators.
+							</p>
+							<a
+								href="/api/docs"
+								class="text-primary-400 hover:text-primary-300 flex items-center gap-1"
+							>
 								View Docs <ExternalLink class="h-4 w-4" />
 							</a>
 						</div>
@@ -442,9 +460,7 @@
 						<p class="text-text-secondary mb-6">
 							Can't find what you're looking for? Our support team is here to help.
 						</p>
-						<a href="/contact" class="btn btn-primary">
-							Contact Support
-						</a>
+						<a href="/contact" class="btn btn-primary"> Contact Support </a>
 					</div>
 				</div>
 			</div>
@@ -476,7 +492,8 @@
 		line-height: 1.6;
 	}
 
-	.prose ul, .prose ol {
+	.prose ul,
+	.prose ol {
 		color: rgb(148 163 184);
 		margin-bottom: 1rem;
 		padding-left: 1.5rem;

@@ -169,7 +169,9 @@
 	<title>{profileUser?.display_name || profileUser?.username || 'User Profile'} - Azurite</title>
 	<meta
 		name="description"
-		content="View {profileUser?.display_name || profileUser?.username || 'user'}'s profile, mods, and activity on Azurite."
+		content="View {profileUser?.display_name ||
+			profileUser?.username ||
+			'user'}'s profile, mods, and activity on Azurite."
 	/>
 </svelte:head>
 
@@ -216,9 +218,7 @@
 								</span>
 							{/if}
 							{#if !profileUser.is_active}
-								<span class="badge badge-secondary">
-									INACTIVE
-								</span>
+								<span class="badge badge-secondary"> INACTIVE </span>
 							{/if}
 						</div>
 
@@ -291,7 +291,9 @@
 			<div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 mb-8">
 				<div>
 					<h2 class="text-2xl font-bold text-text-primary mb-2">
-						{isOwnProfile ? 'Your Mods' : `${profileUser.display_name || profileUser.username}'s Mods`}
+						{isOwnProfile
+							? 'Your Mods'
+							: `${profileUser.display_name || profileUser.username}'s Mods`}
 					</h2>
 					<p class="text-text-muted">
 						{modsResponse?.total || userMods.length} mod{userMods.length !== 1 ? 's' : ''} published
@@ -383,11 +385,7 @@
 				<!-- Load More Button -->
 				{#if modsResponse && currentPage < modsResponse.total_pages && !searchQuery}
 					<div class="text-center">
-						<button
-							onclick={loadMore}
-							disabled={isLoadingMore}
-							class="btn btn-outline"
-						>
+						<button onclick={loadMore} disabled={isLoadingMore} class="btn btn-outline">
 							{#if isLoadingMore}
 								<Loading size="sm" inline />
 								Loading...
@@ -408,11 +406,7 @@
 				<!-- Load More Button -->
 				{#if modsResponse && currentPage < modsResponse.total_pages && !searchQuery}
 					<div class="text-center">
-						<button
-							onclick={loadMore}
-							disabled={isLoadingMore}
-							class="btn btn-outline"
-						>
+						<button onclick={loadMore} disabled={isLoadingMore} class="btn btn-outline">
 							{#if isLoadingMore}
 								<Loading size="sm" inline />
 								Loading...
@@ -431,7 +425,9 @@
 		<div class="text-center py-20">
 			<UserIcon class="w-16 h-16 mx-auto text-text-muted mb-6 opacity-50" />
 			<h1 class="text-2xl font-semibold text-text-primary mb-2">User not found</h1>
-			<p class="text-text-secondary mb-6">The user you're looking for doesn't exist or has been deactivated.</p>
+			<p class="text-text-secondary mb-6">
+				The user you're looking for doesn't exist or has been deactivated.
+			</p>
 			<a href="/browse" class="btn btn-primary">
 				<Search class="w-4 h-4 mr-2" />
 				Browse Community

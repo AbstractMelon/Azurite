@@ -88,7 +88,7 @@
 
 			if (response.success && response.data) {
 				const gamesData = response.data as { data?: Game[] } | Game[];
-				games = Array.isArray(gamesData) ? gamesData : (gamesData.data || []);
+				games = Array.isArray(gamesData) ? gamesData : gamesData.data || [];
 			}
 		} catch (error) {
 			console.error('Failed to load games:', error);
@@ -398,7 +398,7 @@
 				<!-- Results Display -->
 				{#if viewMode === 'grid'}
 					<!-- Grid View -->
-					<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3  gap-6 mb-8">
+					<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
 						{#each results as mod (mod.id)}
 							<div class="card card-hover">
 								<a href="/games/{mod.game.slug}/mods/{mod.slug}" class="block">

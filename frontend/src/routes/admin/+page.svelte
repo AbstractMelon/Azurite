@@ -6,7 +6,7 @@
 	import { toast } from '$lib/stores/notifications';
 	import { type Mod, type GameRequest, type Ban, type ActivityItem, type Game } from '$lib/types';
 	import { Shield, BarChart3, Users, Package, Gamepad2, Gavel, Settings } from 'lucide-svelte';
-	
+
 	// Import tab components
 	import OverviewTab from '$lib/components/admin/OverviewTab.svelte';
 	import UsersTab from '$lib/components/admin/UsersTab.svelte';

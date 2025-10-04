@@ -194,11 +194,7 @@
 							>
 								Cancel
 							</button>
-							<button
-								type="submit"
-								disabled={isSubmitting}
-								class="btn btn-primary min-w-[140px]"
-							>
+							<button type="submit" disabled={isSubmitting} class="btn btn-primary min-w-[140px]">
 								{#if isSubmitting}
 									<Loading size="sm" />
 									Saving...

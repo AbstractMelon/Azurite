@@ -225,9 +225,7 @@
 											Approved
 										</span>
 									{:else if request.status === 'denied'}
-										<span
-											class="px-2 py-1 text-xs font-medium bg-red-500/20 text-red-400 rounded"
-										>
+										<span class="px-2 py-1 text-xs font-medium bg-red-500/20 text-red-400 rounded">
 											Denied
 										</span>
 									{/if}

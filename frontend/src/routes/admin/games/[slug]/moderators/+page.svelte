@@ -149,11 +149,7 @@
 								class="input w-full"
 							/>
 						</div>
-						<button
-							onclick={addModerator}
-							disabled={isAddingModerator}
-							class="btn btn-primary"
-						>
+						<button onclick={addModerator} disabled={isAddingModerator} class="btn btn-primary">
 							{#if isAddingModerator}
 								<Loading size="sm" />
 							{:else}

@@ -59,7 +59,17 @@
 					scan_result: 'clean',
 					created_at: new Date().toISOString(),
 					updated_at: new Date().toISOString(),
-					game: { id: 1, name: 'Minecraft', slug: 'minecraft', description: '', icon: '', is_active: true, created_at: '', updated_at: '', mod_count: 0 }
+					game: {
+						id: 1,
+						name: 'Minecraft',
+						slug: 'minecraft',
+						description: '',
+						icon: '',
+						is_active: true,
+						created_at: '',
+						updated_at: '',
+						mod_count: 0
+					}
 				},
 				{
 					id: 2,
@@ -82,7 +92,17 @@
 					scan_result: 'clean',
 					created_at: new Date().toISOString(),
 					updated_at: new Date().toISOString(),
-					game: { id: 1, name: 'Minecraft', slug: 'minecraft', description: '', icon: '', is_active: true, created_at: '', updated_at: '', mod_count: 0 }
+					game: {
+						id: 1,
+						name: 'Minecraft',
+						slug: 'minecraft',
+						description: '',
+						icon: '',
+						is_active: true,
+						created_at: '',
+						updated_at: '',
+						mod_count: 0
+					}
 				},
 				{
 					id: 3,
@@ -105,7 +125,17 @@
 					scan_result: 'clean',
 					created_at: new Date().toISOString(),
 					updated_at: new Date().toISOString(),
-					game: { id: 1, name: 'Minecraft', slug: 'minecraft', description: '', icon: '', is_active: true, created_at: '', updated_at: '', mod_count: 0 }
+					game: {
+						id: 1,
+						name: 'Minecraft',
+						slug: 'minecraft',
+						description: '',
+						icon: '',
+						is_active: true,
+						created_at: '',
+						updated_at: '',
+						mod_count: 0
+					}
 				}
 			] as Mod[];
 
@@ -132,7 +162,17 @@
 					scan_result: 'clean',
 					created_at: new Date(Date.now() - 86400000).toISOString(),
 					updated_at: new Date(Date.now() - 86400000).toISOString(),
-					game: { id: 1, name: 'Minecraft', slug: 'minecraft', description: '', icon: '', is_active: true, created_at: '', updated_at: '', mod_count: 0 }
+					game: {
+						id: 1,
+						name: 'Minecraft',
+						slug: 'minecraft',
+						description: '',
+						icon: '',
+						is_active: true,
+						created_at: '',
+						updated_at: '',
+						mod_count: 0
+					}
 				},
 				{
 					id: 5,
@@ -155,7 +195,17 @@
 					scan_result: 'clean',
 					created_at: new Date(Date.now() - 172800000).toISOString(),
 					updated_at: new Date(Date.now() - 172800000).toISOString(),
-					game: { id: 1, name: 'Minecraft', slug: 'minecraft', description: '', icon: '', is_active: true, created_at: '', updated_at: '', mod_count: 0 }
+					game: {
+						id: 1,
+						name: 'Minecraft',
+						slug: 'minecraft',
+						description: '',
+						icon: '',
+						is_active: true,
+						created_at: '',
+						updated_at: '',
+						mod_count: 0
+					}
 				}
 			] as Mod[];
 

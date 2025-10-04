@@ -1,13 +1,5 @@
 <script lang="ts">
-	import {
-		Package,
-		Download,
-		Heart,
-		Calendar,
-		User,
-		ArrowRight,
-		Shield,
-	} from 'lucide-svelte';
+	import { Package, Download, Heart, Calendar, User, ArrowRight, Shield } from 'lucide-svelte';
 	import type { Mod } from '$lib/types';
 
 	export let mod: Mod;

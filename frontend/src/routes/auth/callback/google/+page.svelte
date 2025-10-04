@@ -42,7 +42,7 @@
 				const authData = response.data as AuthResponse;
 				auth.login(authData.user, authData.token);
 				toast.success('Welcome!', 'You have been successfully authenticated with Google.');
-				
+
 				// Redirect to home page
 				goto('/');
 			} else {

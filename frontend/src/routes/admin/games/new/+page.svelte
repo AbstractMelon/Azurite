@@ -146,11 +146,7 @@
 
 					<!-- Submit Button -->
 					<div class="flex justify-end space-x-3">
-						<button
-							type="button"
-							onclick={() => goto('/admin?tab=games')}
-							class="btn btn-outline"
-						>
+						<button type="button" onclick={() => goto('/admin?tab=games')} class="btn btn-outline">
 							Cancel
 						</button>
 						<button type="submit" disabled={isSubmitting} class="btn btn-primary min-w-[140px]">
