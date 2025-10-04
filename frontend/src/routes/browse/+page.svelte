@@ -18,7 +18,6 @@
 		List,
 		SortAsc,
 		Clock,
-		ArrowRight,
 		X
 	} from 'lucide-svelte';
 	import { SvelteURLSearchParams } from 'svelte/reactivity';
@@ -305,30 +304,6 @@
 			loadMods();
 			window.scrollTo({ top: 0, behavior: 'smooth' });
 		}
-	}
-
-	// Format numbers
-	function formatNumber(num: number): string {
-		if (num >= 1000000) {
-			return (num / 1000000).toFixed(1) + 'M';
-		}
-		if (num >= 1000) {
-			return (num / 1000).toFixed(1) + 'K';
-		}
-		return num.toString();
-	}
-
-	// Format date
-	function formatRelativeTime(dateString: string): string {
-		const date = new Date(dateString);
-		const now = new Date();
-		const diffTime = Math.abs(now.getTime() - date.getTime());
-		const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-
-		if (diffDays === 1) return '1 day ago';
-		if (diffDays < 7) return `${diffDays} days ago`;
-		if (diffDays < 30) return `${Math.ceil(diffDays / 7)} weeks ago`;
-		return date.toLocaleDateString();
 	}
 
 	// Watch for sort changes

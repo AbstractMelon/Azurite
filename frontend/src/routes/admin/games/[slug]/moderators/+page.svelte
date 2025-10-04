@@ -4,7 +4,7 @@
 	import { page } from '$app/stores';
 	import { gamesApi } from '$lib/api/client';
 	import { toast } from '$lib/stores/notifications';
-	import { ArrowLeft, UserCog, Plus, Trash2, Search } from 'lucide-svelte';
+	import { ArrowLeft, UserCog, Plus, Trash2 } from 'lucide-svelte';
 	import Loading from '$lib/components/Loading.svelte';
 	import type { Game, User } from '$lib/types';
 

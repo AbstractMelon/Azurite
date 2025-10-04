@@ -7,7 +7,7 @@
 	import Loading from '$lib/components/Loading.svelte';
 	import { GameCard } from '$lib/components/cards';
 	import type { Game } from '$lib/types';
-	import { Search, Gamepad2, Plus, ArrowRight, Package } from 'lucide-svelte';
+	import { Search, Gamepad2, Plus } from 'lucide-svelte';
 
 	let games: Game[] = [];
 	let isLoading = true;
@@ -76,17 +76,6 @@
 			currentPage = newPage;
 			loadGames();
 		}
-	}
-
-	// Format number
-	function formatNumber(num: number): string {
-		if (num >= 1000000) {
-			return (num / 1000000).toFixed(1) + 'M';
-		}
-		if (num >= 1000) {
-			return (num / 1000).toFixed(1) + 'K';
-		}
-		return num.toString();
 	}
 
 	// Handle game request

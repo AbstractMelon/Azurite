@@ -84,9 +84,12 @@
 		try {
 			const response = await authApi.getOAuthURL(provider);
 
-			if (response.success && response.data && (response.data as any).url) {
-				// Redirect to the OAuth provider's authorization page
-				window.location.href = (response.data as any).url;
+			if (response.success && response.data) {
+				const oauthData = response.data as { url: string };
+				if (oauthData.url) {
+					// Redirect to the OAuth provider's authorization page
+					window.location.href = oauthData.url;
+				}
 			} else {
 				toast.error('OAuth Error', response.error || `${provider} OAuth is not configured`);
 			}

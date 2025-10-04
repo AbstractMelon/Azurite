@@ -184,7 +184,7 @@
 
 	// Select all mods
 	function selectAllMods() {
-		selectedMods = new Set(userMods.map((mod) => mod.id));
+		selectedMods = new SvelteSet(userMods.map((mod) => mod.id));
 		showBulkActions = true;
 	}
 

@@ -4,10 +4,8 @@
 		Package,
 		Gamepad2,
 		Server,
-		TrendingUp,
 		Clock,
 		CheckCircle,
-		Globe,
 		Activity,
 		AlertTriangle
 	} from 'lucide-svelte';

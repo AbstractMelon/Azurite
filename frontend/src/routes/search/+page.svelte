@@ -87,7 +87,8 @@
 			const response = await gamesApi.getGames();
 
 			if (response.success && response.data) {
-				games = (response.data as any).data || response.data;
+				const gamesData = response.data as { data?: Game[] } | Game[];
+				games = Array.isArray(gamesData) ? gamesData : (gamesData.data || []);
 			}
 		} catch (error) {
 			console.error('Failed to load games:', error);

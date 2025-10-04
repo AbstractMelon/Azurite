@@ -7,7 +7,7 @@
 	import { isAuthenticated } from '$lib/stores/auth';
 	import Loading from '$lib/components/Loading.svelte';
 	import { ModCard } from '$lib/components/cards';
-	import type { Game, Mod, Tag, User } from '$lib/types';
+	import type { Game, Mod, Tag } from '$lib/types';
 	import {
 		Search,
 		Filter,
@@ -16,7 +16,6 @@
 		Calendar,
 		Package,
 		BookOpen,
-		ArrowRight,
 		Grid,
 		List
 	} from 'lucide-svelte';

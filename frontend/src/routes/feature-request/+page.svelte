@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
 	import { goto } from '$app/navigation';
 	import { isAuthenticated, user } from '$lib/stores/auth';
 	import { toast } from '$lib/stores/notifications';

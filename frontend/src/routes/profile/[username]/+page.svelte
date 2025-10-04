@@ -15,14 +15,9 @@
 		Download,
 		Heart,
 		Settings,
-		Edit,
-		Shield,
 		Grid,
 		List,
-		Search,
-		ExternalLink,
-		Mail,
-		Globe
+		Search
 	} from 'lucide-svelte';
 
 	// Get username from URL params

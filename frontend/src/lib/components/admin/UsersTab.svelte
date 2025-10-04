@@ -1,15 +1,11 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { adminApi } from '$lib/api/client';
-	import { toast } from '$lib/stores/notifications';
 	import { Users, Search } from 'lucide-svelte';
 	import type { User } from '$lib/types';
 
 	let users: User[] = [];
 	let loading = true;
 	let searchQuery = '';
-	let page = 1;
-	let totalPages = 1;
 	let filteredUsers: User[] = [];
 
 	async function loadUsers() {

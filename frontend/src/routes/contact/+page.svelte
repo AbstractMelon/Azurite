@@ -1,9 +1,8 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { goto } from '$app/navigation';
 	import { isAuthenticated, user } from '$lib/stores/auth';
 	import { toast } from '$lib/stores/notifications';
-	import { Mail, Send, AlertCircle, Phone, MapPin, Clock, MessageSquare } from 'lucide-svelte';
+	import { Mail, Send, Clock, MessageSquare } from 'lucide-svelte';
 
 	let name = '';
 	let email = '';

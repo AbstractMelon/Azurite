@@ -6,7 +6,6 @@
 	import { GameCard, ModCard } from '$lib/components/cards';
 	import type { Game, Mod } from '$lib/types';
 	import {
-		Download,
 		Users,
 		TrendingUp,
 		ArrowRight,
@@ -14,8 +13,7 @@
 		Package,
 		Shield,
 		Zap,
-		Globe,
-		Heart
+		Globe
 	} from 'lucide-svelte';
 
 	let isLoading = true;
@@ -120,18 +118,6 @@
 			return (num / 1000).toFixed(1) + 'K';
 		}
 		return num.toString();
-	}
-
-	function formatDate(dateString: string): string {
-		const date = new Date(dateString);
-		const now = new Date();
-		const diffTime = Math.abs(now.getTime() - date.getTime());
-		const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-
-		if (diffDays === 1) return '1 day ago';
-		if (diffDays < 7) return `${diffDays} days ago`;
-		if (diffDays < 30) return `${Math.ceil(diffDays / 7)} weeks ago`;
-		return date.toLocaleDateString();
 	}
 </script>
 

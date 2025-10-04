@@ -2,7 +2,7 @@
 	import { onMount } from 'svelte';
 	import { adminApi } from '$lib/api/client';
 	import { toast } from '$lib/stores/notifications';
-	import { Gavel, Plus, Edit, X } from 'lucide-svelte';
+	import { Gavel, Plus, X } from 'lucide-svelte';
 	import type { Ban } from '$lib/types';
 
 	let activeBans: Ban[] = [];

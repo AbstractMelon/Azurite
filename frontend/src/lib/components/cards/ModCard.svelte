@@ -7,8 +7,6 @@
 		User,
 		ArrowRight,
 		Shield,
-		Star,
-		Eye
 	} from 'lucide-svelte';
 	import type { Mod } from '$lib/types';
 

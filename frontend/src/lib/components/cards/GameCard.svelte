@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Gamepad2, Package, Users, ArrowRight, Calendar, Sparkles } from 'lucide-svelte';
+	import { Gamepad2, Package, ArrowRight, Calendar } from 'lucide-svelte';
 	import type { Game } from '$lib/types';
 
 	export let game: Game;

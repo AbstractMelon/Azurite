@@ -5,7 +5,6 @@
 	import { toast } from '$lib/stores/notifications';
 	import { authApi } from '$lib/api/client';
 	import Loading from '$lib/components/Loading.svelte';
-	import { ModCard } from '$lib/components/cards';
 	import {
 		User,
 		Calendar,

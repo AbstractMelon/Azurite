@@ -105,13 +105,14 @@ func (s *UserService) Login(req *models.LoginRequest) (*models.AuthResponse, err
 
 func (s *UserService) GetByID(id int) (*models.User, error) {
 	user := &models.User{}
+	var passwordHash sql.NullString
 	err := s.db.QueryRow(`
 		SELECT id, username, email, password_hash, display_name, avatar, bio, role,
 		       is_active, email_verified, notify_email, notify_in_site,
 		       github_id, discord_id, google_id, created_at, updated_at, last_login_at
 		FROM users WHERE id = ?
 	`, id).Scan(
-		&user.ID, &user.Username, &user.Email, &user.PasswordHash, &user.DisplayName,
+		&user.ID, &user.Username, &user.Email, &passwordHash, &user.DisplayName,
 		&user.Avatar, &user.Bio, &user.Role, &user.IsActive, &user.EmailVerified,
 		&user.NotifyEmail, &user.NotifyInSite, &user.GitHubID, &user.DiscordID,
 		&user.GoogleID, &user.CreatedAt, &user.UpdatedAt, &user.LastLoginAt,
@@ -124,18 +125,26 @@ func (s *UserService) GetByID(id int) (*models.User, error) {
 		return nil, fmt.Errorf("failed to get user: %w", err)
 	}
 
+	// Handle NULL password_hash for OAuth users
+	if passwordHash.Valid {
+		user.PasswordHash = passwordHash.String
+	} else {
+		user.PasswordHash = ""
+	}
+
 	return user, nil
 }
 
 func (s *UserService) GetByEmail(email string) (*models.User, error) {
 	user := &models.User{}
+	var passwordHash sql.NullString
 	err := s.db.QueryRow(`
 		SELECT id, username, email, password_hash, display_name, avatar, bio, role,
 		       is_active, email_verified, notify_email, notify_in_site,
 		       github_id, discord_id, google_id, created_at, updated_at, last_login_at
 		FROM users WHERE email = ?
 	`, email).Scan(
-		&user.ID, &user.Username, &user.Email, &user.PasswordHash, &user.DisplayName,
+		&user.ID, &user.Username, &user.Email, &passwordHash, &user.DisplayName,
 		&user.Avatar, &user.Bio, &user.Role, &user.IsActive, &user.EmailVerified,
 		&user.NotifyEmail, &user.NotifyInSite, &user.GitHubID, &user.DiscordID,
 		&user.GoogleID, &user.CreatedAt, &user.UpdatedAt, &user.LastLoginAt,
@@ -146,6 +155,13 @@ func (s *UserService) GetByEmail(email string) (*models.User, error) {
 			return nil, errors.New("user not found")
 		}
 		return nil, fmt.Errorf("failed to get user: %w", err)
+	}
+
+	// Handle NULL password_hash for OAuth users
+	if passwordHash.Valid {
+		user.PasswordHash = passwordHash.String
+	} else {
+		user.PasswordHash = ""
 	}
 
 	return user, nil
@@ -471,14 +487,6 @@ func (s *UserService) createOAuthUser(provider, providerID, email, username, dis
 		googleID = sql.NullString{String: providerID, Valid: true}
 	case "discord":
 		discordID = sql.NullString{String: providerID, Valid: true}
-	}
-
-	// Set default values for OAuth users
-	if avatar == "" {
-		avatar = "/static/placeholders/avatar.jpg"
-	}
-	if bio == "" {
-		bio = "User has not provided a bio"
 	}
 
 	// Insert with NULL password_hash for OAuth users
