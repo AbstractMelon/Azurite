@@ -5,8 +5,14 @@
 	import { Package, CheckCircle, AlertTriangle } from 'lucide-svelte';
 	import type { Mod } from '$lib/types';
 
-	let pendingMods: Mod[] = [];
-	let loading = true;
+	interface Props {
+		data?: any;
+	}
+
+	let { data }: Props = $props();
+
+	let pendingMods = $state<Mod[]>([]);
+	let loading = $state(true);
 
 	async function loadPendingMods() {
 		loading = true;

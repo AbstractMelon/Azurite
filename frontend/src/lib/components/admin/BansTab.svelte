@@ -5,15 +5,21 @@
 	import { Gavel, Plus, X } from 'lucide-svelte';
 	import type { Ban } from '$lib/types';
 
-	let activeBans: Ban[] = [];
-	let loading = true;
-	let showCreateModal = false;
-	let newBan = {
+	interface Props {
+		data?: any;
+	}
+
+	let { data }: Props = $props();
+
+	let activeBans = $state<Ban[]>([]);
+	let loading = $state(true);
+	let showCreateModal = $state(false);
+	let newBan = $state({
 		user_id: null as number | null,
 		ip_address: '',
 		reason: '',
-		duration: 0
-	};
+		duration: undefined as number | undefined
+	});
 
 	async function loadBans() {
 		loading = true;
@@ -37,16 +43,16 @@
 
 		try {
 			const response = await adminApi.createBan({
-				user_id: newBan.user_id,
+				user_id: newBan.user_id ?? undefined,
 				ip_address: newBan.ip_address,
 				reason: newBan.reason,
-				duration: newBan.duration || undefined
+				duration: newBan.duration
 			});
 
 			if (response.success) {
 				toast.success('Ban created', 'User has been banned successfully');
 				showCreateModal = false;
-				newBan = { user_id: null, ip_address: '', reason: '', duration: 0 };
+				newBan = { user_id: null, ip_address: '', reason: '', duration: undefined };
 				await loadBans();
 			}
 		} catch (error) {
